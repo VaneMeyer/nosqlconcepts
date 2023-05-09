@@ -1,0 +1,27 @@
+nav {
+    background-color: #333; /* sets the background color of the menu bar */
+  }
+  
+  nav ul {
+    list-style-type: none; /* removes the bullet points from the menu */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  nav li {
+    float: left; /* positions each menu item next to each other */
+    
+  }
+  
+  nav li a {
+    display: block;
+    color: white; /* sets the font color of the menu items */
+    text-align: center;
+    padding: 14px 16px; /* sets the padding for each menu item */
+    text-decoration: none;
+  }
+  
+  nav li a:hover {
+    background-color: #111; /* sets the background color when hovering over a menu item */
+  }
