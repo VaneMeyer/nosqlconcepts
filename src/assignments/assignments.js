@@ -1,7 +1,6 @@
-/* MongoDB */
 import React, { useState, useEffect } from 'react';
 
-const MongoDB = () => {
+const Task = () => {
     const [task, setTask] = useState('');
     const [solution, setSolution] = useState('');
     const [difficulty, setDifficulty] = useState(0);
@@ -129,4 +128,4 @@ const MongoDB = () => {
     );
   }
   
-  export default MongoDB;
+  export default Task;
