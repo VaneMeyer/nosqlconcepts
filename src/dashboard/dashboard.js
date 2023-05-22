@@ -1,5 +1,6 @@
 /* Author: Vanessa Meyer */
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import DashboardCard from "./dashboardCard";
 
 const Dashboard = () => {
@@ -14,14 +15,53 @@ const Dashboard = () => {
     setCardTitle("");
     setCardContent("");
   };
-  const handleDelete = (title) => {
-    const updatedCards = cards.filter((card) => card.title !== title);
-    setCards(updatedCards);
-  };
 
+  const handleDelete = (title) => {
+    if (title === "PostgreSQL" || title === "Cassandra" || title === "Neo4J" || title === "MongoDB"){
+      alert("Do not delete this card.")
+    }
+    
+    else if (window.confirm("Do you really want to delete the card?")) {
+      const updatedCards = cards.filter((card) => card.title !== title);
+      setCards(updatedCards);
+    }
+  };
+// I have a dashboard with dashboard cards. If I click on a dashboard card, I am navigated to another component using <Link>. How can I use a different link for each dashboard card? 
   return (
     <div>
       <div className="content" id="card-container">
+      <div className="box">
+            <DashboardCard
+              key="PostgreSQL"
+              title="PostgreSQL"
+              content="Todo content"
+              onDelete={handleDelete}
+            />
+          </div>
+      <div className="box">
+            <DashboardCard
+              key="Cassandra"
+              title="Cassandra"
+              content="Todo content"
+              onDelete={handleDelete}
+            />
+          </div>
+      <div className="box">
+            <DashboardCard
+              key="Neo4J"
+              title="Neo4J"
+              content="Todo content"
+              onDelete={handleDelete}
+            />
+          </div>
+      <div className="box">
+            <DashboardCard
+              key="MongoDB"
+              title="MongoDB"
+              content="Todo content"
+              onDelete={handleDelete}
+            />
+          </div>
         {cards.map((card, index) => (
           <div className="box" key={index}>
             <DashboardCard
@@ -58,4 +98,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

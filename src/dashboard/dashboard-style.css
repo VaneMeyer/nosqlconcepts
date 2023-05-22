@@ -1,3 +1,15 @@
+/*Main*/
+button{
+  background: #5fbaa2;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+
 /* MenuBar */
 nav {
     background-color: #333; /* sets the background color of the menu bar */
@@ -54,6 +66,14 @@ nav {
     cursor: pointer;
   }
 
+  .box input,textarea{
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
   .box:hover {
     transform: scale(1.1);
     box-shadow: 0px 0px 10px #ccc;
@@ -69,4 +89,11 @@ nav {
     font-size: 1.2em;
     color: #999;
     margin-bottom: 0;
+  }
+
+  /*Learning App testapp*/
+  #testapp{
+    border:0px; 
+    width:100%; 
+    height:500px
   }

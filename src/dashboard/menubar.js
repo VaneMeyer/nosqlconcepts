@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-
-
+import React, { Component } from "react";
 
 class MenuBar extends Component {
   constructor(props) {
@@ -16,6 +14,9 @@ class MenuBar extends Component {
             <li>
               <a href="/">Dashboard</a>
             </li>
+            <li>
+              <a href="/signin">Sign-in</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -23,5 +24,4 @@ class MenuBar extends Component {
   }
 }
 
-export default MenuBar; 
-
+export default MenuBar;
