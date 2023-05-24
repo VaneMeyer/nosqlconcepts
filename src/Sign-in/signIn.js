@@ -1,38 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import "./signin.css";
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Implement OAuth2 flow here to sign in student account
+  const handleLogin = () => {
+    // open Authorization-URL from OAuth2-Provider
+    window.location.href = "AUTHORIZATION_URL";
+    //example: const authorizationUrl = `AUTHORIZATION_ENDPOINT?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${SCOPE}`;
   };
 
   return (
-    <form id="sign-in" onSubmit={handleSubmit}>
-        <p>Sign in with your HRZ-Account</p>
-      <label>
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Sign In</button>
-    </form>
+    <div id="sign-in">
+      <button onClick={handleLogin}>Login with OAuth2</button>
+    </div>
   );
 };
 
