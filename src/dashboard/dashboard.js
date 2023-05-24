@@ -2,6 +2,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardCard from "./dashboardCard";
+import logoPostgreSQL from '../images/logo-postgresql.png'
+import logoCassandra from '../images/logo-cassandra.png'
+import logoNeo4J from '../images/logo-neo4j.png'
+import logoMongoDB from '../images/logo-mongodb.png'
 
 const Dashboard = () => {
   const [cards, setCards] = useState([]);
@@ -26,7 +30,7 @@ const Dashboard = () => {
       setCards(updatedCards);
     }
   };
-
+//TODO DashboardCards: Array with database names and content -> forEach item => DashboardCard
   return (
     <div>
       <div className="content" id="card-container">
@@ -34,7 +38,7 @@ const Dashboard = () => {
             <DashboardCard
               key="PostgreSQL"
               title="PostgreSQL"
-              content="Todo content"
+              content={<img src={logoPostgreSQL} alt="Logo PostgreSQL"></img>}
               onDelete={handleDelete}
             />
           </div>
@@ -42,7 +46,7 @@ const Dashboard = () => {
             <DashboardCard
               key="Cassandra"
               title="Cassandra"
-              content="Todo content"
+              content={<img src={logoCassandra} alt="Logo Cassandra"></img>}
               onDelete={handleDelete}
             />
           </div>
@@ -50,7 +54,7 @@ const Dashboard = () => {
             <DashboardCard
               key="Neo4J"
               title="Neo4J"
-              content="Todo content"
+              content={<img id="img-neo4j" src={logoNeo4J} alt="Logo Neo4J"></img>}
               onDelete={handleDelete}
             />
           </div>
@@ -58,7 +62,7 @@ const Dashboard = () => {
             <DashboardCard
               key="MongoDB"
               title="MongoDB"
-              content="Todo content"
+              content={<img id="img-mongodb" src={logoMongoDB} alt="Logo MongoDB"></img>}
               onDelete={handleDelete}
             />
           </div>

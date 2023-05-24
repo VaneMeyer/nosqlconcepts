@@ -7,6 +7,7 @@ button{
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
+    margin-right: 10px;
 }
 
 
@@ -90,6 +91,18 @@ nav {
     color: #999;
     margin-bottom: 0;
   }
+.box img{
+  width: 150px;
+  height: 100px;
+}
+#img-neo4j{
+  width: 200px;
+  height:90px;
+}
+#img-mongodb{
+  width: 200px;
+  height:80px;
+}
 
   /*Learning App testapp*/
   #testapp{
