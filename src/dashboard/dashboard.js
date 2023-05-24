@@ -26,7 +26,7 @@ const Dashboard = () => {
       setCards(updatedCards);
     }
   };
-// I have a dashboard with dashboard cards. If I click on a dashboard card, I am navigated to another component using <Link>. How can I use a different link for each dashboard card? 
+
   return (
     <div>
       <div className="content" id="card-container">
