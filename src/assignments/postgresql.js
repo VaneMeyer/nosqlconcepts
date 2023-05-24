@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./assignments.css";
-// how can I show a customized alert component when clicking on a submit button using reactjs?
+
 const PostgreSQL = () => {
   //const [taskDescription, setTaskDescription] = useState('');
   const [task, setTask] = useState("");
@@ -16,8 +16,7 @@ const PostgreSQL = () => {
   const [comment, setComment] = useState("");
 
   useEffect(() => {
-    // Here you can fetch the task from a database or any other source
-    // and set it to the state variable "task"
+    // TODO fetch the task from a database
 
     //this is the first task
 
@@ -27,22 +26,19 @@ const PostgreSQL = () => {
     //setTaskDescription('');
   }, []);
 
-  // Function to start the timer
   const startTimer = () => {
     setIsRunning(true);
     setHasStarted(true);
   };
 
-  // Function to stop the timer
   const stopTimer = () => {
     setIsRunning(false);
   };
 
-  // Function to handle submission of solution and difficulty level
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Here you can send the data to the PostgreSQL database
+    // TODO send data to database
     console.log({
       task: task,
       solution: solution,
@@ -54,23 +50,11 @@ const PostgreSQL = () => {
       comment: comment,
     });
     alert("Submitted!");
-    // Increment the task number and reset the variables for the next task
-
-    /*  setTaskNumber(taskNumber + 1);
-    setSolution("");
-    setDifficulty(0);
-    setTime(0);
-    setIsExecutable(false);
-    setIsCorrect(false);
-    setResultSize(0);
-    setComment("");
-    setIsRunning(false);
-    setHasStarted(false); */
   };
 
   // Function to handle navigation to the next task
   const handleNextTask = () => {
-    // Here you can fetch the next task from a database or any other source
+    // TODO fetch the next task from a database 
     // and set it to the state variable "task"
     if (taskNumber === 4) {
       // This is the last task
@@ -100,7 +84,7 @@ const PostgreSQL = () => {
       .toString()
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
-
+// time count in seconds
   useEffect(() => {
     let interval;
     if (isRunning) {
@@ -118,7 +102,7 @@ const PostgreSQL = () => {
       setTime(0);
     }
     return () => clearInterval(interval);
-  }, [isRunning, time]);
+  }, [isRunning, time]); // dependency on isRunning and time
 
   return (
     <div className="assignment">
