@@ -41,19 +41,57 @@ nav {
   }
 
 /* Content of Dashboard*/
+.container{
+
+   
+}
  .content {
-    display: flex;
+    /*display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: stretch;
     justify-content: center;
+    padding: 20px;*/
+
+    display: flex;
+    flex:1;
+    order: 1;
+    flex-direction: column;
+    gap: 20px;
+
+    justify-content: center;
+    align-items: stretch;
     padding: 20px;
+    
+  }
+  .content h4{
+    align-self: center;
   }
 
   #card-container{
-    
+  
   }
 
+  .section{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+.content-stats{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  justify-content: center;
+  align-items: stretch;
+  padding: 20px;
+  order: 2;
+}
+.section-stats{
+  display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
   /* Dashboard Cards */
  .box {
     width: 300px;
