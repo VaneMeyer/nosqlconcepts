@@ -79,6 +79,7 @@ const Dashboard = () => {
             /* subtitle="Sales Obtained" */
             progress="0.50"
             increase="50%"
+            link="/cassandra"
             /* icon={
               <PointOfSaleIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -98,6 +99,7 @@ const Dashboard = () => {
             /* subtitle="New Clients" */
             progress="0.30"
             increase="30%"
+            link="/neo4j"
             /* icon={
               <PersonAddIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -117,6 +119,7 @@ const Dashboard = () => {
             /* subtitle="Traffic Received" */
             progress="0.80"
             increase="80%"
+            link="/mongodb"
             /* icon={
               <TrafficIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}

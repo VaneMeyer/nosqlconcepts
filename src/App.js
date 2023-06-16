@@ -13,9 +13,12 @@ import Pie from "./scenes/pie";
 import FAQ from "./scenes/faq";
 
 import PostgreSQL from "./scenes/assignments/postgresql";
+import Cassandra from "./scenes/assignments/cassandra";
 //import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import Neo4J from "./scenes/assignments/neo4j";
+import MongoDB from "./scenes/assignments/mongodb";
 //import Calendar from "./scenes/calendar/calendar";
 
 function App() {
@@ -41,6 +44,9 @@ function App() {
               <Route path="/line" element={<Line />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/postgresql" element={<PostgreSQL />} />
+              <Route path="/cassandra" element={<Cassandra />} />
+              <Route path="/neo4j" element={<Neo4J />} />
+              <Route path="/mongodb" element={<MongoDB />} />
               {/* <Route path="/calendar" element={<Calendar />} /> */}
               {/* <Route path="/geography" element={<Geography />} /> */}
             </Routes>
