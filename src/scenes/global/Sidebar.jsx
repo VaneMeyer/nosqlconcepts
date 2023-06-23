@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -40,6 +40,24 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [profile, setProfile] = useState("");
+  const {name, role} = profile
+
+  let auth = localStorage.getItem('token');
+
+  useEffect(() => {
+    fetch("/api/getme")
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        //console.log(result);
+        setProfile(result.user)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <Box
@@ -107,10 +125,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Username
+                  {name} 
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Role
+                <Typography variant="h5" color={colors.greenAccent[100]}> {/* 500 */}
+                  {(role === 0 ? "Student" : "Admin")}
                 </Typography>
               </Box>
             </Box>
@@ -130,7 +148,7 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Data
+              Members
             </Typography>
             <Item
               title="Manage Course"
@@ -154,7 +172,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
  */}
-            <Typography
+       {/*      <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
@@ -167,7 +185,7 @@ const Sidebar = () => {
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             {/* <Item
               title="Calendar"
               to="/calendar"
@@ -188,7 +206,7 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Statistics
+              Charts
             </Typography>
             <Item
               title="Bar Chart"

@@ -1,32 +1,46 @@
-import { Box, IconButton, useTheme } from "@mui/material";
-import { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Box, IconButton, useTheme, Button } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
-import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
+import LogOut from "../../Sign-in/logout";
+function useToken() {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updatedToken = localStorage.getItem("token");
+      setToken(updatedToken);
+    };
+
+    // Event-Listener zum Abfangen von Änderungen im Local Storage hinzufügen
+    window.addEventListener("storage", handleStorageChange);
+
+    // Cleanup-Funktion, um den Event-Listener zu entfernen
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  return token;
+}
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const authToken = useToken();
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
-      {/* SEARCH BAR */}
-       <Box
+      <Box
         display="flex"
         backgroundColor={colors.primary[400]}
         borderRadius="3px"
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
-      </Box> 
+        {/* PLACEHOLDER */}
+      </Box>
 
       {/* ICONS */}
       <Box display="flex">
@@ -37,18 +51,20 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        <IconButton>
-          <NotificationsOutlinedIcon />
-        </IconButton>
-        <IconButton>
-          <SettingsOutlinedIcon />
-        </IconButton>
-        <IconButton>
-          <PersonOutlinedIcon />
-        </IconButton>
+
+        {authToken ? (
+          <LogOut />
+        ) : (
+          <Link to="/signin">
+            <Button sx={{ color: colors.blueAccent[400] }}>Sign in</Button>
+          </Link>
+        )}
       </Box>
     </Box>
   );
 };
+function TopBar() {
+  return <Topbar />;
+}
 
-export default Topbar;
+export default TopBar;

@@ -1,29 +1,45 @@
+import React, { useState, useEffect } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-//import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-//import EmailIcon from "@mui/icons-material/Email";
-//import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-//import PersonAddIcon from "@mui/icons-material/PersonAdd";
-//import TrafficIcon from "@mui/icons-material/Traffic";
+
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
-//import ProgressCircle from "../../components/ProgressCircle";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [profile, setProfile] = useState("");
+  const { name } = profile;
+
+  useEffect(() => {
+    fetch("/api/getme")
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        //console.log(result);
+        setProfile(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+        <Header
+          title="DASHBOARD"
+          subtitle={`Welcome to your dashboard, ${name}`}
+        />
 
-        <Box>
+       {/*  <Box>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -36,7 +52,7 @@ const Dashboard = () => {
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
             Download Reports
           </Button>
-        </Box>
+        </Box> */}
       </Box>
 
       {/* GRID & CHARTS */}
@@ -56,15 +72,9 @@ const Dashboard = () => {
         >
           <StatBox
             title="PostgreSQL"
-            /* subtitle="Emails Sent" */
             progress="0.75"
-            increase="75%" //"+14%"
+            increase="75%"
             link="/postgresql"
-            /* icon={
-              <EmailIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            } */
           />
         </Box>
         <Box
@@ -76,15 +86,9 @@ const Dashboard = () => {
         >
           <StatBox
             title="Cassandra"
-            /* subtitle="Sales Obtained" */
             progress="0.50"
             increase="50%"
             link="/cassandra"
-            /* icon={
-              <PointOfSaleIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            } */
           />
         </Box>
         <Box
@@ -94,18 +98,7 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <StatBox
-            title="Neo4J"
-            /* subtitle="New Clients" */
-            progress="0.30"
-            increase="30%"
-            link="/neo4j"
-            /* icon={
-              <PersonAddIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            } */
-          />
+          <StatBox title="Neo4J" progress="0.30" increase="30%" link="/neo4j" />
         </Box>
         <Box
           gridColumn="span 3"
@@ -116,15 +109,9 @@ const Dashboard = () => {
         >
           <StatBox
             title="MongoDB"
-            /* subtitle="Traffic Received" */
             progress="0.80"
             increase="80%"
             link="/mongodb"
-            /* icon={
-              <TrafficIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            } */
           />
         </Box>
 
@@ -147,23 +134,23 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Learning Curve
+                Your learning progress
               </Typography>
               <Typography
                 variant="h3"
                 fontWeight="bold"
-                color={colors.greenAccent[500]}
+                color={colors.greenAccent[100]} //500
               >
                 Current Level: 11
               </Typography>
             </Box>
-            <Box>
+            {/* <Box>
               <IconButton>
                 <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
+                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }} 
                 />
               </IconButton>
-            </Box>
+            </Box> */}
           </Box>
           <Box height="250px" m="-20px 0 0 0">
             <LineChart isDashboard={true} />
@@ -223,7 +210,7 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Statistics
+            Bar chart - placeholder
           </Typography>
           <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
@@ -269,6 +256,7 @@ const Dashboard = () => {
           >
             Feedback
           </Typography>
+          <StatBox link="/example" />
           {/* <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
           </Box> */}
