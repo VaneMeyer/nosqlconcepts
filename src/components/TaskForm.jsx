@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import pgDataModel from "../images/datamodel1.png";
+import mongoDataModel from "../images/datamodel4.png";
+import neoDataModel from "../images/datamodel3.png";
+import cassandraDataModel from "../images/datamodel2.png";
 import {
   Box,
   Button,
@@ -13,6 +17,10 @@ import {
 } from "@mui/material";
 
 import { tokens } from "../theme";
+import MongoQueryComponent from "./MongoDBQuery";
+import SQLQuery from "./SQLQuery";
+import MQLQuery from "./MQLQuery";
+import CypherQuery from "./CypherQuery";
 
 const TaskForm = ({ title, taskdescr }) => {
   const theme = useTheme();
@@ -44,11 +52,16 @@ const TaskForm = ({ title, taskdescr }) => {
   const [resultSize, setResultSize] = useState(0);
   const [comment, setComment] = useState("");
   const [tasksArray, setTasksArray] = useState([]);
+  const [isPostgreSQL, setIsPostgreSQL] = useState(false);
+  const [isMongoDB, setIsMongoDB] = useState(false);
+  const [isCassandra, setIsCassandra] = useState(false);
+  const [isNeo4J, setIsNeo4J] = useState(false);
 
   useEffect(() => {
     // TODO fetch the task from a database
 
     if (title === "PostgreSQL") {
+      setIsPostgreSQL(true);
       setTask(
         "Task 1.1: For each person you want to know in which department she or he works. Therefore, you should make an output that contains a person’s first name and last name and the name of the department she or he is working at."
       );
@@ -70,6 +83,7 @@ const TaskForm = ({ title, taskdescr }) => {
       ]);
     }
     if (title === "Cassandra") {
+      setIsCassandra(true);
       setTask(
         "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at."
       );
@@ -93,6 +107,7 @@ const TaskForm = ({ title, taskdescr }) => {
       ]);
     }
     if (title === "Neo4J") {
+      setIsNeo4J(true);
       setTask(
         "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at."
       );
@@ -107,10 +122,10 @@ const TaskForm = ({ title, taskdescr }) => {
         "Task 5.2: How many hops are needed to reach everyone by their 'KNOWS' relationship starting from Larry May (similar to task 5.1)?",
         "Task 5.3: Which people are in the 2-hop email network of Larry May? Again, consider the “KNOWS” relationship, but only for people that are reachable with two hops.",
         "Task 5.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).",
-    
       ]);
     }
     if (title === "MongoDB") {
+      setIsMongoDB(true);
       setTask(
         "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at."
       );
@@ -129,7 +144,6 @@ const TaskForm = ({ title, taskdescr }) => {
         "Task 6.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).",
         "Task 7.1: Take an email text and count the occurrence of each word in that email. The output shall contain the words and the number of occurrence. You might need to use an external programming language to implement a UDF (User defined function) to split the email text into words. Apply the UDF to a particular email body. Bonus: Show the result according to - the alphabetical order of the words -	the ascending order of occurrence -	the descending order of occurrence",
         "Task 7.2: Now, create an output similar to task 7.1 for all emails. Info: depending on the database management system, this operation might be very expensive and can result in a timeout. In that case you might want to set a threshold for a timeout, if possible.",
-        
       ]);
     }
     //this is the first task
@@ -168,7 +182,7 @@ const TaskForm = ({ title, taskdescr }) => {
   const handleNextTask = () => {
     // TODO fetch the next task from a database
     // and set it to the state variable "task"
-    if (taskNumber === (tasksArray.length+1)) {
+    if (taskNumber === tasksArray.length + 1) {
       // This is the last task
       alert("This is the last task");
     } else {
@@ -225,29 +239,34 @@ const TaskForm = ({ title, taskdescr }) => {
   }, [isRunning, time]); // dependency on isRunning and time
 
   return (
-    <Box m="20px">
-      {/* <h1>Task {taskNumber}</h1> */}
-      <p>{task}</p>
-      {hasStarted ? (
-        <form>
-          <p>Time: {formatTime(time)}</p>
-          <InputLabel id="query-input-label">Your query:</InputLabel>
+    <Box display="flex" justifyContent="space-between">
+      <Box>
+        {/* <h1>Task {taskNumber}</h1> */}
+        <p>{task}</p>
+        {hasStarted ? (
+          <form>
+            <p>Time: {formatTime(time)}</p>
+            {/* <InputLabel id="query-input-label">Your query:</InputLabel>
           <TextField
             id="query-input-label"
             fullWidth
             value={solution}
             onChange={(e) => setSolution(e.target.value)}
-          />
-          <InputLabel id="partial-solution-label">
-            Your partial solution:
-          </InputLabel>
-          <TextField
-            id="partial-solution-label"
-            fullWidth
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <InputLabel id="isexecuteable-select-label">
+          /> */}
+            {isPostgreSQL ? <SQLQuery /> : <p></p>}
+            {isMongoDB ? <MQLQuery /> : <p></p>}
+            {isNeo4J ? <CypherQuery /> : <p></p>}
+            {/* <MongoQueryComponent/> */}
+            <InputLabel id="partial-solution-label">
+              Your partial solution:
+            </InputLabel>
+            <TextField
+              id="partial-solution-label"
+              fullWidth
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            {/* <InputLabel id="isexecuteable-select-label">
             Is the query executable?
           </InputLabel>
           <Select
@@ -258,8 +277,8 @@ const TaskForm = ({ title, taskdescr }) => {
           >
             <MenuItem value={0}>No</MenuItem>
             <MenuItem value={1}>Yes</MenuItem>
-          </Select>
-          <InputLabel id="iscorrect-select-label">
+          </Select> */}
+            {/* <InputLabel id="iscorrect-select-label">
             Does the query return correct results?
           </InputLabel>
           <Select
@@ -270,79 +289,128 @@ const TaskForm = ({ title, taskdescr }) => {
           >
             <MenuItem value={0}>No</MenuItem>
             <MenuItem value={1}>Yes</MenuItem>
-          </Select>
-          <InputLabel id="resultsize-label">Result size:</InputLabel>
+          </Select> */}
+            <InputLabel id="isCorrect-radiogroup">
+              Does the query return correct results?
+            </InputLabel>
+            <RadioGroup
+              row
+              id="isCorrect-radiogroup"
+              defaultValue={0}
+              value={isCorrect}
+              onChange={(e) => setIsCorrect(e.target.value)}
+            >
+              <FormControlLabel
+                value={0}
+                control={<Radio sx={muiRadioStyle} />}
+                label="I don't know"
+              />
+              <FormControlLabel
+                value={1}
+                control={<Radio sx={muiRadioStyle} />}
+                label="Yes"
+              />
+              <FormControlLabel
+                value={2}
+                control={<Radio sx={muiRadioStyle} />}
+                label="No"
+              />
+            </RadioGroup>
+            {/* <InputLabel id="resultsize-label">Result size:</InputLabel>
           <TextField
             id="resultsize-label"
             fullWidth
             type="number"
             value={resultSize}
             onChange={(e) => setResultSize(e.target.value)}
-          ></TextField>
-          <InputLabel id="difficulty-level-radiogroup">
-            Difficulty level:
-          </InputLabel>
-          <RadioGroup
-            row
-            id="difficulty-level-radiogroup"
-            defaultValue={0}
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-          >
-            <FormControlLabel
-              value={0}
-              control={<Radio sx={muiRadioStyle} />}
-              label="None"
-            />
-            <FormControlLabel
-              value={1}
-              control={<Radio sx={muiRadioStyle} />}
-              label="Very easy"
-            />
-            <FormControlLabel
-              value={2}
-              control={<Radio sx={muiRadioStyle} />}
-              label="Easy"
-            />
-            <FormControlLabel
-              value={3}
-              control={<Radio sx={muiRadioStyle} />}
-              label="Normal"
-            />
-            <FormControlLabel
-              value={4}
-              control={<Radio sx={muiRadioStyle} />}
-              label="Difficult"
-            />
-            <FormControlLabel
-              value={5}
-              control={<Radio sx={muiRadioStyle} />}
-              label="Very difficult"
-            />
-          </RadioGroup>
-          <br />
-          <br />
-          {taskNumber === (tasksArray.length+1) ? (
-            <Button sx={muiButtonStyle} onClick={handleSubmit}>
-              Submit
-            </Button>
-          ) : (
-            <Button sx={muiButtonStyle} onClick={handleNextTask}>
-              Next Task
-            </Button>
-          )}{" "}
-          {/* <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+          ></TextField> */}
+            <InputLabel id="difficulty-level-radiogroup">
+              Difficulty level:
+            </InputLabel>
+            <RadioGroup
+              row
+              id="difficulty-level-radiogroup"
+              defaultValue={0}
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+            >
+              <FormControlLabel
+                value={0}
+                control={<Radio sx={muiRadioStyle} />}
+                label="None"
+              />
+              <FormControlLabel
+                value={1}
+                control={<Radio sx={muiRadioStyle} />}
+                label="Very easy"
+              />
+              <FormControlLabel
+                value={2}
+                control={<Radio sx={muiRadioStyle} />}
+                label="Easy"
+              />
+              <FormControlLabel
+                value={3}
+                control={<Radio sx={muiRadioStyle} />}
+                label="Normal"
+              />
+              <FormControlLabel
+                value={4}
+                control={<Radio sx={muiRadioStyle} />}
+                label="Difficult"
+              />
+              <FormControlLabel
+                value={5}
+                control={<Radio sx={muiRadioStyle} />}
+                label="Very difficult"
+              />
+            </RadioGroup>
+            <br />
+            <br />
+            {taskNumber === tasksArray.length + 1 ? (
+              <Button sx={muiButtonStyle} onClick={handleSubmit}>
+                Submit
+              </Button>
+            ) : (
+              <Button sx={muiButtonStyle} onClick={handleNextTask}>
+                Next Task
+              </Button>
+            )}{" "}
+            {/* <Button sx={muiButtonStyle} onClick={handlePrevTask}>
             Previous task
           </Button> */}
-          <Button sx={muiButtonStyle} onClick={stopTimer}>
-            Stop time
+            <Button sx={muiButtonStyle} onClick={stopTimer}>
+              Stop time
+            </Button>
+          </form>
+        ) : (
+          <Button sx={muiButtonStyle} onClick={startTimer}>
+            Start task
           </Button>
-        </form>
-      ) : (
-        <Button sx={muiButtonStyle} onClick={startTimer}>
-          Start task
-        </Button>
-      )}
+        )}
+      </Box>
+      <Box>
+        {isPostgreSQL && (<img
+          src={pgDataModel}
+          alt="Data model of PostgreSQL enron database - further description follows"
+          width={800}
+        />)}
+        {isMongoDB && (<img
+          src={mongoDataModel}
+          alt="Data model of MongoDB enron database - further description follows"
+          width={800}
+        />)}
+        {isNeo4J && (<img
+          src={neoDataModel}
+          alt="Data model of Neo4J enron database - further description follows"
+          width={800}
+        />)}
+        {isCassandra && (<img
+          src={cassandraDataModel}
+          alt="Data model of Cassandra enron database - further description follows"
+          width={800}
+        />)}
+      </Box>
     </Box>
   );
 };

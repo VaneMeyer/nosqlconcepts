@@ -23,8 +23,7 @@ import SignUp from "./Sign-in/SignUp";
 import SignIn from "./Sign-in/signIn";
 //import { ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-
-
+import MovieList from "./components/TestComponents/Movies";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -38,12 +37,9 @@ function App() {
 
         <div className="app">
           {auth && <Sidebar isSidebar={isSidebar} />}
-          
+
           <main className="content">
-            
-              <TopBar setIsSidebar={setIsSidebar} />
-            
-            
+            <TopBar setIsSidebar={setIsSidebar} />
             {/* <ToastContainer /> */}
             {/* <Router> */}
             <Routes>
@@ -55,15 +51,16 @@ function App() {
                 <Route path="/neo4j" element={<Neo4J />} />
                 <Route path="/mongodb" element={<MongoDB />} />
               </Route>
-              
+
               <Route path="/signup" element={<SignUp />} />
               <Route path="/signin" element={<SignIn />} />
 
               <Route path="/bar" element={<Bar />} />
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />
-
-              <Route path="/example" element={<ExampleForm />} />
+              {/* Example Components to test functionalities */}
+               <Route path="/example" element={<ExampleForm />} /> 
+              {/* <Route path="/example" element={<MovieList />} /> */}
             </Routes>{" "}
             {/* </Router> */}
           </main>
