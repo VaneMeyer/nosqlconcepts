@@ -256,7 +256,7 @@ const Dashboard = () => {
           >
             Feedback
           </Typography>
-           <StatBox link="/example" /> 
+           {/* <StatBox link="/example" />  */}
           {/*  <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
           </Box>  */}
