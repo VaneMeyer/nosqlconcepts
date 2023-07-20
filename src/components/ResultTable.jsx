@@ -1,5 +1,5 @@
 import React from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -8,20 +8,37 @@ const ResultTable = ({ queryResult, resultSize }) => {
   if (queryResult) {
     let columnNames = Object.keys(queryResult[0]);
     columnNames.forEach((item) => {
-      columns.push({ field: item, headerName: item, width:200 });
+      // Check if the value is an object and format it accordingly
+      const value = queryResult[0][item];
+      const isObject =
+        typeof value === "object" && value !== null && !Array.isArray(value);
+
+      columns.push({
+        field: item,
+        headerName: item,
+        width: 200,
+        valueGetter: (params) => {
+          const cellValue = params.row[item];
+
+          // If the cell value is an object, format it as a string
+          if (isObject) {
+            return JSON.stringify(cellValue);
+          }
+
+          return cellValue;
+        },
+      });
     });
-  } 
-  let rows = []
-if (queryResult) {
+  }
+  let rows = [];
+  if (queryResult) {
     rows = queryResult;
-} 
-let rowsWithUniqueId = rows.map((row) => ({
+  }
+  let rowsWithUniqueId = rows.map((row) => ({
     id: uuidv4(),
-    ...row
-}))
+    ...row,
+  }));
 
-
-  
   let minTableRows = resultSize < 5 ? resultSize : 5;
   let maxTableRows = resultSize > 100 ? 100 : resultSize;
   return (
@@ -31,13 +48,13 @@ let rowsWithUniqueId = rows.map((row) => ({
           <DataGrid
             rows={rowsWithUniqueId}
             columns={columns}
-            getRowId={(row) => row.id } 
+            getRowId={(row) => row.id}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: minTableRows },
               },
             }}
-            pageSizeOptions={[minTableRows,25, 50, maxTableRows]}
+            pageSizeOptions={[minTableRows, 25, 50, maxTableRows]}
           />
         </div>
       )}

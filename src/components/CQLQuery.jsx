@@ -3,9 +3,8 @@ import axios from "axios";
 import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import ResultTable from "./ResultTable";
-import ResultGraph from "./ResultGraph";
 
-const CypherQuery = () => {
+const CQLQuery = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -17,7 +16,7 @@ const CypherQuery = () => {
     fontWeight: "bold",
     padding: "10px 20px",
   };
-  const [cypherQuery, setcypherQuery] = useState("");
+  const [cqlQuery, setCqlQuery] = useState("");
   const [queryResult, setQueryResult] = useState("");
   const [resultSize, setResultSize] = useState(0);
   const [error, setError] = useState("");
@@ -27,7 +26,7 @@ const CypherQuery = () => {
     setQueryResult("");
     setResultSize(0);
     axios
-      .post("/api/execute-cypher", { cypherQuery })
+      .post("/api/execute-cql", { cqlQuery })
       .then((response) => {
         setQueryResult(response.data);
         setResultSize(response.data.length);
@@ -49,15 +48,20 @@ const CypherQuery = () => {
         id="query-input-label"
         type="text"
         fullWidth
-        value={cypherQuery}
-        onChange={(event) => setcypherQuery(event.target.value)}
+        value={cqlQuery}
+        onChange={(event) => setCqlQuery(event.target.value)}
       />
       <Button sx={muiButtonStyle} onClick={executeQuery}>
         Run query
       </Button>
-      <ResultTable queryResult={queryResult} resultSize={resultSize} />
-      {queryResult && <ResultGraph queryResult={queryResult} />}
-
+        <ResultTable queryResult={queryResult} resultSize={resultSize} />
+      {/* {queryResult && (
+        <ul>
+          {queryResult.map((item) => (
+            <li key={item.id}>{item.name}</li>
+          ))}
+        </ul>
+      )} */}
       {<p>Result Size: {resultSize}</p>}
       {<p>Is the query executable?: {isExecutable ? "Yes" : "No"}</p>}
       {error && <p>{error}</p>}
@@ -65,4 +69,4 @@ const CypherQuery = () => {
   );
 };
 
-export default CypherQuery;
+export default CQLQuery;
