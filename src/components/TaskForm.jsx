@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import pgDataModel from "../images/datamodel1-transp.png";
-import mongoDataModel from "../images/datamodel4-transp.png";
-import neoDataModel from "../images/datamodel3-transp.png";
-import cassandraDataModel from "../images/datamodel2-transp.png";
-import { pgTasks } from "../data/tasksData";
-import { cassandraTasks } from "../data/tasksData";
-import { neo4jTasks } from "../data/tasksData";
-import { mongodbTasks } from "../data/tasksData";
+import React, { useState, useEffect } from "react"
+import pgDataModel from "../images/datamodel1-transp.png"
+import mongoDataModel from "../images/datamodel4-transp.png"
+import neoDataModel from "../images/datamodel3-transp.png"
+import cassandraDataModel from "../images/datamodel2-transp.png"
+import { pgTasks } from "../data/tasksData"
+import { cassandraTasks } from "../data/tasksData"
+import { neo4jTasks } from "../data/tasksData"
+import { mongodbTasks } from "../data/tasksData"
 import {
   Box,
   Button,
@@ -18,18 +18,19 @@ import {
   FormControlLabel,
   Radio,
   useTheme,
-} from "@mui/material";
+} from "@mui/material"
 
-import { tokens } from "../theme";
-import SQLQuery from "./SQLQuery";
-import MQLQuery from "./MQLQuery";
-import CypherQuery from "./CypherQuery";
-import CQLQuery from "./CQLQuery";
-import Timer from "./Timer";
+import { useNavigate } from "react-router-dom"
+import { tokens } from "../theme"
+import SQLQuery from "./SQLQuery"
+import MQLQuery from "./MQLQuery"
+import CypherQuery from "./CypherQuery"
+import CQLQuery from "./CQLQuery"
+import Timer from "./Timer"
 
 const TaskForm = ({ title, taskdescr }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
 
   /* Styles for mui components */
   let muiButtonStyle = {
@@ -38,66 +39,38 @@ const TaskForm = ({ title, taskdescr }) => {
     fontSize: "14px",
     fontWeight: "bold",
     padding: "10px 20px",
-  };
+    margin: "0px 2px",
+  }
   let muiRadioStyle = {
     "&.Mui-checked": {
       color: colors.primary[100],
     },
-  };
+  }
   //const [taskDescription, setTaskDescription] = useState('');
-  const [task, setTask] = useState("");
-  const [solution, setSolution] = useState("");
-  const [difficulty, setDifficulty] = useState(0);
-  const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-  const [taskNumber, setTaskNumber] = useState(1);
-  const [isExecutable, setIsExecutable] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [resultSize, setResultSize] = useState(0);
-  const [comment, setComment] = useState("");
-  const [tasksArray, setTasksArray] = useState([]);
-  const [isPostgreSQL, setIsPostgreSQL] = useState(false);
-  const [isMongoDB, setIsMongoDB] = useState(false);
-  const [isCassandra, setIsCassandra] = useState(false);
-  const [isNeo4J, setIsNeo4J] = useState(false);
-
-  useEffect(() => {
-    // TODO fetch the task from a database
-
-    if (title === "PostgreSQL") {
-      setIsPostgreSQL(true);
-      setTask(pgTasks[0]);
-      setTasksArray(pgTasks.slice(1));
-    }
-    if (title === "Cassandra") {
-      setIsCassandra(true);
-      setTask(cassandraTasks[0]);
-      setTasksArray(cassandraTasks.slice(1));
-    }
-    if (title === "Neo4J") {
-      setIsNeo4J(true);
-      setTask(neo4jTasks[0]);
-      setTasksArray(neo4jTasks.slice(1));
-    }
-    if (title === "MongoDB") {
-      setIsMongoDB(true);
-      setTask(mongodbTasks[0]);
-      setTasksArray(mongodbTasks.slice(1));
-    }
-    //this is the first task
-
-    //setTask(taskdescr);
-    //setTaskDescription('');
-  }, []);
+  const [task, setTask] = useState("")
+  const [solution, setSolution] = useState("")
+  const [difficulty, setDifficulty] = useState(0)
+  const [time, setTime] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
+  const [hasStarted, setHasStarted] = useState(false)
+  const [taskNumber, setTaskNumber] = useState(0)
+  const [isExecutable, setIsExecutable] = useState(false)
+  const [isCorrect, setIsCorrect] = useState(false)
+  const [resultSize, setResultSize] = useState(0)
+  const [comment, setComment] = useState("")
+  const [tasksArray, setTasksArray] = useState([])
+  const [isPostgreSQL, setIsPostgreSQL] = useState(false)
+  const [isMongoDB, setIsMongoDB] = useState(false)
+  const [isCassandra, setIsCassandra] = useState(false)
+  const [isNeo4J, setIsNeo4J] = useState(false)
 
   const startTimer = () => {
-    setIsRunning(true);
-    setHasStarted(true);
-  };
+    setIsRunning(true)
+    setHasStarted(true)
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // TODO send data to database
     /* console.log({
@@ -111,7 +84,7 @@ const TaskForm = ({ title, taskdescr }) => {
       comment: comment,
     });
     alert("Submitted!");*/
-  };
+  }
 
   // Function to handle navigation to the next task
   const handleNextTask = () => {
@@ -119,32 +92,66 @@ const TaskForm = ({ title, taskdescr }) => {
     // and set it to the state variable "task"
     if (taskNumber === tasksArray.length + 1) {
       // This is the last task
-      alert("This is the last task");
+      alert("This is the last task")
     } else {
-      let newTask = taskNumber - 1;
-      setTask(tasksArray[newTask]);
-      setTaskNumber(taskNumber + 1);
-      setSolution("");
-      setDifficulty(0);
-      setTime(0);
-      setIsExecutable(false);
-      setIsCorrect(false);
-      setResultSize(0);
-      setComment("");
-      setIsRunning(false);
-      setHasStarted(false);
+      let newTask = taskNumber
+      setTask(tasksArray[newTask])
+      setTaskNumber(taskNumber + 1)
+      setSolution("")
+      setDifficulty(0)
+      setTime(0)
+      setIsExecutable(false)
+      setIsCorrect(false)
+      setResultSize(0)
+      setComment("")
+      setIsRunning(false)
+      setHasStarted(false)
     }
-  };
+  }
 
-  /* const handlePrevTask = () => {
-    setTaskNumber(prevState => prevState - 1); 
-    //let newTask = taskNumber - 1;
-     //setTask(tasksArray[newTask]);
-      
-  } */
+  const navigation = useNavigate()
+  const handlePrevTask = () => {
+    setTaskNumber((prev) => Number(prev - 1))
+    setTask(pgTasks[taskNumber - 1])
+    setTasksArray(pgTasks[taskNumber - 1])
+    if (!taskNumber) {
+      navigation(-1)
+    }
+  }
+  useEffect(() => {
+    // TODO fetch the task from a database
+
+    if (title === "PostgreSQL") {
+      setIsPostgreSQL(true)
+      setTask(pgTasks[0])
+      setTasksArray(pgTasks.slice(1))
+    }
+    /* if (title === "Cassandra") {
+      setIsCassandra(true)
+      setTask(cassandraTasks[0])
+      setTasksArray(cassandraTasks.slice(1))
+    }
+    if (title === "Neo4J") {
+      setIsNeo4J(true)
+      setTask(neo4jTasks[0])
+      setTasksArray(neo4jTasks.slice(1))
+    }
+    if (title === "MongoDB") {
+      setIsMongoDB(true)
+      setTask(mongodbTasks[0])
+      setTasksArray(mongodbTasks.slice(1))
+    } */
+    //this is the first task
+
+    //setTask(taskdescr);
+    //setTaskDescription('');
+  }, [])
+  // console.log(taskNumber)
+  //setTask(tasksArray[newTask])
+  //console.log(taskNumber)
 
   return (
-    <Box display="flex" justifyContent="space-between" >
+    <Box display="flex" justifyContent="space-between">
       <Box>
         {/* <Box flex="0 0 50%"> */}
         {/* <h1>Task {taskNumber}</h1> */}
@@ -234,7 +241,10 @@ const TaskForm = ({ title, taskdescr }) => {
             </RadioGroup>
             <br />
             <br />
-            {taskNumber === tasksArray.length + 1 ? (
+            <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+              PrevTask
+            </Button>
+            {taskNumber === tasksArray?.length + 1 ? (
               <Button sx={muiButtonStyle} onClick={handleSubmit}>
                 Submit
               </Button>
@@ -243,9 +253,6 @@ const TaskForm = ({ title, taskdescr }) => {
                 Next Task
               </Button>
             )}{" "}
-            {/* <Button sx={muiButtonStyle} onClick={handlePrevTask}>
-            Previous task
-          </Button> */}
           </form>
         ) : (
           <Button sx={muiButtonStyle} onClick={startTimer}>
@@ -253,7 +260,7 @@ const TaskForm = ({ title, taskdescr }) => {
           </Button>
         )}
       </Box>
-      
+
       <Box display=" 0 0 flex">
         {isPostgreSQL && (
           <img
@@ -289,7 +296,7 @@ const TaskForm = ({ title, taskdescr }) => {
         )}
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default TaskForm;
+export default TaskForm
