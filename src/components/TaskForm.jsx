@@ -46,16 +46,16 @@ const TaskForm = ({ title, taskdescr }) => {
       color: colors.primary[100],
     },
   }
-  //const [taskDescription, setTaskDescription] = useState('');
+  const [taskAllData, setTaskAllData] = useState({})
   const [task, setTask] = useState("")
   const [solution, setSolution] = useState("")
-  const [difficulty, setDifficulty] = useState(0)
   const [time, setTime] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
   const [hasStarted, setHasStarted] = useState(false)
   const [taskNumber, setTaskNumber] = useState(0)
   const [isExecutable, setIsExecutable] = useState(false)
-  const [isCorrect, setIsCorrect] = useState(false)
+  //const [isCorrect, setIsCorrect] = useState("")
+  const [difficulty, setDifficulty] = useState(0)
   const [resultSize, setResultSize] = useState(0)
   const [comment, setComment] = useState("")
   const [tasksArray, setTasksArray] = useState([])
@@ -64,11 +64,13 @@ const TaskForm = ({ title, taskdescr }) => {
   const [isCassandra, setIsCassandra] = useState(false)
   const [isNeo4J, setIsNeo4J] = useState(false)
 
+  const navigation = useNavigate()
   const startTimer = () => {
     setIsRunning(true)
     setHasStarted(true)
   }
 
+  const localData = JSON.parse(localStorage.getItem("taskData"))
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -101,7 +103,7 @@ const TaskForm = ({ title, taskdescr }) => {
       setDifficulty(0)
       setTime(0)
       setIsExecutable(false)
-      setIsCorrect(false)
+      //setIsCorrect(false)
       setResultSize(0)
       setComment("")
       setIsRunning(false)
@@ -109,15 +111,6 @@ const TaskForm = ({ title, taskdescr }) => {
     }
   }
 
-  const navigation = useNavigate()
-  const handlePrevTask = () => {
-    setTaskNumber((prev) => Number(prev - 1))
-    setTask(pgTasks[taskNumber - 1])
-    setTasksArray(pgTasks[taskNumber - 1])
-    if (!taskNumber) {
-      navigation(-1)
-    }
-  }
   useEffect(() => {
     // TODO fetch the task from a database
 
@@ -126,7 +119,7 @@ const TaskForm = ({ title, taskdescr }) => {
       setTask(pgTasks[0])
       setTasksArray(pgTasks.slice(1))
     }
-    /* if (title === "Cassandra") {
+    if (title === "Cassandra") {
       setIsCassandra(true)
       setTask(cassandraTasks[0])
       setTasksArray(cassandraTasks.slice(1))
@@ -140,15 +133,70 @@ const TaskForm = ({ title, taskdescr }) => {
       setIsMongoDB(true)
       setTask(mongodbTasks[0])
       setTasksArray(mongodbTasks.slice(1))
-    } */
-    //this is the first task
-
-    //setTask(taskdescr);
-    //setTaskDescription('');
+    }
   }, [])
-  // console.log(taskNumber)
-  //setTask(tasksArray[newTask])
-  //console.log(taskNumber)
+
+  const handleChnage = (e) => {
+    localStorage.removeItem("taskData")
+    /* if (e.target.name == "comment") {
+      const items = JSON.parse(localStorage.getItem("taskData"))
+      Object.entries(items)
+      for (let i = 0; i < items.length; i++) {
+        items.slice(i, i)
+        localStorage.setItem("taskData", JSON.stringify(taskAllData))
+      }
+    } else if (e.target.name == "isCorrect") {
+      const items = JSON.parse(localStorage.getItem("taskData"))
+      Object.entries(items)
+      for (let i = 0; i < items.length; i++) {
+        items.slice(i, i)
+        localStorage.setItem("taskData", JSON.stringify(taskAllData))
+      }
+    }
+    if (e.target.name == "difficulty") {
+      const items = JSON.parse(localStorage.getItem("taskData"))
+      Object.entries(items)
+      for (let i = 0; i < items.length; i++) {
+        items.slice(i, i)
+        localStorage.setItem("taskData", JSON.stringify(taskAllData))
+      }
+    } */
+
+    setTaskAllData({
+      ...taskAllData,
+      [e.target.name]: e.target.value.trim(),
+    })
+  }
+
+  const handlePrevTask = () => {
+    localStorage.setItem("taskData", JSON.stringify(taskAllData))
+    setTaskNumber((prev) => Number(prev - 1))
+    if (isPostgreSQL) {
+      setTask(pgTasks[taskNumber - 1])
+      setTasksArray(pgTasks[taskNumber - 1])
+      if (!taskNumber) {
+        navigation(-1)
+      }
+    } else if (isMongoDB) {
+      setTask(mongodbTasks[taskNumber - 1])
+      setTasksArray(mongodbTasks[taskNumber - 1])
+      if (!taskNumber) {
+        navigation(-1)
+      }
+    } else if (isCassandra) {
+      setTask(cassandraTasks[taskNumber - 1])
+      setTasksArray(cassandraTasks[taskNumber - 1])
+      if (!taskNumber) {
+        navigation(-1)
+      }
+    } else if (isNeo4J) {
+      setTask(neo4jTasks[taskNumber - 1])
+      setTasksArray(neo4jTasks[taskNumber - 1])
+      if (!taskNumber) {
+        navigation(-1)
+      }
+    }
+  }
 
   return (
     <Box display="flex" justifyContent="space-between">
@@ -168,34 +216,63 @@ const TaskForm = ({ title, taskdescr }) => {
             </InputLabel>
             <TextField
               id="partial-solution-label"
+              name="comment"
               fullWidth
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              value={
+                JSON.parse(localStorage.getItem("taskData"))
+                  ? localData.comment
+                  : taskAllData.comment
+              }
+              onChange={handleChnage}
             />
             <InputLabel id="isCorrect-radiogroup">
               Does the query return correct results?
             </InputLabel>
-            <RadioGroup
-              row
-              id="isCorrect-radiogroup"
-              defaultValue={0}
-              value={isCorrect}
-              onChange={(e) => setIsCorrect(e.target.value)}
-            >
+            <RadioGroup row id="isCorrect-radiogroup" onChange={handleChnage}>
               <FormControlLabel
-                value={0}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.isCorrect
+                    : "I Don't Know"
+                }
                 control={<Radio sx={muiRadioStyle} />}
-                label="I don't know"
+                label="I don't Know"
+                name="isCorrect"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.isCorrect == "I Don't Know"
+                    : taskAllData.isCorrect == "I Don't Know"
+                }
               />
               <FormControlLabel
-                value={1}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.isCorrect
+                    : "Yes"
+                }
                 control={<Radio sx={muiRadioStyle} />}
                 label="Yes"
+                name="isCorrect"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.isCorrect == "Yes"
+                    : taskAllData.isCorrect == "Yes"
+                }
               />
               <FormControlLabel
-                value={2}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.isCorrect
+                    : "No"
+                }
                 control={<Radio sx={muiRadioStyle} />}
                 label="No"
+                name="isCorrect"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.isCorrect == "No"
+                    : taskAllData.isCorrect == "No"
+                }
               />
             </RadioGroup>
             <InputLabel id="difficulty-level-radiogroup">
@@ -204,39 +281,97 @@ const TaskForm = ({ title, taskdescr }) => {
             <RadioGroup
               row
               id="difficulty-level-radiogroup"
-              defaultValue={0}
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
+              onChange={handleChnage}
             >
               <FormControlLabel
-                value={0}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty
+                    : "None"
+                }
                 control={<Radio sx={muiRadioStyle} />}
                 label="None"
+                name="difficulty"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty == "None"
+                    : taskAllData.difficulty == "None"
+                }
               />
               <FormControlLabel
-                value={1}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty
+                    : "Very easy"
+                }
                 control={<Radio sx={muiRadioStyle} />}
                 label="Very easy"
+                name="difficulty"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty == "Very easy"
+                    : taskAllData.difficulty == "Very easy"
+                }
               />
               <FormControlLabel
-                value={2}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty
+                    : "Easy"
+                }
                 control={<Radio sx={muiRadioStyle} />}
                 label="Easy"
+                name="difficulty"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty == "Easy"
+                    : taskAllData.difficulty == "Easy"
+                }
               />
               <FormControlLabel
-                value={3}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty
+                    : "Normal"
+                }
                 control={<Radio sx={muiRadioStyle} />}
                 label="Normal"
+                name="difficulty"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty == "Normal"
+                    : taskAllData.difficulty == "Normal"
+                }
               />
               <FormControlLabel
-                value={4}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty
+                    : "Difficult"
+                }
                 control={<Radio sx={muiRadioStyle} />}
                 label="Difficult"
+                name="difficulty"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty == "Difficult"
+                    : taskAllData.difficulty == "Difficult"
+                }
               />
               <FormControlLabel
-                value={5}
+                value={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty
+                    : "Very difficult"
+                }
                 control={<Radio sx={muiRadioStyle} />}
                 label="Very difficult"
+                name="difficulty"
+                checked={
+                  JSON.parse(localStorage.getItem("taskData"))
+                    ? localData.difficulty == "Very difficult"
+                    : taskAllData.difficulty == "Very difficult"
+                }
               />
             </RadioGroup>
             <br />
