@@ -55,6 +55,7 @@ const CypherQuery = () => {
       <Button sx={muiButtonStyle} onClick={executeQuery}>
         Run query
       </Button>
+
       <ResultTable queryResult={queryResult} resultSize={resultSize} />
       {queryResult && <ResultGraph queryResult={queryResult} />}
 
