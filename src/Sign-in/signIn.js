@@ -4,10 +4,11 @@ import { toast } from "react-toastify";
 import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { useNavigate } from "react-router-dom";
+import OAuth2SignIn from "./oauth2-signin";
 //import "./signin.css";
 
 const SignIn = () => {
-  const navigate = useNavigate() ;
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -52,9 +53,9 @@ const SignIn = () => {
         toast.success("Log In successfully");
         localStorage.setItem("token", JSON.stringify(data));
         if (typeof window !== "undefined") {
-            //setTimeout(() => {
-            navigate("/");
-            window.location.reload(); // other solution
+          //setTimeout(() => {
+          navigate("/");
+          window.location.reload(); // other solution
           //}, 2000);
         }
       }
@@ -91,14 +92,18 @@ const SignIn = () => {
               ></TextField>
             </div>
             <Button sx={muiButtonStyle} onClick={handleSubmit} type="submit">
-              Log In
+              Sign In
             </Button>
           </form>
         </div>
         <div>
-          <Button sx={muiButtonStyle} onClick={handleLogin}>
+          <p>OR</p>
+        </div>
+        <div>
+        {/*   <Button sx={muiButtonStyle} onClick={handleLogin}>
             Log in with HRZ account
-          </Button>
+          </Button> */}
+          <OAuth2SignIn />
         </div>
       </div>
     </Box>
