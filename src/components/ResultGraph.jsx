@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import Graph from "react-graph-vis";
 
@@ -50,6 +50,42 @@ const ResultGraph = ({ queryResult }) => {
                 to: endNodeId,
                 label: relationship.type,
               });
+            });
+          } else {
+            queryResult.forEach((resultItem) => {
+              if (resultItem) {
+                Object.values(resultItem).forEach((obj) => {
+                  if (obj.start && obj.end) {
+                    edgesarr.push(obj);
+                  } else {
+                    nodesarr.push(obj);
+                  }
+                });
+  
+                nodesarr.forEach((node) => {
+                  nodeId = node.identity.low;
+                  if (!nodeIdArray.includes(nodeId)) {
+                    nodes.push({
+                      id: nodeId,
+                      label: Object.values(node.properties)[0],
+                      ...node.properties,
+                    });
+                    nodeIdArray.push(nodeId);
+                  }
+                });
+  
+                edgesarr.forEach((edge) => {
+                  edgeId = edge.identity;
+                  if (!edgeIdArray.includes(edgeId)) {
+                    edges.push({
+                      from: edge.start.low,
+                      to: edge.end.low,
+                      label: edge.type,
+                    });
+                    edgeIdArray.push(edgeId);
+                  }
+                });
+              }
             });
           }
         } else { //if we have > 1 object keys: for example match (p:Person)-[r:EMAIL_TO]-(p2:Person) return p, r, p2 
