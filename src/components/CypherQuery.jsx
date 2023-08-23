@@ -57,7 +57,7 @@ const CypherQuery = () => {
       </Button>
 
       <ResultTable queryResult={queryResult} resultSize={resultSize} />
-      {queryResult && <ResultGraph queryResult={queryResult} />}
+      {queryResult && <ResultGraph queryResult={queryResult} />} 
 
       {<p>Result Size: {resultSize}</p>}
       {<p>Is the query executable?: {isExecutable ? "Yes" : "No"}</p>}

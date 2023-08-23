@@ -5,7 +5,10 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const ResultTable = ({ queryResult, resultSize }) => {
   let columns = [];
-  if (queryResult) {
+  let rows = [];
+  let rowsWithUniqueId = [];
+
+  if (queryResult && queryResult.length > 0) {
     let columnNames = Object.keys(queryResult[0]);
     columnNames.forEach((item) => {
       // Check if the value is an object and format it accordingly
@@ -30,17 +33,18 @@ const ResultTable = ({ queryResult, resultSize }) => {
       });
     });
   }
-  let rows = [];
+
   if (queryResult) {
     rows = queryResult;
   }
-  let rowsWithUniqueId = rows.map((row) => ({
+  rowsWithUniqueId = rows.map((row) => ({
     id: uuidv4(),
     ...row,
   }));
 
   let minTableRows = resultSize < 5 ? resultSize : 5;
   let maxTableRows = resultSize > 100 ? 100 : resultSize;
+
   return (
     <div>
       {queryResult && (

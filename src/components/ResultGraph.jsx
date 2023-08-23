@@ -15,7 +15,8 @@ const ResultGraph = ({ queryResult }) => {
     if (queryResult) {
       queryResult.forEach((pathItem) => {
         const pathKeys = Object.keys(pathItem);
-        if (pathKeys.length === 1) { // for example match p = ()-[]-() return p
+        if (pathKeys.length === 1) {
+          // for example match p = ()-[]-() return p
           const path = pathItem[pathKeys[0]];
           if (path && path.segments) {
             path.segments.forEach((segment) => {
@@ -61,9 +62,10 @@ const ResultGraph = ({ queryResult }) => {
                     nodesarr.push(obj);
                   }
                 });
-  
+
                 nodesarr.forEach((node) => {
                   nodeId = node.identity.low;
+
                   if (!nodeIdArray.includes(nodeId)) {
                     nodes.push({
                       id: nodeId,
@@ -73,7 +75,7 @@ const ResultGraph = ({ queryResult }) => {
                     nodeIdArray.push(nodeId);
                   }
                 });
-  
+
                 edgesarr.forEach((edge) => {
                   edgeId = edge.identity;
                   if (!edgeIdArray.includes(edgeId)) {
@@ -88,7 +90,8 @@ const ResultGraph = ({ queryResult }) => {
               }
             });
           }
-        } else { //if we have > 1 object keys: for example match (p:Person)-[r:EMAIL_TO]-(p2:Person) return p, r, p2 
+        } else {
+          //if we have > 1 object keys: for example match (p:Person)-[r:EMAIL_TO]-(p2:Person) return p, r, p2
           queryResult.forEach((resultItem) => {
             if (resultItem) {
               Object.values(resultItem).forEach((obj) => {
@@ -158,9 +161,11 @@ const ResultGraph = ({ queryResult }) => {
 
   return (
     <div>
-      <div style={{ height: "600px", width: "100%" }}>
-        <Graph key={uuidv4()} graph={graphData} options={graphOptions} />
-      </div>
+      {numNodes !== 0 && (
+        <div style={{ height: "600px", width: "100%" }}>
+          <Graph key={uuidv4()} graph={graphData} options={graphOptions} />
+        </div>
+      )}
       <div>
         <p>
           Nodes: {numNodes}, Edges: {numEdges}

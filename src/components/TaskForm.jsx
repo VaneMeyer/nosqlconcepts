@@ -62,6 +62,9 @@ const TaskForm = ({ title, taskdescr }) => {
   const [isCassandra, setIsCassandra] = useState(false);
   const [isNeo4J, setIsNeo4J] = useState(false);
 
+  const [profile, setProfile] = useState("");
+  const {name, role} = profile
+
   useEffect(() => {
     // TODO fetch the task from a database
 
@@ -89,6 +92,19 @@ const TaskForm = ({ title, taskdescr }) => {
 
     //setTask(taskdescr);
     //setTaskDescription('');
+
+    //fetch user profile
+    fetch("/api/getme")
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        //console.log(result);
+        setProfile(result.user)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const startTimer = () => {
@@ -115,6 +131,15 @@ const TaskForm = ({ title, taskdescr }) => {
 
   // Function to handle navigation to the next task
   const handleNextTask = () => {
+    console.log({
+      taskNumber: taskNumber,
+      
+      difficulty: difficulty,
+      
+      comment: comment,
+      user: {name}
+    });
+    
     // TODO fetch the next task from a database
     // and set it to the state variable "task"
     if (taskNumber === tasksArray.length + 1) {
