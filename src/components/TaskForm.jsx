@@ -191,7 +191,7 @@ const TaskForm = ({ title, taskdescr }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             <InputLabel id="isCorrect-radiogroup">
-              Does the query return correct results?
+              Does your query return correct results?
             </InputLabel>
             <RadioGroup
               row
@@ -217,7 +217,7 @@ const TaskForm = ({ title, taskdescr }) => {
               />
             </RadioGroup>
             <InputLabel id="difficulty-level-radiogroup">
-              Difficulty level:
+              How difficult was this task for you?
             </InputLabel>
             <RadioGroup
               row
