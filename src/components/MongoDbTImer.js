@@ -3,7 +3,13 @@ import { Box, Button, useTheme } from "@mui/material"
 
 import { tokens } from "../theme"
 
-const Timer = ({ run, time, timeData, setTime, setTimeData }) => {
+const Timer = ({
+  run,
+  mongodbTime,
+  mongodbTimeData,
+  setmongodbTime,
+  setmongodbTimeData,
+}) => {
   const theme = useTheme()
   const colors = tokens(theme.palette.mode)
   /* Styles for mui components */
@@ -33,30 +39,35 @@ const Timer = ({ run, time, timeData, setTime, setTimeData }) => {
   // time count in seconds
   useEffect(() => {
     let interval
-    if (timeData > time) {
+    if (mongodbTimeData > mongodbTime) {
       interval = setInterval(() => {
-        setTimeData((time) => time + 1)
+        setmongodbTimeData((time) => time + 1)
       }, 1000)
-    } else if (time >= timeData) {
+    } else if (mongodbTime >= mongodbTimeData) {
       interval = setInterval(() => {
-        setTime((time) => time + 1)
+        setmongodbTime((time) => time + 1)
       }, 1000)
     } else {
       clearInterval(interval)
     }
-    if (time > 7200 || timeData > 7200) {
+    if (mongodbTime > 7200 || mongodbTimeData > 7200) {
       // Maximum time of 2 hours has been crossed
       alert("Maximum time limit of 2 hours has been reached")
       setIsRunning(false)
-      setTime(0)
-      setTimeData(0)
+      setmongodbTime(0)
+      setmongodbTimeData(0)
     }
     return () => clearInterval(interval)
-  }, [isRunning, time, timeData]) // dependency on isRunning and time
+  }, [isRunning, mongodbTime, mongodbTimeData]) // dependency on isRunning and time
   return (
     <Box display="flex" justifyContent="space-between">
       <Box>
-        <p>Time: {timeData ? formatTime(timeData) : formatTime(time)}</p>
+        <p>
+          Time:{" "}
+          {mongodbTimeData
+            ? formatTime(mongodbTimeData)
+            : formatTime(mongodbTime)}
+        </p>
         {isRunning && (
           <Button sx={muiButtonStyle} onClick={stopTimer}>
             Stop time

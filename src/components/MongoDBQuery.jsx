@@ -1,33 +1,37 @@
-import React, { useState } from 'react';
-import axios from 'axios'; 
+import React, { useState } from "react"
+import axios from "axios"
 
+const MongoQueryComponent = ({ mongodbQuery, setmongodbQuery, taskNumber }) => {
+  const [query, setQuery] = useState("")
+  const [results, setResults] = useState([])
 
-const MongoQueryComponent = () => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-
-  const handleQueryChange = (event) => {
-    setQuery(event.target.value);
-  };
+  const handleQueryChange = (index, event) => {
+    let newTask = [...mongodbQuery]
+    newTask[index] = event
+    setmongodbQuery(newTask)
+  }
 
   const handleFormSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    
     axios
-      .post('/api/mongodb-query', { query }) 
+      .post("/api/mongodb-query", { query })
       .then((response) => {
-        setResults(response.data);
+        setResults(response.data)
       })
       .catch((error) => {
-        console.error('Error with query:', error);
-      });
-  };
+        console.error("Error with query:", error)
+      })
+  }
 
   return (
     <div>
       <div onSubmit={handleFormSubmit}>
-        <input type="text" value={query} onChange={handleQueryChange} />
+        <input
+          type="text"
+          value={mongodbQuery[taskNumber] || ""}
+          onChange={(e) => handleQueryChange(taskNumber, e.target.value)}
+        />
         <button type="submit">Run</button>
       </div>
 
@@ -40,7 +44,7 @@ const MongoQueryComponent = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MongoQueryComponent;
+export default MongoQueryComponent

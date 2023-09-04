@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material";
-import { tokens } from "../theme";
-import ResultTable from "./ResultTable";
+import React, { useState } from "react"
+import axios from "axios"
+import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material"
+import { tokens } from "../theme"
+import ResultTable from "./ResultTable"
 
-const SQLQuery = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+const SQLQuery = ({ sqlQuery, setSqlQuery, taskNumber }) => {
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
 
   /* Styles for mui components */
   let muiButtonStyle = {
@@ -15,31 +15,40 @@ const SQLQuery = () => {
     fontSize: "14px",
     fontWeight: "bold",
     padding: "10px 20px",
-  };
-  const [sqlQuery, setSqlQuery] = useState("");
-  const [queryResult, setQueryResult] = useState("");
-  const [resultSize, setResultSize] = useState(0);
-  const [error, setError] = useState("");
-  const [isExecutable, setIsExecutable] = useState(false);
+  }
+
+  const [queryResult, setQueryResult] = useState("")
+  const [resultSize, setResultSize] = useState(0)
+  const [error, setError] = useState("")
+  const [isExecutable, setIsExecutable] = useState(false)
+
+  const handleChange = (index, value) => {
+    let newTask = [...sqlQuery]
+    newTask[index] = value
+    setSqlQuery(newTask)
+  }
+  const sqlDataFromDb = JSON.parse(localStorage.getItem("mysqlQuery"))
 
   const executeQuery = () => {
-    setQueryResult("");
-    setResultSize(0);
+    setQueryResult("")
+    setResultSize(0)
     axios
       .post("/api/execute-sql", { sqlQuery })
       .then((response) => {
-        setQueryResult(response.data);
-        setResultSize(response.data.length);
-        setIsExecutable(true);
-        setError("");
-        console.log(response.data);
+        setQueryResult(response.data)
+        setResultSize(response.data.length)
+        setIsExecutable(true)
+        setError("")
+        console.log(response.data)
       })
       .catch((error) => {
-        setError("Error: Please check your Syntax");
-        setQueryResult("");
-        setIsExecutable(false);
-      });
-  };
+        setError("Error: Please check your Syntax")
+        setQueryResult("")
+        setIsExecutable(false)
+      })
+  }
+
+  //console.log(sqlDataFromDb.mysql)
 
   return (
     <Box>
@@ -47,14 +56,15 @@ const SQLQuery = () => {
       <TextField
         id="query-input-label"
         type="text"
+        name="mysql"
         fullWidth
-        value={sqlQuery}
-        onChange={(event) => setSqlQuery(event.target.value)}
+        value={sqlQuery[taskNumber] || ""}
+        onChange={(e) => handleChange(taskNumber, e.target.value)}
       />
       <Button sx={muiButtonStyle} onClick={executeQuery}>
         Run query
       </Button>
-        <ResultTable queryResult={queryResult} resultSize={resultSize} />
+      <ResultTable queryResult={queryResult} resultSize={resultSize} />
       {/* {queryResult && (
         <ul>
           {queryResult.map((item) => (
@@ -66,7 +76,7 @@ const SQLQuery = () => {
       {<p>Is the query executable?: {isExecutable ? "Yes" : "No"}</p>}
       {error && <p>{error}</p>}
     </Box>
-  );
-};
+  )
+}
 
-export default SQLQuery;
+export default SQLQuery

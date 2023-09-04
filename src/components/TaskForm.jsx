@@ -7,6 +7,7 @@ import { pgTasks } from "../data/tasksData"
 import { cassandraTasks } from "../data/tasksData"
 import { neo4jTasks } from "../data/tasksData"
 import { mongodbTasks } from "../data/tasksData"
+import MongoDbTask from "./MongoDbTask"
 import {
   Box,
   Button,
@@ -27,8 +28,13 @@ import MQLQuery from "./MQLQuery"
 import CypherQuery from "./CypherQuery"
 import CQLQuery from "./CQLQuery"
 import Timer from "./Timer"
+import { useRef } from "react"
 
 const TaskForm = ({ title, taskdescr }) => {
+  let localData = JSON.parse(localStorage.getItem(`task`))
+  let localData1 = JSON.parse(localStorage.getItem(`radio1`))
+  let localData2 = JSON.parse(localStorage.getItem(`radio2`))
+  const sqlDataFromDb = JSON.parse(localStorage.getItem("mysqlQuery"))
   const theme = useTheme()
   const colors = tokens(theme.palette.mode)
 
@@ -46,52 +52,64 @@ const TaskForm = ({ title, taskdescr }) => {
       color: colors.primary[100],
     },
   }
-  const [taskAllData, setTaskAllData] = useState({})
+  const [taskNumber, setTaskNumber] = useState(0)
   const [task, setTask] = useState("")
-  const [solution, setSolution] = useState("")
+  const localTime = JSON.parse(localStorage.getItem("time"))
   const [time, setTime] = useState(0)
+  const [timeData, setTimeData] = useState(localTime)
+  const [taskAllData, setTaskAllData] = useState(
+    (localData?.length && localData) || ""
+  )
+  const [postgreSQLRadio, setpostgreSQLRadio] = useState(
+    localData1?.length ? localData1 : ""
+  )
+  const [postgreSQLRadio2, setpostgreSQLRadio2] = useState(
+    localData2?.length ? localData2 : ""
+  )
   const [isRunning, setIsRunning] = useState(false)
   const [hasStarted, setHasStarted] = useState(false)
-  const [taskNumber, setTaskNumber] = useState(0)
   const [isExecutable, setIsExecutable] = useState(false)
-  //const [isCorrect, setIsCorrect] = useState("")
+  const [sqlQuery, setSqlQuery] = useState(
+    sqlDataFromDb?.length ? sqlDataFromDb : ""
+  )
   const [difficulty, setDifficulty] = useState(0)
   const [resultSize, setResultSize] = useState(0)
-  const [comment, setComment] = useState("")
   const [tasksArray, setTasksArray] = useState([])
   const [isPostgreSQL, setIsPostgreSQL] = useState(false)
   const [isMongoDB, setIsMongoDB] = useState(false)
   const [isCassandra, setIsCassandra] = useState(false)
   const [isNeo4J, setIsNeo4J] = useState(false)
-
   const navigation = useNavigate()
   const startTimer = () => {
     setIsRunning(true)
     setHasStarted(true)
   }
-
-  const localData = JSON.parse(localStorage.getItem("taskData"))
   const handleSubmit = (e) => {
     e.preventDefault()
+    let allPostData = [...localData, ...localData1, ...localData2]
+    console.log(allPostData)
+  }
 
-    // TODO send data to database
-    /* console.log({
-      task: task,
-      solution: solution,
-      difficulty: difficulty,
-      time: time,
-      isExecutable: isExecutable,
-      isCorrect: isCorrect,
-      resultSize: resultSize,
-      comment: comment,
-    });
-    alert("Submitted!");*/
+  const handleChange = (index, value) => {
+    let newTask = [...taskAllData]
+    newTask[index] = value
+    setTaskAllData(newTask)
+  }
+
+  const handleValueChnage = (index, value) => {
+    let newTask = [...postgreSQLRadio]
+    newTask[index] = value
+    setpostgreSQLRadio(newTask)
+  }
+
+  const handleDificultLevel = (index, value) => {
+    let newTask = [...postgreSQLRadio2]
+    newTask[index] = value
+    setpostgreSQLRadio2(newTask)
   }
 
   // Function to handle navigation to the next task
-  const handleNextTask = () => {
-    // TODO fetch the next task from a database
-    // and set it to the state variable "task"
+  const handleNextTask = (index, value) => {
     if (taskNumber === tasksArray.length + 1) {
       // This is the last task
       alert("This is the last task")
@@ -99,77 +117,50 @@ const TaskForm = ({ title, taskdescr }) => {
       let newTask = taskNumber
       setTask(tasksArray[newTask])
       setTaskNumber(taskNumber + 1)
-      setSolution("")
       setDifficulty(0)
       setTime(0)
       setIsExecutable(false)
       //setIsCorrect(false)
       setResultSize(0)
-      setComment("")
+      //setComment("")
       setIsRunning(false)
       setHasStarted(false)
     }
+    localStorage.setItem("task", JSON.stringify(taskAllData))
+    localStorage.setItem("radio1", JSON.stringify(postgreSQLRadio))
+    localStorage.setItem("radio2", JSON.stringify(postgreSQLRadio2))
+    localStorage.setItem("mysqlQuery", JSON.stringify(sqlQuery))
+    /* localStorage.setItem(`${taskNumber}`, JSON.stringify(taskAllData)) */
+    //localStorage.setItem("mysqlQuery", JSON.stringify(sqlQuery))
+    {
+      timeData
+        ? localStorage.setItem("time", JSON.stringify(timeData))
+        : localStorage.setItem("time", JSON.stringify(time))
+    }
   }
-
   useEffect(() => {
     // TODO fetch the task from a database
-
     if (title === "PostgreSQL") {
       setIsPostgreSQL(true)
       setTask(pgTasks[0])
       setTasksArray(pgTasks.slice(1))
-    }
-    if (title === "Cassandra") {
+    } else if (title === "Cassandra") {
       setIsCassandra(true)
       setTask(cassandraTasks[0])
       setTasksArray(cassandraTasks.slice(1))
-    }
-    if (title === "Neo4J") {
+    } else if (title === "Neo4J") {
       setIsNeo4J(true)
       setTask(neo4jTasks[0])
       setTasksArray(neo4jTasks.slice(1))
-    }
-    if (title === "MongoDB") {
+    } else if (title === "MongoDB") {
       setIsMongoDB(true)
-      setTask(mongodbTasks[0])
-      setTasksArray(mongodbTasks.slice(1))
+      //setTask(mongodbTasks[0])
+      //setTasksArray(mongodbTasks.slice(1))
     }
   }, [])
 
-  const handleChnage = (e) => {
-    localStorage.removeItem("taskData")
-    /* if (e.target.name == "comment") {
-      const items = JSON.parse(localStorage.getItem("taskData"))
-      Object.entries(items)
-      for (let i = 0; i < items.length; i++) {
-        items.slice(i, i)
-        localStorage.setItem("taskData", JSON.stringify(taskAllData))
-      }
-    } else if (e.target.name == "isCorrect") {
-      const items = JSON.parse(localStorage.getItem("taskData"))
-      Object.entries(items)
-      for (let i = 0; i < items.length; i++) {
-        items.slice(i, i)
-        localStorage.setItem("taskData", JSON.stringify(taskAllData))
-      }
-    }
-    if (e.target.name == "difficulty") {
-      const items = JSON.parse(localStorage.getItem("taskData"))
-      Object.entries(items)
-      for (let i = 0; i < items.length; i++) {
-        items.slice(i, i)
-        localStorage.setItem("taskData", JSON.stringify(taskAllData))
-      }
-    } */
-
-    setTaskAllData({
-      ...taskAllData,
-      [e.target.name]: e.target.value.trim(),
-    })
-  }
-
-  const handlePrevTask = () => {
-    localStorage.setItem("taskData", JSON.stringify(taskAllData))
+  const handlePrevTask = (index, value) => {
+    setIsRunning(false)
     setTaskNumber((prev) => Number(prev - 1))
     if (isPostgreSQL) {
       setTask(pgTasks[taskNumber - 1])
@@ -196,6 +187,15 @@ const TaskForm = ({ title, taskdescr }) => {
         navigation(-1)
       }
     }
+    localStorage.setItem("task", JSON.stringify(taskAllData))
+    localStorage.setItem("radio1", JSON.stringify(postgreSQLRadio))
+    localStorage.setItem("radio2", JSON.stringify(postgreSQLRadio2))
+    localStorage.setItem("mysqlQuery", JSON.stringify(sqlQuery))
+    {
+      timeData
+        ? localStorage.setItem("time", JSON.stringify(timeData))
+        : localStorage.setItem("time", JSON.stringify(time))
+    }
   }
 
   return (
@@ -206,188 +206,248 @@ const TaskForm = ({ title, taskdescr }) => {
         <p>{task}</p>
         {hasStarted ? (
           <form>
-            <Timer run={isRunning} />
-            {isPostgreSQL ? <SQLQuery /> : <p></p>}
-            {isMongoDB ? <MQLQuery /> : <p></p>}
-            {isNeo4J ? <CypherQuery /> : <p></p>}
-            {isCassandra ? <CQLQuery /> : <p></p>}
-            <InputLabel id="partial-solution-label">
-              Your partial solution:
-            </InputLabel>
-            <TextField
-              id="partial-solution-label"
-              name="comment"
-              fullWidth
-              value={
-                JSON.parse(localStorage.getItem("taskData"))
-                  ? localData.comment
-                  : taskAllData.comment
-              }
-              onChange={handleChnage}
-            />
-            <InputLabel id="isCorrect-radiogroup">
-              Does the query return correct results?
-            </InputLabel>
-            <RadioGroup row id="isCorrect-radiogroup" onChange={handleChnage}>
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.isCorrect
-                    : "I Don't Know"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="I don't Know"
-                name="isCorrect"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.isCorrect == "I Don't Know"
-                    : taskAllData.isCorrect == "I Don't Know"
-                }
-              />
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.isCorrect
-                    : "Yes"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="Yes"
-                name="isCorrect"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.isCorrect == "Yes"
-                    : taskAllData.isCorrect == "Yes"
-                }
-              />
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.isCorrect
-                    : "No"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="No"
-                name="isCorrect"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.isCorrect == "No"
-                    : taskAllData.isCorrect == "No"
-                }
-              />
-            </RadioGroup>
-            <InputLabel id="difficulty-level-radiogroup">
-              Difficulty level:
-            </InputLabel>
-            <RadioGroup
-              row
-              id="difficulty-level-radiogroup"
-              onChange={handleChnage}
-            >
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty
-                    : "None"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="None"
-                name="difficulty"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty == "None"
-                    : taskAllData.difficulty == "None"
-                }
-              />
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty
-                    : "Very easy"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="Very easy"
-                name="difficulty"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty == "Very easy"
-                    : taskAllData.difficulty == "Very easy"
-                }
-              />
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty
-                    : "Easy"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="Easy"
-                name="difficulty"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty == "Easy"
-                    : taskAllData.difficulty == "Easy"
-                }
-              />
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty
-                    : "Normal"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="Normal"
-                name="difficulty"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty == "Normal"
-                    : taskAllData.difficulty == "Normal"
-                }
-              />
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty
-                    : "Difficult"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="Difficult"
-                name="difficulty"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty == "Difficult"
-                    : taskAllData.difficulty == "Difficult"
-                }
-              />
-              <FormControlLabel
-                value={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty
-                    : "Very difficult"
-                }
-                control={<Radio sx={muiRadioStyle} />}
-                label="Very difficult"
-                name="difficulty"
-                checked={
-                  JSON.parse(localStorage.getItem("taskData"))
-                    ? localData.difficulty == "Very difficult"
-                    : taskAllData.difficulty == "Very difficult"
-                }
-              />
-            </RadioGroup>
+            {(isPostgreSQL && (
+              <>
+                <Timer
+                  run={isRunning}
+                  time={time}
+                  timeData={timeData}
+                  setTime={setTime}
+                  setTimeData={setTimeData}
+                />
+                <SQLQuery
+                  taskNumber={taskNumber}
+                  sqlQuery={sqlQuery}
+                  setSqlQuery={setSqlQuery}
+                />
+                <InputLabel id="partial-solution-label">
+                  Your partial solution:
+                </InputLabel>
+                <TextField
+                  type="text"
+                  key={taskNumber}
+                  value={taskAllData[taskNumber]}
+                  onChange={(e) => handleChange(taskNumber, e.target.value)}
+                />
+                <InputLabel id="isCorrect-radiogroup">
+                  Does the query return correct results?
+                </InputLabel>
+                <RadioGroup
+                  row
+                  id="isCorrect-radiogroup"
+                  onChange={(e) =>
+                    handleValueChnage(taskNumber, e.target.value)
+                  }
+                >
+                  <FormControlLabel
+                    value="IDon'tKnow"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="I Don't Know"
+                    name="isCorrect"
+                    checked={postgreSQLRadio[taskNumber] == "IDon'tKnow"}
+                  />
+                  <FormControlLabel
+                    value="Yes"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Yes"
+                    name="isCorrect"
+                    checked={postgreSQLRadio[taskNumber] == "Yes"}
+                  />
+                  <FormControlLabel
+                    value="No"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="No"
+                    name="isCorrect"
+                    checked={postgreSQLRadio[taskNumber] == "No"}
+                  />
+                </RadioGroup>
+                <InputLabel id="difficulty-level-radiogroup">
+                  Difficulty level:
+                </InputLabel>
+                <RadioGroup
+                  row
+                  id="isCorrect-radiogroup"
+                  onChange={(e) =>
+                    handleDificultLevel(taskNumber, e.target.value)
+                  }
+                >
+                  <FormControlLabel
+                    value="None"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="None"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "None"}
+                  />
+                  <FormControlLabel
+                    value="VeryEasy"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Very Easy"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "VeryEasy"}
+                  />
+                  <FormControlLabel
+                    value="Easy"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Easy"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "Easy"}
+                  />
+                  <FormControlLabel
+                    value="Normal"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Normal"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "Normal"}
+                  />
+                  <FormControlLabel
+                    value="Difficult"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Difficult"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "Difficult"}
+                  />
+                </RadioGroup>
+                <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+                  PrevTask
+                </Button>
+                {taskNumber === tasksArray?.length ? (
+                  <Button sx={muiButtonStyle} onClick={handleSubmit}>
+                    Submit
+                  </Button>
+                ) : (
+                  <Button sx={muiButtonStyle} onClick={handleNextTask}>
+                    Next Task
+                  </Button>
+                )}
+              </>
+            )) ||
+              (isMongoDB && (
+                <MongoDbTask
+                  title={title}
+                  task1={task}
+                  tasksArray1={tasksArray}
+                />
+              ))}
+
+            {/*  {isPostgreSQL && (
+              <>
+                <Timer
+                  run={isRunning}
+                  time={time}
+                  timeData={timeData}
+                  setTime={setTime}
+                  setTimeData={setTimeData}
+                />
+                <SQLQuery
+                  taskNumber={taskNumber}
+                  sqlQuery={sqlQuery}
+                  setSqlQuery={setSqlQuery}
+                />
+                <InputLabel id="partial-solution-label">
+                  Your partial solution:
+                </InputLabel>
+                <TextField
+                  type="text"
+                  key={taskNumber}
+                  value={taskAllData[taskNumber]}
+                  onChange={(e) => handleChange(taskNumber, e.target.value)}
+                />
+                <InputLabel id="isCorrect-radiogroup">
+                  Does the query return correct results?
+                </InputLabel>
+                <RadioGroup
+                  row
+                  id="isCorrect-radiogroup"
+                  onChange={(e) =>
+                    handleValueChnage(taskNumber, e.target.value)
+                  }
+                >
+                  <FormControlLabel
+                    value="IDon'tKnow"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="I Don't Know"
+                    name="isCorrect"
+                    checked={postgreSQLRadio[taskNumber] == "IDon'tKnow"}
+                  />
+                  <FormControlLabel
+                    value="Yes"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Yes"
+                    name="isCorrect"
+                    checked={postgreSQLRadio[taskNumber] == "Yes"}
+                  />
+                  <FormControlLabel
+                    value="No"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="No"
+                    name="isCorrect"
+                    checked={postgreSQLRadio[taskNumber] == "No"}
+                  />
+                </RadioGroup>
+                <InputLabel id="difficulty-level-radiogroup">
+                  Difficulty level:
+                </InputLabel>
+                <RadioGroup
+                  row
+                  id="isCorrect-radiogroup"
+                  onChange={(e) =>
+                    handleDificultLevel(taskNumber, e.target.value)
+                  }
+                >
+                  <FormControlLabel
+                    value="None"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="None"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "None"}
+                  />
+                  <FormControlLabel
+                    value="VeryEasy"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Very Easy"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "VeryEasy"}
+                  />
+                  <FormControlLabel
+                    value="Easy"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Easy"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "Easy"}
+                  />
+                  <FormControlLabel
+                    value="Normal"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Normal"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "Normal"}
+                  />
+                  <FormControlLabel
+                    value="Difficult"
+                    control={<Radio sx={muiRadioStyle} />}
+                    label="Difficult"
+                    name="isCorrect"
+                    checked={postgreSQLRadio2[taskNumber] == "Difficult"}
+                  />
+                </RadioGroup>
+                <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+                  PrevTask
+                </Button>
+                {taskNumber === tasksArray?.length + 1 ? (
+                  <Button sx={muiButtonStyle} onClick={handleSubmit}>
+                    Submit
+                  </Button>
+                ) : (
+                  <Button sx={muiButtonStyle} onClick={handleNextTask}>
+                    Next Task
+                  </Button>
+                )}{" "}
+              </>
+            )} */}
+
+            {/*    {isMongoDB && <MongoDbTask />} */}
             <br />
             <br />
-            <Button sx={muiButtonStyle} onClick={handlePrevTask}>
-              PrevTask
-            </Button>
-            {taskNumber === tasksArray?.length + 1 ? (
-              <Button sx={muiButtonStyle} onClick={handleSubmit}>
-                Submit
-              </Button>
-            ) : (
-              <Button sx={muiButtonStyle} onClick={handleNextTask}>
-                Next Task
-              </Button>
-            )}{" "}
           </form>
         ) : (
           <Button sx={muiButtonStyle} onClick={startTimer}>
