@@ -8,6 +8,8 @@ import { cassandraTasks } from "../data/tasksData"
 import { neo4jTasks } from "../data/tasksData"
 import { mongodbTasks } from "../data/tasksData"
 import MongoDbTask from "./MongoDbTask"
+import Cassandra from "./Cassandra"
+import Neo from "./Neo"
 import {
   Box,
   Button,
@@ -146,8 +148,8 @@ const TaskForm = ({ title, taskdescr }) => {
       setTasksArray(pgTasks.slice(1))
     } else if (title === "Cassandra") {
       setIsCassandra(true)
-      setTask(cassandraTasks[0])
-      setTasksArray(cassandraTasks.slice(1))
+      /* setTask(cassandraTasks[0])
+      setTasksArray(cassandraTasks.slice(1)) */
     } else if (title === "Neo4J") {
       setIsNeo4J(true)
       setTask(neo4jTasks[0])
@@ -327,6 +329,16 @@ const TaskForm = ({ title, taskdescr }) => {
                   task1={task}
                   tasksArray1={tasksArray}
                 />
+              )) ||
+              (isCassandra && (
+                <Cassandra
+                  title={title}
+                  task1={task}
+                  tasksArray1={tasksArray}
+                />
+              )) ||
+              (isNeo4J && (
+                <Neo title={title} task1={task} tasksArray1={tasksArray} />
               ))}
 
             {/*  {isPostgreSQL && (
