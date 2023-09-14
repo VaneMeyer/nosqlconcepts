@@ -72,8 +72,8 @@ const Dashboard = () => {
         >
           <StatBox
             title="PostgreSQL"
-            progress="0.75"
-            increase="75%"
+            /* progress="0.75"
+            increase="75%" */
             link="/postgresql"
           />
         </Box>
@@ -86,8 +86,8 @@ const Dashboard = () => {
         >
           <StatBox
             title="Cassandra"
-            progress="0.50"
-            increase="50%"
+            /* progress="0.50"
+            increase="50%" */
             link="/cassandra"
           />
         </Box>
@@ -98,7 +98,7 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <StatBox title="Neo4J" progress="0.30" increase="30%" link="/neo4j" />
+          <StatBox title="Neo4J" /* progress="0.30" increase="30%" */ link="/neo4j" />
         </Box>
         <Box
           gridColumn="span 3"
@@ -109,8 +109,8 @@ const Dashboard = () => {
         >
           <StatBox
             title="MongoDB"
-            progress="0.80"
-            increase="80%"
+            /* progress="0.80"
+            increase="80%" */
             link="/mongodb"
           />
         </Box>
