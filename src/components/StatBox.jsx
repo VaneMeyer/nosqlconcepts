@@ -21,7 +21,8 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link }) => {
           </Typography>
         </Box>
         <Box>
-          <ProgressCircle progress={progress} />
+          {/* <ProgressCircle progress={progress} /> */}
+          Status Placeholder {/* TODO */}
         </Box>
       </Box>
       <Box display="flex" justifyContent="space-between" mt="2px">
