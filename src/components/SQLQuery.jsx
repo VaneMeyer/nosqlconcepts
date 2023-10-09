@@ -45,7 +45,7 @@ const SQLQuery = ({ taskNumber, onDataFromChild }) => {
 
   const executeQuery = () => {
     //saveToLocalStorage();
-    sendDataToParent();
+    //sendDataToParent();
     setQueryResult("");
     setResultSize(0);
     //setIsExecutable(false);
@@ -57,17 +57,20 @@ const SQLQuery = ({ taskNumber, onDataFromChild }) => {
         setIsExecutable(true);
         setError("");
         saveToLocalStorage();
+        sendDataToParent();
         console.log(response.data);
       })
       .catch((error) => {
         setError("Error: Please check your Syntax");
         setQueryResult("");
         setIsExecutable(false);
+        saveToLocalStorage();
+        sendDataToParent();
       });
   };
   const sendDataToParent = () => {
     // Hier senden wir Daten an die Elternkomponente
-    onDataFromChild(sqlQuery);
+    onDataFromChild(queryFormData);
   };
   useEffect(() => {
     setQueryFormData({
@@ -78,6 +81,7 @@ const SQLQuery = ({ taskNumber, onDataFromChild }) => {
     setSqlQuery(localStorage.getItem(`sqlQuery${taskNumber}`) || "");
     setResultSize(localStorage.getItem(`resultSize${taskNumber}`) || 0);
     setIsExecutable(localStorage.getItem(`isExecutable${taskNumber}`) || false);
+    
   }, [taskNumber]);
   return (
     <Box>
@@ -97,8 +101,8 @@ const SQLQuery = ({ taskNumber, onDataFromChild }) => {
       </Button>
       <ResultTable queryResult={queryResult} resultSize={resultSize} />
 
-      {<p>Result Size: {resultSize}</p>}
-      {<p>Is the query executable?: {isExecutable ? "Yes" : "No"}</p>}
+      {<p>Result Size: {queryFormData.resultSize}</p>}
+      {<p>Is the query executable?: {queryFormData.isExecutable ? "Yes" : "No"}</p>}
       {error && <p>{error}</p>}
     </Box>
   );

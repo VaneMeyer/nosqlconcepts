@@ -7,6 +7,7 @@ import { pgTasks } from "../data/tasksData";
 import { cassandraTasks } from "../data/tasksData";
 import { neo4jTasks } from "../data/tasksData";
 import { mongodbTasks } from "../data/tasksData";
+import * as xlsx from "xlsx";
 import {
   Box,
   Button,
@@ -61,21 +62,34 @@ const TaskForm = ({ title, taskdescr }) => {
   const [isMongoDB, setIsMongoDB] = useState(false);
   const [isCassandra, setIsCassandra] = useState(false);
   const [isNeo4J, setIsNeo4J] = useState(false);
+  const [fileData, setFileData] = useState({
+    taskNumber: "",
+    query: "",
+    resultSize: "",
+    isExecutable: "",
+    partialSolution: "",
+    isCorrect: "",
+    difficulty: "",
+    time: "",
+  });
 
   const [profile, setProfile] = useState("");
   const { name, role } = profile;
   // to save user entries
   const [pgFormData, setPgFormData] = useState({
-    partialSolution: localStorage.getItem(`partialSolution${taskNumber}`) || '',
-    isCorrect: localStorage.getItem(`isCorrect${taskNumber}`) || '0',
-    difficulty: localStorage.getItem(`difficulty${taskNumber}`) || '0',
+    partialSolution: localStorage.getItem(`partialSolution${taskNumber}`) || "",
+    isCorrect: localStorage.getItem(`isCorrect${taskNumber}`) || "0",
+    difficulty: localStorage.getItem(`difficulty${taskNumber}`) || "0",
   });
   const [casFormData, setCasFormData] = useState([]);
   const [neoFormData, setNeoFormData] = useState([]);
   const [mongoFormData, setMongoFormData] = useState([]);
 
   const saveAnswersToLocalStorage = () => {
-    localStorage.setItem(`partialSolution${taskNumber}`, pgFormData.partialSolution);
+    localStorage.setItem(
+      `partialSolution${taskNumber}`,
+      pgFormData.partialSolution
+    );
     localStorage.setItem(`isCorrect${taskNumber}`, pgFormData.isCorrect);
     localStorage.setItem(`difficulty${taskNumber}`, pgFormData.difficulty);
   };
@@ -138,29 +152,30 @@ const TaskForm = ({ title, taskdescr }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if(isPostgreSQL){
+    if (isPostgreSQL) {
       saveAnswersToLocalStorage();
       //localStorage.setItem(`answer${taskNumber}`, JSON.stringify({ ...pgFormData, [name]: value }));
       //localStorage.setItem('pgFormData', JSON.stringify({ ...pgFormData, [name]: value }));
       setPgFormData({ ...pgFormData, [name]: value });
       console.log(pgFormData);
-      
+
       //localStorage.setItem('pgFormData', JSON.stringify(pgFormData));
       /* const pgData = JSON.parse(localStorage.getItem("pgFormData"));
       console.log("test local storage: ", pgData); */
     }
-    
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("FormData from local storage TaskForm: ", pgFormData);
+    console.log("FormData from local storage SQLquery: ", query);
 
     // TODO send data to database
   };
 
   // Function to handle navigation to the next task
   const handleNextTask = () => {
-    
+    console.log(query);
     saveAnswersToLocalStorage();
     // TODO fetch the next task from a database
     // and set it to the state variable "task"
@@ -173,12 +188,13 @@ const TaskForm = ({ title, taskdescr }) => {
       setTask(tasksArray[newTask]);
       setTaskNumber(taskNumber + 1);
       setPgFormData({
-        partialSolution: localStorage.getItem(`partialSolution${taskNumber + 1}`) || '',
-        isCorrect: localStorage.getItem(`isCorrect${taskNumber + 1}`) || '0',
-        difficulty: localStorage.getItem(`difficulty${taskNumber + 1}`) || '0',
+        partialSolution:
+          localStorage.getItem(`partialSolution${taskNumber + 1}`) || "",
+        isCorrect: localStorage.getItem(`isCorrect${taskNumber + 1}`) || "0",
+        difficulty: localStorage.getItem(`difficulty${taskNumber + 1}`) || "0",
       });
-      //TODO: 
-      setQuery("");
+      //TODO:
+      //setQuery("");
       setDifficulty(0);
       setTime(0);
       setIsExecutable(false);
@@ -198,12 +214,13 @@ const TaskForm = ({ title, taskdescr }) => {
 
     setTask(() => tasksArray[newTask - 1]);
     setPgFormData({
-      partialSolution: localStorage.getItem(`partialSolution${taskNumber - 1}`) || '',
-      isCorrect: localStorage.getItem(`isCorrect${taskNumber - 1}`) || '0',
-      difficulty: localStorage.getItem(`difficulty${taskNumber - 1}`) || '0',
+      partialSolution:
+        localStorage.getItem(`partialSolution${taskNumber - 1}`) || "",
+      isCorrect: localStorage.getItem(`isCorrect${taskNumber - 1}`) || "0",
+      difficulty: localStorage.getItem(`difficulty${taskNumber - 1}`) || "0",
     });
-//TODO:
-  setQuery("");
+    //TODO:
+    //setQuery("");
     setDifficulty(0);
     setTime(0);
     setIsExecutable(false);
@@ -224,29 +241,73 @@ const TaskForm = ({ title, taskdescr }) => {
     // setIsRunning(prevState.isRunning);
     // setHasStarted(prevState.hasStarted);
   };
+  const handleDownload = () => {
+    const header = [
+      "taskNumber",
+      "query",
+      "resultSize",
+      "isExecutable",
+      "partialSolution",
+      "isCorrect",
+      "difficulty",
+      "time",
+    ];
+    const dataArray = [
+      header,
+      [
+        taskNumber,
+        query,
+        resultSize,
+        isExecutable,
+        pgFormData.partialSolution,
+        pgFormData.isCorrect,
+        pgFormData.difficulty,
+        time,
+      ],
+    ];
+    const ws = xlsx.utils.aoa_to_sheet(dataArray);
+    const wb = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, "fileData");
+    xlsx.writeFile(wb, "submission_file.xlsx");
+  };
+
   useEffect(() => {
     setPgFormData({
-      partialSolution: localStorage.getItem(`partialSolution${taskNumber}`) || '',
-      isCorrect: localStorage.getItem(`isCorrect${taskNumber}`) || '0',
-      difficulty: localStorage.getItem(`difficulty${taskNumber}`) || '0',
+      partialSolution:
+        localStorage.getItem(`partialSolution${taskNumber}`) || "",
+      isCorrect: localStorage.getItem(`isCorrect${taskNumber}`) || "0",
+      difficulty: localStorage.getItem(`difficulty${taskNumber}`) || "0",
     });
   }, [taskNumber]);
 
   // data from child components
-    // Diese Funktion wird an die Kindkomponente übergeben
-    const handleQueryData = (queryFromChild) => {
-      // Hier kannst du die Daten aus der Kindkomponente verwenden
-      setQuery(queryFromChild);
-      console.log(query);
-    };
+  // Diese Funktion wird an die Kindkomponente übergeben
+  const handleQueryData = (queryFromChild) => {
+    // Hier kannst du die Daten aus der Kindkomponente verwenden
+    setQuery(queryFromChild.sqlQuery);
+    setIsExecutable(queryFromChild.isExecutable);
+    setResultSize(queryFromChild.resultSize);
+    console.log(query);
+  };
+  const handleTimer = (timerFromChild) => {
+    setTime(() => timerFromChild);
+    
+  }
   return (
     <Box display="flex" justifyContent="space-between">
       <Box>
         <p>{task}</p>
         {hasStarted ? (
           <form>
-            <Timer run={isRunning} />
-            {isPostgreSQL ? <SQLQuery taskNumber={taskNumber} onDataFromChild={handleQueryData} /> : <p></p>}
+            <Timer run={isRunning} onTimerFromChild={handleTimer} />
+            {isPostgreSQL ? (
+              <SQLQuery
+                taskNumber={taskNumber}
+                onDataFromChild={handleQueryData}
+              />
+            ) : (
+              <p></p>
+            )}
             {isMongoDB ? <MQLQuery /> : <p></p>}
             {isNeo4J ? <CypherQuery /> : <p></p>}
             {isCassandra ? <CQLQuery /> : <p></p>}
@@ -258,15 +319,15 @@ const TaskForm = ({ title, taskdescr }) => {
               id="partial-solution-label"
               fullWidth
               value={pgFormData.partialSolution}
-             /*  value={comment} */
+              /*  value={comment} */
               /* onChange={(e) => setComment(e.target.value)} */
-              onChange={handleChange} 
+              onChange={handleChange}
             />
             <InputLabel id="isCorrect-radiogroup">
               Does your query return correct results?
             </InputLabel>
             <RadioGroup
-            name="isCorrect"
+              name="isCorrect"
               row
               id="isCorrect-radiogroup"
               defaultValue={0}
@@ -295,7 +356,7 @@ const TaskForm = ({ title, taskdescr }) => {
               How difficult was this task for you?
             </InputLabel>
             <RadioGroup
-            name="difficulty"
+              name="difficulty"
               row
               id="difficulty-level-radiogroup"
               defaultValue={0}
@@ -357,6 +418,9 @@ const TaskForm = ({ title, taskdescr }) => {
                 )}
                 <Button sx={muiButtonStyle} onClick={handleNextTask}>
                   Next Task
+                </Button>
+                <Button sx={muiButtonStyle} onClick={handleDownload}>
+                  Download Excel
                 </Button>
               </div>
             )}{" "}
