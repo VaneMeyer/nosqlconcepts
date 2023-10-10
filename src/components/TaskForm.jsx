@@ -242,7 +242,7 @@ const TaskForm = ({ title, taskdescr }) => {
     // setHasStarted(prevState.hasStarted);
   };
   const handleDownload = () => {
-    const header = [
+     const header = [
       "taskNumber",
       "query",
       "resultSize",
@@ -251,7 +251,7 @@ const TaskForm = ({ title, taskdescr }) => {
       "isCorrect",
       "difficulty",
       "time",
-    ];
+    ];/*
     const dataArray = [
       header,
       [
@@ -265,7 +265,23 @@ const TaskForm = ({ title, taskdescr }) => {
         time,
       ],
     ];
-    const ws = xlsx.utils.aoa_to_sheet(dataArray);
+    const ws = xlsx.utils.aoa_to_sheet(dataArray); */
+    const ws = xlsx.utils.aoa_to_sheet([
+      header,
+    ]);
+
+    // Füllen Sie das Arbeitsblatt mit den gespeicherten Antworten aus dem localStorage
+    for (let i = 1; i <= 15; i++) {
+      const answer1 = localStorage.getItem(`sqlQuery${i}`) || "";
+      const answer2 = localStorage.getItem(`resultSize${i}`) || "0";
+      const answer3 = localStorage.getItem(`isExecutable${i}`) || "";
+      const answer4 = localStorage.getItem(`partialSolution${i}`) || "";
+      const answer5 = localStorage.getItem(`isCorrect${i}`) || "0";
+      const answer6 = localStorage.getItem(`difficulty${i}`) || "0";
+      const answer7 = localStorage.getItem(`time${i}`) || "0";
+      xlsx.utils.sheet_add_aoa(ws, [[i, answer1, answer2, answer3, answer4, answer5, answer6, answer7]], { origin: -1 });
+    }
+    //
     const wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, ws, "fileData");
     xlsx.writeFile(wb, "submission_file.xlsx");
@@ -291,8 +307,7 @@ const TaskForm = ({ title, taskdescr }) => {
   };
   const handleTimer = (timerFromChild) => {
     setTime(() => timerFromChild);
-    
-  }
+  };
   return (
     <Box display="flex" justifyContent="space-between">
       <Box>

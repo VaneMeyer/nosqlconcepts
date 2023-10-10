@@ -29,8 +29,8 @@ const SQLQuery = ({ taskNumber, onDataFromChild }) => {
   });
   const saveToLocalStorage = () => {
     localStorage.setItem(`sqlQuery${taskNumber}`, queryFormData.sqlQuery);
-    localStorage.setItem(`resultSize${taskNumber}`, resultSize);
-    localStorage.setItem(`isExecutable${taskNumber}`, isExecutable);
+    localStorage.setItem(`resultSize${taskNumber}`, queryFormData.resultSize);
+    localStorage.setItem(`isExecutable${taskNumber}`, queryFormData.isExecutable);
   };
 
   const handleChange = (event) => {
