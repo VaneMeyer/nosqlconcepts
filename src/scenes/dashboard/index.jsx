@@ -1,34 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import React, { useState, useEffect } from "react"
+import { Box, Button, IconButton, Typography, useTheme } from "@mui/material"
+import { tokens } from "../../theme"
+import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined"
 
-import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
+import Header from "../../components/Header"
+import LineChart from "../../components/LineChart"
 
-import BarChart from "../../components/BarChart";
-import StatBox from "../../components/StatBox";
+import BarChart from "../../components/BarChart"
+import StatBox from "../../components/StatBox"
 
 const Dashboard = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
 
-  const [profile, setProfile] = useState("");
-  const { name } = profile;
+  const [profile, setProfile] = useState("")
+  const { name } = profile
+  let preference = JSON.parse(localStorage.getItem("status"))
+  let preference2 = JSON.parse(localStorage.getItem("status2"))
 
+  window.addEventListener("load", () => {
+    if (null === preference) {
+      localStorage.setItem("status", JSON.stringify("Not Started"))
+    }
+  })
+  let status1 = JSON.parse(localStorage.getItem("status"))
   useEffect(() => {
     fetch("/api/getme")
       .then((res) => {
-        return res.json();
+        return res.json()
       })
       .then((result) => {
         //console.log(result);
-        setProfile(result.user);
+        setProfile(result.user)
       })
       .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+        console.log(error)
+      })
+  }, [])
 
   return (
     <Box m="20px">
@@ -39,7 +47,7 @@ const Dashboard = () => {
           subtitle={`Welcome to your dashboard, ${name}`}
         />
 
-       {/*  <Box>
+        {/*  <Box>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -75,6 +83,8 @@ const Dashboard = () => {
             progress="0.75"
             increase="75%"
             link="/postgresql"
+            status1={preference}
+            status2={preference2}
           />
         </Box>
         <Box
@@ -256,7 +266,7 @@ const Dashboard = () => {
           >
             Feedback
           </Typography>
-           {/* <StatBox link="/example" />  */}
+          {/* <StatBox link="/example" />  */}
           {/*  <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
           </Box>  */}
@@ -277,7 +287,7 @@ const Dashboard = () => {
         </Box>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

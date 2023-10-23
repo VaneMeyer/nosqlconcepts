@@ -54,6 +54,8 @@ const TaskForm = ({ title, taskdescr }) => {
       color: colors.primary[100],
     },
   }
+  const [status, setStatus] = useState("notstarted")
+  const [status2, setStatus2] = useState("finished")
   const [taskNumber, setTaskNumber] = useState(0)
   const [task, setTask] = useState("")
   const localTime = JSON.parse(localStorage.getItem("time"))
@@ -70,6 +72,7 @@ const TaskForm = ({ title, taskdescr }) => {
   )
   const [isRunning, setIsRunning] = useState(false)
   const [hasStarted, setHasStarted] = useState(false)
+  const [statusBar, setStatusBar] = useState(false)
   const [isExecutable, setIsExecutable] = useState(false)
   const [sqlQuery, setSqlQuery] = useState(
     sqlDataFromDb?.length ? sqlDataFromDb : ""
@@ -86,12 +89,13 @@ const TaskForm = ({ title, taskdescr }) => {
     setIsRunning(true)
     setHasStarted(true)
   }
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    let allPostData = [...localData, ...localData1, ...localData2]
-    console.log(allPostData)
-  }
 
+  const handleSubmit = (e, str) => {
+    e.preventDefault()
+    localStorage.setItem("status2", JSON.stringify(status2))
+    let allPostData = [...localData, ...localData1, ...localData2]
+    navigation("/")
+  }
   const handleChange = (index, value) => {
     let newTask = [...taskAllData]
     newTask[index] = value
@@ -115,6 +119,11 @@ const TaskForm = ({ title, taskdescr }) => {
     if (taskNumber === tasksArray.length + 1) {
       // This is the last task
       alert("This is the last task")
+      setStatus("finished")
+      setStatusBar(true)
+      if (statusBar) {
+        localStorage.setItem("status", JSON.stringify(status))
+      }
     } else {
       let newTask = taskNumber
       setTask(tasksArray[newTask])
@@ -127,13 +136,16 @@ const TaskForm = ({ title, taskdescr }) => {
       //setComment("")
       setIsRunning(false)
       setHasStarted(false)
+      setStatus("In Progress")
+      setStatusBar(true)
+      if (statusBar) {
+        localStorage.setItem("status", JSON.stringify(status))
+      }
     }
     localStorage.setItem("task", JSON.stringify(taskAllData))
     localStorage.setItem("radio1", JSON.stringify(postgreSQLRadio))
     localStorage.setItem("radio2", JSON.stringify(postgreSQLRadio2))
     localStorage.setItem("mysqlQuery", JSON.stringify(sqlQuery))
-    /* localStorage.setItem(`${taskNumber}`, JSON.stringify(taskAllData)) */
-    //localStorage.setItem("mysqlQuery", JSON.stringify(sqlQuery))
     {
       timeData
         ? localStorage.setItem("time", JSON.stringify(timeData))
@@ -146,14 +158,19 @@ const TaskForm = ({ title, taskdescr }) => {
       setIsPostgreSQL(true)
       setTask(pgTasks[0])
       setTasksArray(pgTasks.slice(1))
+      setStatus("In Progress")
+      setStatusBar(true)
+      if (statusBar) {
+        localStorage.setItem("status", JSON.stringify(status))
+      }
     } else if (title === "Cassandra") {
       setIsCassandra(true)
       /* setTask(cassandraTasks[0])
       setTasksArray(cassandraTasks.slice(1)) */
     } else if (title === "Neo4J") {
       setIsNeo4J(true)
-      setTask(neo4jTasks[0])
-      setTasksArray(neo4jTasks.slice(1))
+      /*      setTask(neo4jTasks[0])
+      setTasksArray(neo4jTasks.slice(1)) */
     } else if (title === "MongoDB") {
       setIsMongoDB(true)
       //setTask(mongodbTasks[0])
@@ -313,7 +330,10 @@ const TaskForm = ({ title, taskdescr }) => {
                   PrevTask
                 </Button>
                 {taskNumber === tasksArray?.length ? (
-                  <Button sx={muiButtonStyle} onClick={handleSubmit}>
+                  <Button
+                    sx={muiButtonStyle}
+                    onClick={(e) => handleSubmit(e, "Finished")}
+                  >
                     Submit
                   </Button>
                 ) : (

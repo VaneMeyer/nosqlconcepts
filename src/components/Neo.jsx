@@ -7,6 +7,7 @@ import { pgTasks } from "../data/tasksData"
 import { cassandraTasks } from "../data/tasksData"
 import { neo4jTasks } from "../data/tasksData"
 import { mongodbTasks } from "../data/tasksData"
+import NeoTimer from "./NeoTImer"
 import {
   Box,
   Button,
@@ -30,10 +31,10 @@ import MongoDbTimer from "./MongoDbTImer"
 import { useRef } from "react"
 
 const TaskForm = ({ title, task1, tasksArray1 }) => {
-  let localData = JSON.parse(localStorage.getItem(`mongodbtask`))
-  let localData1 = JSON.parse(localStorage.getItem(`mongodbradio1`))
-  let localData2 = JSON.parse(localStorage.getItem(`mongodbradio2`))
-  const mongodbtaskDb = JSON.parse(localStorage.getItem("mongodbquery"))
+  let localData = JSON.parse(localStorage.getItem(`neotask`))
+  let localData1 = JSON.parse(localStorage.getItem(`neoradio1`))
+  let localData2 = JSON.parse(localStorage.getItem(`neoradio2`))
+  const neotaskDb = JSON.parse(localStorage.getItem("neoquery"))
   const theme = useTheme()
   const colors = tokens(theme.palette.mode)
 
@@ -53,25 +54,21 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
   }
   const [taskNumber, setTaskNumber] = useState(0)
   const [task, setTask] = useState("")
-  const localTime = JSON.parse(localStorage.getItem("mongodbtime"))
-  const [mongodbTime, setmongodbTime] = useState(0)
-  const [mongodbTimeData, setmongodbTimeData] = useState(localTime)
-  const [mongodbAllData, setmongodbAllData] = useState(
+  const localTime = JSON.parse(localStorage.getItem("neotime"))
+  const [neoTime, setneoTime] = useState(0)
+  const [neoTimeData, setneoTimeData] = useState(localTime)
+  const [neoAllData, setneoAllData] = useState(
     (localData?.length && localData) || ""
   )
-  const [mongodbRadio, setmongodbRadio] = useState(
-    localData1?.length ? localData1 : ""
-  )
-  const [mongodbRadio2, setmongodbRadio2] = useState(
+  const [neoRadio, setneoRadio] = useState(localData1?.length ? localData1 : "")
+  const [neoRadio2, setneoRadio2] = useState(
     localData2?.length ? localData2 : ""
   )
 
   const [isRunning, setIsRunning] = useState(false)
   const [hasStarted, setHasStarted] = useState(false)
   const [isExecutable, setIsExecutable] = useState(false)
-  const [mongodbQuery, setmongodbQuery] = useState(
-    mongodbtaskDb?.length ? mongodbtaskDb : ""
-  )
+  const [neoQuery, setneoQuery] = useState(neotaskDb?.length ? neotaskDb : "")
   const [difficulty, setDifficulty] = useState(0)
   const [resultSize, setResultSize] = useState(0)
   const [tasksArray, setTasksArray] = useState([])
@@ -91,21 +88,21 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
   }
 
   const handleChange = (index, value) => {
-    let newTask = [...mongodbAllData]
+    let newTask = [...neoAllData]
     newTask[index] = value
-    setmongodbAllData(newTask)
+    setneoAllData(newTask)
   }
 
   const handleValueChnage = (index, value) => {
-    let newTask = [...mongodbRadio]
+    let newTask = [...neoRadio]
     newTask[index] = value
-    setmongodbRadio(newTask)
+    setneoRadio(newTask)
   }
 
   const handleDificultLevel = (index, value) => {
-    let newTask = [...mongodbRadio2]
+    let newTask = [...neoRadio2]
     newTask[index] = value
-    setmongodbRadio2(newTask)
+    setneoRadio2(newTask)
   }
 
   // Function to handle navigation to the next task
@@ -118,7 +115,7 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
       setTask(tasksArray[newTask])
       setTaskNumber(taskNumber + 1)
       setDifficulty(0)
-      setmongodbTime(0)
+      setneoTime(0)
       setIsExecutable(false)
       //setIsCorrect(false)
       setResultSize(0)
@@ -126,23 +123,23 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
       setIsRunning(false)
       setHasStarted(false)
     }
-    localStorage.setItem("mongodbtask", JSON.stringify(mongodbAllData))
-    localStorage.setItem("mongodbradio1", JSON.stringify(mongodbRadio))
-    localStorage.setItem("mongodbradio2", JSON.stringify(mongodbRadio2))
-    localStorage.setItem("mongodbquery", JSON.stringify(mongodbQuery))
+    localStorage.setItem("neotask", JSON.stringify(neoAllData))
+    localStorage.setItem("neoradio1", JSON.stringify(neoRadio))
+    localStorage.setItem("neoradio2", JSON.stringify(neoRadio2))
+    localStorage.setItem("neoquery", JSON.stringify(neoQuery))
     {
-      mongodbTimeData
-        ? localStorage.setItem("mongodbtime", JSON.stringify(mongodbTimeData))
-        : localStorage.setItem("mongodbtime", JSON.stringify(mongodbTime))
+      neoTimeData
+        ? localStorage.setItem("neotime", JSON.stringify(neoTimeData))
+        : localStorage.setItem("neotime", JSON.stringify(neoTime))
     }
   }
   useEffect(() => {
     // TODO fetch the task from a database
 
-    if (title === "MongoDB") {
-      setIsMongoDB(true)
-      setTask(mongodbTasks[0])
-      setTasksArray(mongodbTasks.slice(1))
+    if (title === "Neo4J") {
+      setIsNeo4J(true)
+      setTask(neo4jTasks[0])
+      setTasksArray(neo4jTasks.slice(1))
     }
   }, [])
 
@@ -150,48 +147,46 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
     setIsRunning(false)
     setTaskNumber((prev) => Number(prev - 1))
 
-    if (isMongoDB) {
-      setTask(mongodbTasks[taskNumber - 1])
-      setTasksArray(mongodbTasks[taskNumber - 1])
+    if (isNeo4J) {
+      setTask(neo4jTasks[taskNumber - 1])
+      setTasksArray(neo4jTasks[taskNumber - 1])
       if (!taskNumber) {
         navigation(-1)
       }
     }
-    localStorage.setItem("mongodbtask", JSON.stringify(mongodbAllData))
-    localStorage.setItem("mongodbradio1", JSON.stringify(mongodbRadio))
-    localStorage.setItem("mongodbradio2", JSON.stringify(mongodbRadio2))
-    localStorage.setItem("mongodbquery", JSON.stringify(mongodbQuery))
-    /* localStorage.setItem(`${taskNumber}`, JSON.stringify(taskAllData)) */
-    //localStorage.setItem("mysqlQuery", JSON.stringify(sqlQuery))
+    localStorage.setItem("neotask", JSON.stringify(neoAllData))
+    localStorage.setItem("neoradio1", JSON.stringify(neoRadio))
+    localStorage.setItem("neoradio2", JSON.stringify(neoRadio2))
+    localStorage.setItem("neoquery", JSON.stringify(neoQuery))
     {
-      mongodbTimeData
-        ? localStorage.setItem("mongodbtime", JSON.stringify(mongodbTimeData))
-        : localStorage.setItem("mongodbtime", JSON.stringify(mongodbTime))
+      neoTimeData
+        ? localStorage.setItem("neotime", JSON.stringify(neoTimeData))
+        : localStorage.setItem("neotime", JSON.stringify(neoTime))
     }
   }
 
   return (
     <>
       <p>{task}</p>
-      <MongoDbTimer
+      <NeoTimer
         run={isRunning}
-        mongodbTime={mongodbTime}
-        mongodbTimeData={mongodbTimeData}
-        setmongodbTime={setmongodbTime}
-        setmongodbTimeData={setmongodbTimeData}
+        neoTime={neoTime}
+        neoTimeData={neoTimeData}
+        setneoTime={setneoTime}
+        setneoTimeData={setneoTimeData}
       />
-      <MongoDBQuery
+      {/*  <MongoDBQuery
         taskNumber={taskNumber}
-        mongodbQuery={mongodbQuery}
-        setmongodbQuery={setmongodbQuery}
-      />
+        neoQuery={neoQuery}
+        setneoQuery={setneoQuery}
+      /> */}
       <InputLabel id="partial-solution-label">
         Your partial solution:
       </InputLabel>
       <TextField
         type="text"
         key={taskNumber}
-        value={mongodbAllData[taskNumber]}
+        value={neoAllData[taskNumber]}
         onChange={(e) => handleChange(taskNumber, e.target.value)}
       />
       <InputLabel id="isCorrect-radiogroup">
@@ -207,21 +202,21 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
           control={<Radio sx={muiRadioStyle} />}
           label="I Don't Know"
           name="isCorrect"
-          checked={mongodbRadio[taskNumber] == "IDon'tKnow"}
+          checked={neoRadio[taskNumber] == "IDon'tKnow"}
         />
         <FormControlLabel
           value="Yes"
           control={<Radio sx={muiRadioStyle} />}
           label="Yes"
           name="isCorrect"
-          checked={mongodbRadio[taskNumber] == "Yes"}
+          checked={neoRadio[taskNumber] == "Yes"}
         />
         <FormControlLabel
           value="No"
           control={<Radio sx={muiRadioStyle} />}
           label="No"
           name="isCorrect"
-          checked={mongodbRadio[taskNumber] == "No"}
+          checked={neoRadio[taskNumber] == "No"}
         />
       </RadioGroup>
       <InputLabel id="difficulty-level-radiogroup">
@@ -237,35 +232,35 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
           control={<Radio sx={muiRadioStyle} />}
           label="None"
           name="isCorrect"
-          checked={mongodbRadio2[taskNumber] == "None"}
+          checked={neoRadio2[taskNumber] == "None"}
         />
         <FormControlLabel
           value="VeryEasy"
           control={<Radio sx={muiRadioStyle} />}
           label="Very Easy"
           name="isCorrect"
-          checked={mongodbRadio2[taskNumber] == "VeryEasy"}
+          checked={neoRadio2[taskNumber] == "VeryEasy"}
         />
         <FormControlLabel
           value="Easy"
           control={<Radio sx={muiRadioStyle} />}
           label="Easy"
           name="isCorrect"
-          checked={mongodbRadio2[taskNumber] == "Easy"}
+          checked={neoRadio2[taskNumber] == "Easy"}
         />
         <FormControlLabel
           value="Normal"
           control={<Radio sx={muiRadioStyle} />}
           label="Normal"
           name="isCorrect"
-          checked={mongodbRadio2[taskNumber] == "Normal"}
+          checked={neoRadio2[taskNumber] == "Normal"}
         />
         <FormControlLabel
           value="Difficult"
           control={<Radio sx={muiRadioStyle} />}
           label="Difficult"
           name="isCorrect"
-          checked={mongodbRadio2[taskNumber] == "Difficult"}
+          checked={neoRadio2[taskNumber] == "Difficult"}
         />
       </RadioGroup>
       <Button sx={muiButtonStyle} onClick={handlePrevTask}>
