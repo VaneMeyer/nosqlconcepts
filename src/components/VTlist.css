@@ -1,0 +1,14 @@
+.section__Tasks-button {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  border-left: 2px solid #8892b0;
+  outline: none;
+  font-family: "Roboto Mono", monospace;
+  font-size: 13px;
+  height: 42px;
+  width: 100%;
+  text-align: left;
+  padding: 0 20px;
+}
+

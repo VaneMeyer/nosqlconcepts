@@ -9,7 +9,7 @@ import Team from "./scenes/team"
 import Bar from "./scenes/bar"
 import Line from "./scenes/line"
 import Pie from "./scenes/pie"
-
+import ResponsiveDrawer from "./components/SidePanel"
 import PrivateRoutes from "./components/Privateroute"
 import PostgreSQL from "./scenes/assignments/postgresql"
 import Cassandra from "./scenes/assignments/cassandra"
@@ -21,6 +21,7 @@ import MongoDB from "./scenes/assignments/mongodb"
 //import ExampleForm from "./DB/Example/form";
 import SignUp from "./Sign-in/SignUp"
 import SignIn from "./Sign-in/signIn"
+import { pgTasks } from "./data/tasksData"
 //import { ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
 import MovieList from "./components/TestComponents/Movies"
@@ -52,6 +53,10 @@ function App() {
                 <Route path="/mongodb" element={<MongoDB />} />
               </Route> */}
               <Route path="/" element={<Dashboard />} />
+              <Route
+                path="/side-panel"
+                element={<ResponsiveDrawer pgTasks={pgTasks} />}
+              />
               <Route path="/team" element={<Team />} />
               <Route path="/postgresql" element={<PostgreSQL />} />
               <Route path="/cassandra" element={<Cassandra />} />

@@ -1,0 +1,12 @@
+.section__Tasks-styledContent {
+  font-family: sans-serif;
+  text-align: left;
+  color: #8892b0;
+}
+
+
+.section__Tasks-styledContent p {
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 10px;
+}
