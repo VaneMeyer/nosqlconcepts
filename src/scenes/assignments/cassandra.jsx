@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
 import Header from "../../components/Header";
-import TaskForm from "../../components/TaskForm";
+import OptTaskForm from "../../components/optTaskForm";
 
 const Cassandra = () => {
   return (
     <Box m="20px">
       <Header title="Cassandra" subtitle="Assignment No. 2" />
       <Box height="75vh">
-        <TaskForm title="Cassandra" taskdescr="" />
+        <OptTaskForm title="Cassandra" />
       </Box>
     </Box>
   );

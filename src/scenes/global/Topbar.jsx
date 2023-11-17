@@ -5,7 +5,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { Link } from "react-router-dom";
 import LogOut from "../../Sign-in/logout";
-function useToken() {
+/* function useToken() {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -24,14 +24,17 @@ function useToken() {
   }, []);
 
   return token;
-}
+} */
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
-  const authToken = useToken();
+  /* const authToken = useToken(); */
 
+  const [username, setUsername] = useState(
+    localStorage.getItem("token")
+  );
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       <Box
@@ -44,16 +47,33 @@ const Topbar = () => {
 
       {/* ICONS */}
       <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
+        {/* <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />
           ) : (
             <LightModeOutlinedIcon />
           )}
-        </IconButton>
+        </IconButton> */}
+        {username ? (
+          <p
+            style={{
+              color: colors.blueAccent[400],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "5px 20px",
+              /* margin: "10px", */
+            }}
+          >
+            Logged in as {username}
+          </p>
+        ) : (
+          <p></p>
+        )}
 
-        {authToken ? (
-          <LogOut />
+        {username ? (
+          <div>
+            <LogOut />
+          </div>
         ) : (
           <Link to="/signin">
             <Button sx={{ color: colors.blueAccent[400] }}>Sign in</Button>

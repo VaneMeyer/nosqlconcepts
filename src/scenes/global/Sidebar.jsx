@@ -1,3 +1,4 @@
+//######### Testphase DBMS - PostgreSQL session ###########
 import React, { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -44,8 +45,8 @@ const Sidebar = () => {
   const {name, role} = profile
 
   let auth = localStorage.getItem('token');
-
-  useEffect(() => {
+//comment for DBMS Testphase
+  /* useEffect(() => {
     fetch("/api/getme")
       .then((res) => {
         return res.json();
@@ -57,7 +58,7 @@ const Sidebar = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, []); */
 
   return (
     <Box
@@ -118,7 +119,9 @@ const Sidebar = () => {
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box> */}
-              <Box textAlign="center">
+
+              {/* //comment for DBMS Testphase */}
+              {/* <Box textAlign="center">
                 <Typography
                   variant="h2"
                   color={colors.grey[100]}
@@ -127,23 +130,23 @@ const Sidebar = () => {
                 >
                   {name} 
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[100]}> {/* 500 */}
+                <Typography variant="h5" color={colors.greenAccent[100]}> 
                   {(role === 0 ? "Student" : "Admin")}
                 </Typography>
-              </Box>
+              </Box>*/}
             </Box>
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
-              to="/"
+              to="/dashboard" /* //testphase DBMS */
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
@@ -156,7 +159,7 @@ const Sidebar = () => {
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             {/* <Item
               title="Contacts Information"
               to="/contacts"
@@ -201,7 +204,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             /> */}
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
@@ -228,7 +231,7 @@ const Sidebar = () => {
               icon={<TimelineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             {/* <Item
               title="Geography Chart"
               to="/geography"

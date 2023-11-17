@@ -1,12 +1,12 @@
+//######### Testphase DBMS - PostgreSQL session ###########
 import React, { useState, useEffect } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+
 
 import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
 
-import BarChart from "../../components/BarChart";
+
 import StatBox from "../../components/StatBox";
 
 const Dashboard = () => {
@@ -15,8 +15,8 @@ const Dashboard = () => {
 
   const [profile, setProfile] = useState("");
   const { name } = profile;
-
-  useEffect(() => {
+  //comment for DBMS Testphase
+  /*  useEffect(() => {
     fetch("/api/getme")
       .then((res) => {
         return res.json();
@@ -28,7 +28,7 @@ const Dashboard = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, []); */
 
   return (
     <Box m="20px">
@@ -36,23 +36,12 @@ const Dashboard = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="DASHBOARD"
-          subtitle={`Welcome to your dashboard, ${name}`}
+          //comment for DBMS Testphase
+          /* subtitle={`Welcome to your dashboard, ${name}`} */
+          subtitle={"Welcome to the DBMS practical course! Please make sure that you are connected to the DB with your given username and password. If you are not connected yet, click on SIGN IN in the top right. After connecting you should be redirected to this page. You can then START your tasks. Feel free to ask your tutors for help. Have fun!"}
         />
 
-       {/*  <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box> */}
+        
       </Box>
 
       {/* GRID & CHARTS */}
@@ -75,6 +64,7 @@ const Dashboard = () => {
             /* progress="0.75"
             increase="75%" */
             link="/postgresql"
+            /* link="/pglogin" */
           />
         </Box>
         <Box
@@ -98,7 +88,10 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <StatBox title="Neo4J" /* progress="0.30" increase="30%" */ link="/neo4j" />
+          <StatBox
+            title="Neo4J"
+            /* progress="0.30" increase="30%" */ link="/neo4j"
+          />
         </Box>
         <Box
           gridColumn="span 3"
@@ -116,7 +109,7 @@ const Dashboard = () => {
         </Box>
 
         {/* ROW 2 */}
-        <Box
+        {/* <Box
           gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -144,13 +137,7 @@ const Dashboard = () => {
                 Current Level: 11
               </Typography>
             </Box>
-            {/* <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }} 
-                />
-              </IconButton>
-            </Box> */}
+           
           </Box>
           <Box height="250px" m="-20px 0 0 0">
             <LineChart isDashboard={true} />
@@ -162,49 +149,7 @@ const Dashboard = () => {
           backgroundColor={colors.primary[400]}
           overflow="auto"
         >
-          {/* <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            borderBottom={`4px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
-            p="15px"
-          >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
-            </Typography>
-          </Box> */}
-          {/* {mockTransactions.map((transaction, i) => (
-            <Box
-              key={`${transaction.txId}-${i}`}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
-            >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
-                  {transaction.txId}
-                </Typography>
-                <Typography color={colors.grey[100]}>
-                  {transaction.user}
-                </Typography>
-              </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
-              <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-                ${transaction.cost}
-              </Box>
-            </Box>
-          ))} */}
+          
           <Typography
             variant="h5"
             fontWeight="600"
@@ -216,9 +161,9 @@ const Dashboard = () => {
             <BarChart isDashboard={true} />
           </Box>
         </Box>
-
+ */}
         {/* ROW 3 */}
-        <Box
+        {/* <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -227,22 +172,7 @@ const Dashboard = () => {
           <Typography variant="h5" fontWeight="600">
             Material
           </Typography>
-          {/* <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            mt="25px"
-          >
-            <ProgressCircle size="125" />
-            <Typography
-              variant="h5"
-              color={colors.greenAccent[500]}
-              sx={{ mt: "15px" }}
-            >
-              $48,352 revenue generated
-            </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
-          </Box> */}
+          
         </Box>
         <Box
           gridColumn="span 4"
@@ -256,10 +186,7 @@ const Dashboard = () => {
           >
             Feedback
           </Typography>
-           {/* <StatBox link="/example" />  */}
-          {/*  <Box height="250px" mt="-20px">
-            <BarChart isDashboard={true} />
-          </Box>  */}
+           
         </Box>
         <Box
           gridColumn="span 4"
@@ -274,7 +201,7 @@ const Dashboard = () => {
           >
             Evaluation
           </Typography>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

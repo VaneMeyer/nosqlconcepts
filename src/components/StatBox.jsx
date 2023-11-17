@@ -1,7 +1,7 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import ProgressCircle from "./ProgressCircle";
 import { Link } from "react-router-dom";
+import ProgressStatus from "./progressStatus";
 
 const StatBox = ({ title, subtitle, icon, progress, increase, link }) => {
   const theme = useTheme();
@@ -21,8 +21,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link }) => {
           </Typography>
         </Box>
         <Box>
-          {/* <ProgressCircle progress={progress} /> */}
-          Status Placeholder {/* TODO */}
+          <ProgressStatus title={title} />
         </Box>
       </Box>
       <Box display="flex" justifyContent="space-between" mt="2px">
@@ -38,8 +37,10 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link }) => {
         </Typography>
       </Box>
       <Box>
-        <Link to={link}>
+        {/* //Testphase DBMS Link and Button attributes */}
+        <Link to={/* (title === "PostgreSQL" || title === "Neo4J") && */ link}>
           <Button
+            /* disabled={title === "Cassandra" || title === "MongoDB"} */
             sx={{
               backgroundColor: colors.blueAccent[700],
               color: colors.grey[100],
