@@ -2,8 +2,10 @@ import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { Link } from "react-router-dom";
 import ProgressStatus from "./progressStatus";
+import ProgressCircle from "./ProgressCircle";
 
-const StatBox = ({ title, subtitle, icon, progress, increase, link }) => {
+
+const StatBox = ({ title, subtitle, icon, progress, increase, link, logo }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -21,7 +23,8 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link }) => {
           </Typography>
         </Box>
         <Box>
-          <ProgressStatus title={title} />
+          {/* <ProgressStatus title={title} /> */}
+          <ProgressCircle title={title}/>
         </Box>
       </Box>
       <Box display="flex" justifyContent="space-between" mt="2px">
@@ -36,14 +39,18 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link }) => {
           {increase}
         </Typography>
       </Box>
-      <Box>
+      <Box display="flex" justifyContent="space-between">
         {/* //Testphase DBMS Link and Button attributes */}
-        <Link to={/* (title === "PostgreSQL" || title === "Neo4J") && */ link}>
+        <Link to={/* title === "PostgreSQL" || */ title === "Neo4J" && link}>
           <Button
-            /* disabled={title === "Cassandra" || title === "MongoDB"} */
+            disabled={
+              title === "Cassandra" ||
+              title === "MongoDB" ||
+              title === "PostgreSQL"
+            }
             sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
+              backgroundColor: colors.blueAccent[100],
+              color: colors.grey[900],
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
@@ -51,7 +58,11 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link }) => {
           >
             Start
           </Button>
+          
         </Link>
+        {/* <Box>
+          <img src={logo} alt="database logo" width="50%" height="auto" />
+        </Box> */}
       </Box>
     </Box>
   );

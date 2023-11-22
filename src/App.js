@@ -21,17 +21,17 @@ function App() {
         <CssBaseline />
 
         <div className="app">
-          <Sidebar />
+          {/* <Sidebar /> */}
           <main className="content">
             <TopBar />
             <Routes>
               <Route element={<PrivateRoutes />}>
                 <Route path="/" element={<PgLogin />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/postgresql" element={<PostgreSQL />} />
-                <Route path="/cassandra" element={<Cassandra />} />
+                 {/* <Route path="/postgresql" element={<PostgreSQL />} /> */}
+                {/*<Route path="/cassandra" element={<Cassandra />} /> */}
                 <Route path="/neo4j" element={<Neo4J />} />
-                <Route path="/mongodb" element={<MongoDB />} />
+                {/* <Route path="/mongodb" element={<MongoDB />} /> */}
                 <Route path="/download" element={<OptDownload />} />
               </Route>
 

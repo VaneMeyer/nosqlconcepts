@@ -30,8 +30,8 @@ const OptTaskForm = ({ title }) => {
 
   // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: colors.blueAccent[700],
-    color: colors.grey[100],
+    backgroundColor: colors.blueAccent[100],
+    color: colors.grey[900],
     fontSize: "14px",
     fontWeight: "bold",
     padding: "10px 20px",
@@ -41,6 +41,10 @@ const OptTaskForm = ({ title }) => {
     "&.Mui-checked": {
       color: colors.primary[100],
     },
+  };
+  let labelStyle = {
+    color: colors.grey[100],
+    fontSize: "16px",
   };
 
   const [task, setTask] = useState("");
@@ -133,14 +137,9 @@ const OptTaskForm = ({ title }) => {
   // Function to handle navigation to the next task
 
   const updateTaskAndFormData = (newTaskNumber) => {
-    console.log("Before Update - taskNumber:", taskNumber);
-    console.log("Before Update - task:", tasksArray[newTaskNumber - 1]);
     let newTaskIndex = newTaskNumber - 1;
     setTask(tasksArray[newTaskIndex]);
     setTaskNumber(newTaskNumber);
-
-    console.log("After Update - taskNumber:", taskNumber);
-    console.log("After Update - task:", tasksArray[newTaskNumber - 1]);
 
     setFormData({
       partialSolution:
@@ -186,145 +185,161 @@ const OptTaskForm = ({ title }) => {
   return (
     <Box display="flex" justifyContent="space-between">
       <Box>
-        <p>{task}</p>
-        {hasStarted ? (
-          <form>
-            <OptQuery taskNumber={taskNumber} title={title} />
-            <InputLabel id="partial-solution-label">
-              Your partial solution:
-            </InputLabel>
-            <TextField
-              name="partialSolution"
-              id="partial-solution-label"
-              fullWidth
-              value={formData.partialSolution}
-              onChange={handleChange}
-            />
-            <InputLabel id="isCorrect-radiogroup">
-              Does your query return correct results?
-            </InputLabel>
-            <RadioGroup
-              name="isCorrect"
-              row
-              id="isCorrect-radiogroup"
-              defaultValue={"I don't know"}
-              value={formData.isCorrect}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value={"I don't know"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="I don't know"
+        <Box>
+          <p style={{ fontSize: "26px" }}>{task}</p>
+        </Box>
+        <Box p={7}>
+          {hasStarted ? (
+            <form>
+              <OptQuery taskNumber={taskNumber} title={title} />
+              <hr></hr>
+              <InputLabel id="partial-solution-label" style={labelStyle}>
+                Your partial solution:
+              </InputLabel>
+              <TextField
+                name="partialSolution"
+                id="partial-solution-label"
+                fullWidth
+                value={formData.partialSolution}
+                onChange={handleChange}
               />
-              <FormControlLabel
-                value={"Yes"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="Yes"
-              />
-              <FormControlLabel
-                value={"No"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="No"
-              />
-            </RadioGroup>
-            <InputLabel id="difficulty-level-radiogroup">
-              How difficult was this task for you?
-            </InputLabel>
-            <RadioGroup
-              name="difficulty"
-              row
-              id="difficulty-level-radiogroup"
-              defaultValue={"No answer"}
-              value={formData.difficulty}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value={"No answer"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="No answer"
-              />
-              <FormControlLabel
-                value={"Very easy"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="Very easy"
-              />
-              <FormControlLabel
-                value={"Easy"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="Easy"
-              />
-              <FormControlLabel
-                value={"Normal"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="Normal"
-              />
-              <FormControlLabel
-                value={"Difficult"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="Difficult"
-              />
-              <FormControlLabel
-                value={"Very difficult"}
-                control={<Radio sx={muiRadioStyle} />}
-                label="Very difficult"
-              />
-            </RadioGroup>
-            <br />
-            <br />
-            {taskNumber === tasksArray.length ? (
-              <div>
-                {" "}
-                <OptTimer
-                  run={isRunning}
-                  taskNumber={taskNumber}
-                  title={title}
+              <hr></hr>
+              <InputLabel id="isCorrect-radiogroup" style={labelStyle}>
+                Does your query return correct results?
+              </InputLabel>
+              <RadioGroup
+                name="isCorrect"
+                row
+                id="isCorrect-radiogroup"
+                /* defaultValue={"I don't know"} */
+                value={formData.isCorrect}
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value={"I don't know"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="I don't know"
                 />
-                {taskNumber !== 1 && (
-                  <Button sx={muiButtonStyle} onClick={handlePrevTask}>
-                    Previous Task
-                  </Button>
-                )}{" "}
-                <Button sx={muiButtonStyle} onClick={handleFinish}>
-                  finish
-                </Button>
-              </div>
-            ) : (
-              <div>
-                <OptTimer
-                  run={isRunning}
-                  taskNumber={taskNumber}
-                  title={title}
+                <FormControlLabel
+                  value={"Yes"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="Yes"
                 />
-                {taskNumber !== 1 && (
-                  <Button sx={muiButtonStyle} onClick={handlePrevTask}>
-                    Previous Task
+                <FormControlLabel
+                  value={"No"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="No"
+                />
+              </RadioGroup>
+              <hr></hr>
+              <InputLabel id="difficulty-level-radiogroup" style={labelStyle}>
+                How difficult was this task for you?
+              </InputLabel>
+              <RadioGroup
+                name="difficulty"
+                row
+                id="difficulty-level-radiogroup"
+                defaultValue={"No answer"}
+                value={formData.difficulty}
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value={"No answer"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="No answer"
+                />
+                <FormControlLabel
+                  value={"Very easy"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="Very easy"
+                />
+                <FormControlLabel
+                  value={"Easy"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="Easy"
+                />
+                <FormControlLabel
+                  value={"Normal"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="Normal"
+                />
+                <FormControlLabel
+                  value={"Difficult"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="Difficult"
+                />
+                <FormControlLabel
+                  value={"Very difficult"}
+                  control={<Radio sx={muiRadioStyle} />}
+                  label="Very difficult"
+                />
+              </RadioGroup>
+              <br />
+              <br />
+              {taskNumber === tasksArray.length ? (
+                <div>
+                  {" "}
+                  <OptTimer
+                    run={isRunning}
+                    taskNumber={taskNumber}
+                    title={title}
+                  />
+                  {taskNumber !== 1 && (
+                    <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+                      Previous Task
+                    </Button>
+                  )}{" "}
+                  <Button sx={muiButtonStyle} onClick={handleFinish}>
+                    finish
                   </Button>
-                )}
+                </div>
+              ) : (
+                <div>
+                  <OptTimer
+                    run={isRunning}
+                    taskNumber={taskNumber}
+                    title={title}
+                  />
+                  {taskNumber !== 1 && (
+                    <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+                      Previous Task
+                    </Button>
+                  )}
 
-                <Button sx={muiButtonStyle} onClick={handleNextTask}>
-                  Next Task
-                </Button>
-              </div>
-            )}{" "}
-          </form>
-        ) : (
-          <div>
-            <Button sx={muiButtonStyle} onClick={startTimer}>
-              Start task
-            </Button>
-            <p>
-              Note: A timer will start, when you start the task. You can stop
-              and continue the timer if needed.
-            </p>
-          </div>
-        )}
+                  <Button sx={muiButtonStyle} onClick={handleNextTask}>
+                    Next Task
+                  </Button>
+                </div>
+              )}{" "}
+            </form>
+          ) : (
+            <div>
+              <Button sx={muiButtonStyle} onClick={startTimer}>
+                Start task
+              </Button>
+              <p>{""}</p>
+              <p
+                style={{
+                  fontWeight: "bold",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  backgroundColor: `${colors.redAccent[700]}`,
+                  color: `${colors.primary[100]}`,
+                }}
+              >
+                Note: A timer will start, when you start the task. You can stop
+                and continue the timer if needed.
+              </p>
+            </div>
+          )}
+        </Box>
       </Box>
 
-      <Box display=" 0 0 flex">
+      <Box>
         <img
           src={dataModel}
           alt="Data model of enron database"
-          width="600vw"
+          width="100%"
           height="auto"
         />
       </Box>

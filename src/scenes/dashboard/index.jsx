@@ -2,16 +2,23 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-
+import postgreSQLLogo from "../../images/logo-postgresql.png";
+import CassandraLogo from "../../images/logo-cassandra.png";
+import Neo4JLogo from "../../images/logo-neo4j.png";
+import MongoDBLogo from "../../images/logo-mongodb.png";
+import { Link } from "react-router-dom";
 
 import Header from "../../components/Header";
 
-
 import StatBox from "../../components/StatBox";
+import ChristmasCountdown from "../../components/xmasCountdown";
+import PieChart from "../../components/PieChart";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  useEffect(() => {}, []);
 
   const [profile, setProfile] = useState("");
   const { name } = profile;
@@ -31,17 +38,17 @@ const Dashboard = () => {
   }, []); */
 
   return (
-    <Box m="20px">
+    <Box m="20px" p={7}>
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="DASHBOARD"
           //comment for DBMS Testphase
           /* subtitle={`Welcome to your dashboard, ${name}`} */
-          subtitle={"Welcome to the DBMS practical course! Please make sure that you are connected to the DB with your given username and password. If you are not connected yet, click on SIGN IN in the top right. After connecting you should be redirected to this page. You can then START your tasks. Feel free to ask your tutors for help. Have fun!"}
+          subtitle={
+            "Welcome to the DBMS practical course! Please make sure that you are connected to the DB with your given username and password. If you are not connected yet, click on SIGN IN in the top right. After connecting you should be redirected to this page. You can then START your tasks. Feel free to ask your tutors for help. Have fun!"
+          }
         />
-
-        
       </Box>
 
       {/* GRID & CHARTS */}
@@ -64,6 +71,7 @@ const Dashboard = () => {
             /* progress="0.75"
             increase="75%" */
             link="/postgresql"
+            logo={postgreSQLLogo}
             /* link="/pglogin" */
           />
         </Box>
@@ -78,6 +86,7 @@ const Dashboard = () => {
             title="Cassandra"
             /* progress="0.50"
             increase="50%" */
+            logo={CassandraLogo}
             link="/cassandra"
           />
         </Box>
@@ -90,6 +99,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="Neo4J"
+            logo={Neo4JLogo}
             /* progress="0.30" increase="30%" */ link="/neo4j"
           />
         </Box>
@@ -104,12 +114,13 @@ const Dashboard = () => {
             title="MongoDB"
             /* progress="0.80"
             increase="80%" */
+            logo={MongoDBLogo}
             link="/mongodb"
           />
         </Box>
 
         {/* ROW 2 */}
-        {/* <Box
+        <Box
           gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -117,30 +128,36 @@ const Dashboard = () => {
           <Box
             mt="25px"
             p="0 30px"
-            display="flex "
+            display="flex"
             justifyContent="space-between"
-            alignItems="center"
+            /* alignItems="center" */
+            overflow="auto"
           >
-            <Box>
+            <Box width="400px">
               <Typography
                 variant="h5"
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Your learning progress
+                Statistics (Implementation In Progress...)
               </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[100]} //500
-              >
-                Current Level: 11
-              </Typography>
+              <Box pt={2}>
+                <ChristmasCountdown />
+              </Box>
             </Box>
-           
-          </Box>
-          <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
+            <Box
+              gridColumn="span 4"
+              gridRow="span 2"
+              backgroundColor={colors.primary[400]}
+              overflow="auto"
+            >
+              <Typography variant="h5" fontWeight="600">
+                Self-Determinded Correctness of Cypher Queries
+              </Typography>
+              <Box height="250px" width="600px" mt="-20px">
+                <PieChart />
+              </Box>
+            </Box>
           </Box>
         </Box>
         <Box
@@ -149,19 +166,27 @@ const Dashboard = () => {
           backgroundColor={colors.primary[400]}
           overflow="auto"
         >
-          
           <Typography
             variant="h5"
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Bar chart - placeholder
+            Usability Survey
           </Typography>
-          <Box height="250px" mt="-20px">
-            <BarChart isDashboard={true} />
+          <Typography variant="p" sx={{ padding: "30px 30px 0 30px" }}>
+            Follow the link and fill the survey to help us improving this
+            webapplication.
+          </Typography>
+
+
+          <Box p={7}>
+            <Typography variant="p" sx={{ padding: "30px 30px 0 30px", fontSize: '20px' }}>
+              <Link to="https://survey.studiumdigitale.uni-frankfurt.de/nosqlconcepts">Link to Usability Survey</Link>
+          
+            </Typography>
           </Box>
         </Box>
- */}
+
         {/* ROW 3 */}
         {/* <Box
           gridColumn="span 4"

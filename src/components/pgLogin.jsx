@@ -10,14 +10,14 @@ const PgLogin = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // Styles for mui components 
+  // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: colors.blueAccent[700],
-    color: colors.grey[100],
+    backgroundColor: colors.blueAccent[100],
+    color: colors.grey[900],
     fontSize: "14px",
     fontWeight: "bold",
     padding: "10px 20px",
-    margin: "10px"
+    margin: "10px",
   };
 
   /* const [values, setValues] = useState({
@@ -25,11 +25,11 @@ const PgLogin = () => {
     password: "",
   });
   const [isConnected, setIsConnected] = useState(false);*/
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //const { username, password } = values;
@@ -88,18 +88,19 @@ const PgLogin = () => {
         setUser(response.data.user_name);
         localStorage.setItem("token", JSON.stringify(response.data.user_name));
         //localStorage.setItem("user", JSON.stringify(response.data.user_name) );
-      
-        navigate("/dashboard"); 
+
+        navigate("/dashboard");
         window.location.reload();
       })
       .catch((error) => {
         console.log(error);
         setIsLoggedIn(false);
-        setErrorMessage("Connection failed. Please check your username and password again or ask your tutors for help.")
-
+        setErrorMessage(
+          "Connection failed. Please check your username and password again or ask your tutors for help."
+        );
       });
   };
- /*  const handleLogout = async () => {
+  /*  const handleLogout = async () => {
     try {
       const response = await axios.get('/logout');
       if (response.status === 200) {
@@ -115,79 +116,73 @@ const PgLogin = () => {
 
   useEffect(() => {
     // Hier können Sie einen API-Aufruf an Ihren Server senden, um den aktuellen Benutzer abzurufen, wenn vorhanden.
-    
   }, []);
   return (
-    <Box m="20px">
+    <Box display="flex" alignItems="center" justifyContent="center" p={7}>
       <div>
-        <div>
+        <div
+        
+          style={{
+            border: `1px solid ${colors.blueAccent[100]}`,
+            borderRadius: "5px",
+            padding: "50px"
+          }}
+        >
           <h2>Login</h2>
           <p>
             Please type in your username and password provided by your
             instructor.
           </p>
           <form>
-           {user?  (<div>
-          {/* <p>Eingeloggt als: {user}</p>
-          <button onClick={handleLogout}>Abmelden</button> */}
-        </div>) : (<div><div>
-              <InputLabel id="username">Username</InputLabel>
-              <TextField
-                id="username"
-                width="300px"
-                type="text"
-                
-                /* onChange={handleChange("username")} */
-                onChange={(e) => setUsername(e.target.value)}
+            {user ? (
+              <div></div>
+            ) : (
+              <div>
+                <div>
+                  <InputLabel id="username">Username</InputLabel>
+                  <TextField
+                    id="username"
+                    width="300px"
+                    type="text"
+                    /* onChange={handleChange("username")} */
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
+                  ></TextField>
+                </div>
 
-                value={username}
-              ></TextField>
-            </div>
+                <div>
+                  <InputLabel id="password">Password</InputLabel>
+                  <TextField
+                    id="password"
+                    width="300px"
+                    type="password"
+                    /* onChange={handleChange("password")} */
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                  ></TextField>
+                </div>
 
-            <div>
-              <InputLabel id="password">Password</InputLabel>
-              <TextField
-                id="password"
-                width="300px"
-                type="password"
-                /* onChange={handleChange("password")} */
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              ></TextField>
-            </div>
-
-            <Button sx={muiButtonStyle} /* onClick={handleSubmit} */ onClick={handleLogin} type="submit">
-              Connect to database
-            </Button> 
-            </div>)}
-            <p style={{color:"red"}}>{errorMessage}</p> 
-
-            {/* <div>
-      {user ? (
-        <div>
-          <p>Eingeloggt als: {user.username}</p>
-          <button onClick={handleLogout}>Abmelden</button>
-        </div>
-      ) : (
-        <div>
-          <p>Nicht eingeloggt</p>
-          <input
-            type="text"
-            placeholder="Benutzername"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Passwort"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={handleLogin}>Anmelden</button>
-        </div>
-      )}
-    </div> */}
-            
+                <Button
+                  sx={muiButtonStyle}
+                  /* onClick={handleSubmit} */ onClick={handleLogin}
+                  type="submit"
+                >
+                  login
+                </Button>
+              </div>
+            )}
+            {errorMessage !== "" && (
+              <p
+                style={{
+                  fontWeight: "bold",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  backgroundColor: `${colors.redAccent[700]}`,
+                }}
+              >
+                {errorMessage}
+              </p>
+            )}
           </form>
         </div>
       </div>

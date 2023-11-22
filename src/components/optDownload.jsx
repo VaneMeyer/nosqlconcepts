@@ -17,8 +17,8 @@ const OptDownload = () => {
 
   // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: colors.blueAccent[700],
-    color: colors.grey[100],
+    backgroundColor: colors.blueAccent[100],
+    color: colors.grey[900],
     fontSize: "14px",
     fontWeight: "bold",
     padding: "10px 20px",
@@ -100,8 +100,10 @@ const OptDownload = () => {
   };
 
   return (
-    <div>
-      <p>
+    <div style={{
+      margin:"50px"
+    }}>
+      <p style={{fontSize:"16px"}}>
         Please download your results as an excel file. Also make sure that the
         downloaded excel file is filled as expected and please add your name to
         the file.{" "}

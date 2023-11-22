@@ -14,12 +14,17 @@ const OptQuery = ({ taskNumber, title }) => {
 
   // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: colors.blueAccent[700],
-    color: colors.grey[100],
+    backgroundColor: colors.blueAccent[100],
+    color: colors.grey[900],
     fontSize: "14px",
     fontWeight: "bold",
     padding: "10px 20px",
   };
+
+  let labelStyle = {
+    color: colors.grey[100],
+    fontSize: "16px"
+  }
 
   const [queryResult, setQueryResult] = useState("");
   const [error, setError] = useState("");
@@ -114,7 +119,8 @@ const OptQuery = ({ taskNumber, title }) => {
   }, [taskNumber]);
   return (
     <Box>
-      <InputLabel id="query-input-label">Your query:</InputLabel>
+      <InputLabel id="query-input-label" style={labelStyle}>Type and run your query:</InputLabel>
+      <p>{""}</p>
       <AceEditor
         id="query-input-label"
         name="query"
@@ -122,12 +128,13 @@ const OptQuery = ({ taskNumber, title }) => {
         onChange={handleEditorChange}
         value={queryFormData.query}
         editorProps={{ $blockScrolling: true }}
-        style={{ height: "200px", fontSize: "17px" }}
+        style={{ width:"70%", height: "200px", fontSize: "large" }}
       />
-
+      <p>{""}</p>
       <Button sx={muiButtonStyle} onClick={executeQuery}>
         Run query
       </Button>
+      <p>{""}</p>
       {title === "Neo4J" && queryResult && (
         <ResultGraph queryResult={queryResult} />
       )}
@@ -135,9 +142,12 @@ const OptQuery = ({ taskNumber, title }) => {
         queryResult={queryResult}
         resultSize={queryFormData.resultSize}
       />
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {<p>Result Size: {queryFormData.resultSize}</p>}
+      {error && <p style={{ fontWeight: "bold", padding: "10px", borderRadius:"5px", backgroundColor:`${colors.redAccent[700]}` }}>{error}</p>}
+      <Box sx={{padding: "10px", borderRadius:"5px", border: "black"}}>
+        {<p>Result Size: {queryFormData.resultSize}</p>}
       {<p>Is the query executable?: {queryFormData.isExecutable}</p>}
+      </Box>
+      
     </Box>
   );
 };

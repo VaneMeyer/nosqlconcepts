@@ -47,7 +47,7 @@ const LogOut = () => {
 
   return (
     <Link to="signin" replace>
-      <Button sx={{ color: colors.blueAccent[400] }} onClick={handleLogout}>
+      <Button sx={{ color: colors.grey[900], "&:hover": { backgroundColor: `${colors.blueAccent[200]}` } }} onClick={handleLogout}>
         Logout
       </Button>
     </Link>

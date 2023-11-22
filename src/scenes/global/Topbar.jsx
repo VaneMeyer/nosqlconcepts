@@ -1,63 +1,51 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Box, IconButton, useTheme, Button } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import React, { useState } from "react";
+import { Box, IconButton, Typography, useTheme, Button } from "@mui/material";
+import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import LogOut from "../../Sign-in/logout";
-/* function useToken() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const updatedToken = localStorage.getItem("token");
-      setToken(updatedToken);
-    };
-
-    // Event-Listener zum Abfangen von Änderungen im Local Storage hinzufügen
-    window.addEventListener("storage", handleStorageChange);
-
-    // Cleanup-Funktion, um den Event-Listener zu entfernen
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
-  return token;
-} */
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const colorMode = useContext(ColorModeContext);
-  /* const authToken = useToken(); */
 
-  const [username, setUsername] = useState(
-    localStorage.getItem("token")
-  );
+  const [username, setUsername] = useState(localStorage.getItem("token"));
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
-      <Box
-        display="flex"
-        backgroundColor={colors.primary[400]}
-        borderRadius="3px"
-      >
-        {/* PLACEHOLDER */}
+    <Box
+      sx={{ backgroundColor: `${colors.blueAccent[100]}` }}
+      display="flex"
+      justifyContent="space-between"
+      p={2}
+    >
+      <Box display="flex">
+        <Typography
+          variant="h3"
+          color={colors.grey[900]}
+          sx={{ marginRight: "20px", display: "flex", alignItems: "center" }}
+        >
+          NoSQLconcepts
+          
+        </Typography>
+        <Box display="flex" alignItems="center">
+          <Link to="/dashboard">
+            <IconButton
+              sx={{
+                color: colors.grey[900],
+                "&:hover": { backgroundColor: `${colors.blueAccent[200]}` },
+              }}
+            >
+              <HomeOutlinedIcon />
+              Dashboard
+            </IconButton>
+          </Link>
+        </Box>
       </Box>
 
-      {/* ICONS */}
       <Box display="flex">
-        {/* <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
-          ) : (
-            <LightModeOutlinedIcon />
-          )}
-        </IconButton> */}
         {username ? (
           <p
             style={{
-              color: colors.blueAccent[400],
+              color: colors.grey[900],
               fontSize: "14px",
               fontWeight: "bold",
               padding: "5px 20px",
@@ -76,7 +64,14 @@ const Topbar = () => {
           </div>
         ) : (
           <Link to="/signin">
-            <Button sx={{ color: colors.blueAccent[400] }}>Sign in</Button>
+            <Button
+              sx={{
+                color: colors.grey[900],
+                "&:hover": { backgroundColor: `${colors.blueAccent[200]}` },
+              }}
+            >
+              Sign in
+            </Button>
           </Link>
         )}
       </Box>
