@@ -171,17 +171,17 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Usability Survey
+            Evaluation
           </Typography>
           <Typography variant="p" sx={{ padding: "30px 30px 0 30px" }}>
-            Follow the link and fill the survey to help us improving this
+            Follow the link to help us improving this
             webapplication.
           </Typography>
 
 
           <Box p={7}>
             <Typography variant="p" sx={{ padding: "30px 30px 0 30px", fontSize: '20px' }}>
-              <Link to="https://survey.studiumdigitale.uni-frankfurt.de/nosqlconcepts">Link to Usability Survey</Link>
+              <Link to="https://survey.studiumdigitale.uni-frankfurt.de/nosqlconcepts">SoSci Survey Link</Link>
           
             </Typography>
           </Box>
