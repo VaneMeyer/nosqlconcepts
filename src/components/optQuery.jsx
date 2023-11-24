@@ -135,7 +135,10 @@ const OptQuery = ({ taskNumber, title }) => {
         Run query
       </Button>
       <p>{""}</p>
-      {title === "Neo4J" && queryResult && (
+      {/* {title === "Neo4J" && queryResult && (
+        <ResultGraph queryResult={queryResult} />
+      )} */}
+       {title === "Neo4J" && queryResult && (
         <ResultGraph queryResult={queryResult} />
       )}
       <ResultTable

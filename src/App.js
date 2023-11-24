@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 import TopBar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
@@ -14,7 +15,9 @@ import OptDownload from "./components/optDownload";
 
 function App() {
   const [theme, colorMode] = useMode();
-
+  useEffect(() => {
+    document.title = 'NoSQLconcepts';
+  }, []);
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

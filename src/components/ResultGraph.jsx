@@ -5,6 +5,7 @@ import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 
 const ResultGraph = ({ queryResult }) => {
+  queryResult = queryResult.slice(0,25);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [stateNodes, setNodes] = useState([]);
@@ -160,9 +161,21 @@ const ResultGraph = ({ queryResult }) => {
     edges: edges,
   };
 
-  const initialData = {
-    nodes: [], //Teilarray von nodes der länge
-    edges: [], //Teilarray von edged der länge 25
+  const subEdges = edges.slice(0, 2);
+  const subNodes = [];
+  subEdges.forEach((element) => {
+    if (!subNodes.some((node) => node.id === element.from)) {
+      subNodes.push({ id: element.from });
+    }
+
+    if (!subNodes.some((node) => node.id === element.to)) {
+      subNodes.push({ id: element.to });
+    }
+  });
+  //use subgraph for visualization because of performance issues
+  const subGraphData = {
+    nodes: subNodes,
+    edges: subEdges,
   };
 
   const loadMoreData = () => {
@@ -196,6 +209,9 @@ const ResultGraph = ({ queryResult }) => {
         padding: "50px",
       }}
     >
+      <div>
+        <p>Note: Due to some issues, the graph visualization is currently limited to 25 relationships. We are working on finding a solution.</p>
+      </div>
       {numNodes !== 0 && (
         <div style={{ height: "600px", width: "100%" }}>
           <Graph key={uuidv4()} graph={graphData} options={graphOptions} />
