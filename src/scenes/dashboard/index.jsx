@@ -13,6 +13,9 @@ import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 import ChristmasCountdown from "../../components/xmasCountdown";
 import PieChart from "../../components/PieChart";
+import ImportantMsg from "../../components/importantMsg";
+import CountdownTimer from "../../components/countdownTimer";
+import BarChart from "../../components/BarChart";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -45,9 +48,14 @@ const Dashboard = () => {
           title="DASHBOARD"
           //comment for DBMS Testphase
           /* subtitle={`Welcome to your dashboard, ${name}`} */
-          subtitle={
-            "Welcome to the DBMS practical course! Please make sure that you are connected to the DB with your given username and password. If you are not connected yet, click on SIGN IN in the top right. After connecting you should be redirected to this page. You can then START your tasks. Feel free to ask your tutors for help. Have fun!"
-          }
+          subtitle={"Welcome to the DBMS practical course!"}
+        />
+      </Box>
+      <Box>
+        <ImportantMsg
+          message="
+Important Notice! This tool is still in the development phase. Please save your inputs in a separate file as a precaution to prevent potential loss. Currently, inputs are not user-specific and are only stored in the browser. This means that if you switch to another browser or clear browser data, your entries in the task areas will be lost."
+          type="error"
         />
       </Box>
 
@@ -142,7 +150,8 @@ const Dashboard = () => {
                 Statistics (Implementation In Progress...)
               </Typography>
               <Box pt={2}>
-                <ChristmasCountdown />
+                 {/* <ChristmasCountdown />  */}
+                <CountdownTimer deadline={'2023-12-19T23:59:59'}/>
               </Box>
             </Box>
             <Box
@@ -152,10 +161,11 @@ const Dashboard = () => {
               overflow="auto"
             >
               <Typography variant="h5" fontWeight="600">
-                Self-Determinded Correctness of Cypher Queries
+                Number of executable and correct queries
               </Typography>
               <Box height="250px" width="600px" mt="-20px">
-                <PieChart />
+                {/* <PieChart /> */}
+                <BarChart />
               </Box>
             </Box>
           </Box>
@@ -174,15 +184,21 @@ const Dashboard = () => {
             Evaluation
           </Typography>
           <Typography variant="p" sx={{ padding: "30px 30px 0 30px" }}>
-            Follow the link to help us improving this
-            webapplication.
+            Follow the link to help us improving this webapplication.
           </Typography>
 
-
           <Box p={7}>
-            <Typography variant="p" sx={{ padding: "30px 30px 0 30px", fontSize: '20px' }}>
-              <Link to="https://survey.studiumdigitale.uni-frankfurt.de/nosqlconcepts">SoSci Survey Link</Link>
-          
+            <Typography
+              variant="p"
+              sx={{ padding: "30px 30px 0 30px", fontSize: "20px" }}
+            >
+              <Link
+                to="https://survey.studiumdigitale.uni-frankfurt.de/nosqlconcepts"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                SoSci Survey Link
+              </Link>
             </Typography>
           </Box>
         </Box>

@@ -27,7 +27,7 @@ const Topbar = () => {
           
         </Typography>
         <Box display="flex" alignItems="center">
-          <Link to="/dashboard">
+          <Link to="/">
             <IconButton
               sx={{
                 color: colors.grey[900],
@@ -63,7 +63,7 @@ const Topbar = () => {
             <LogOut />
           </div>
         ) : (
-          <Link to="/signin">
+          <Link to="/">
             <Button
               sx={{
                 color: colors.grey[900],
