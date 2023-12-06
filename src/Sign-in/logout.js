@@ -20,7 +20,7 @@ const LogOut = () => {
           //setUser(null);
           localStorage.removeItem("token");
           //localStorage.removeItem("user");
-          navigate("/signin");
+          navigate("/");
           window.location.reload();
         } else {
           alert('Fehler beim Abmelden');
