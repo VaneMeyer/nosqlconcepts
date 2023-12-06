@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import TopBar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
@@ -16,7 +16,7 @@ import OptDownload from "./components/optDownload";
 function App() {
   const [theme, colorMode] = useMode();
   useEffect(() => {
-    document.title = 'NoSQLconcepts';
+    document.title = "NoSQLconcepts";
   }, []);
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -29,12 +29,12 @@ function App() {
             <TopBar />
             <Routes>
               <Route element={<PrivateRoutes />}>
-                <Route path="/" element={<PgLogin />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                 {/* <Route path="/postgresql" element={<PostgreSQL />} /> */}
-                {/*<Route path="/cassandra" element={<Cassandra />} /> */}
+                {/* <Route path="/" element={<PgLogin />} /> */}
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/postgresql" element={<PostgreSQL />} />
+                <Route path="/cassandra" element={<Cassandra />} />
                 <Route path="/neo4j" element={<Neo4J />} />
-                {/* <Route path="/mongodb" element={<MongoDB />} /> */}
+                <Route path="/mongodb" element={<MongoDB />} />
                 <Route path="/download" element={<OptDownload />} />
               </Route>
 
