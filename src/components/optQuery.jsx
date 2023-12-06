@@ -7,6 +7,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-sql"; // SQL-Syntax-Highlighting
 import ResultGraph from "./ResultGraph";
+import ImportantMsg from "./importantMsg";
 
 const OptQuery = ({ taskNumber, title }) => {
   const theme = useTheme();
@@ -135,9 +136,7 @@ const OptQuery = ({ taskNumber, title }) => {
         Run query
       </Button>
       <p>{""}</p>
-      {/* {title === "Neo4J" && queryResult && (
-        <ResultGraph queryResult={queryResult} />
-      )} */}
+      {queryResult && <ImportantMsg message="Query was executed successfully!" type="success"/>}
        {title === "Neo4J" && queryResult && (
         <ResultGraph queryResult={queryResult} />
       )}
@@ -145,7 +144,8 @@ const OptQuery = ({ taskNumber, title }) => {
         queryResult={queryResult}
         resultSize={queryFormData.resultSize}
       />
-      {error && <p style={{ fontWeight: "bold", padding: "10px", borderRadius:"5px", backgroundColor:`${colors.redAccent[700]}` }}>{error}</p>}
+      {error && <ImportantMsg message={error} type="error"/> }
+      
       <Box sx={{padding: "10px", borderRadius:"5px", border: "black"}}>
         {<p>Result Size: {queryFormData.resultSize}</p>}
       {<p>Is the query executable?: {queryFormData.isExecutable}</p>}

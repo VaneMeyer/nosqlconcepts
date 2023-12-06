@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const PgLogin = () => {
   const navigate = useNavigate();
@@ -89,7 +89,8 @@ const PgLogin = () => {
         localStorage.setItem("token", JSON.stringify(response.data.user_name));
         //localStorage.setItem("user", JSON.stringify(response.data.user_name) );
 
-        navigate("/dashboard");
+        navigate("/");//dashboard
+        /* window.location.href = "http://162.55.237.41:8765/dashboard"; */
         window.location.reload();
       })
       .catch((error) => {
@@ -121,11 +122,10 @@ const PgLogin = () => {
     <Box display="flex" alignItems="center" justifyContent="center" p={7}>
       <div>
         <div
-        
           style={{
             border: `1px solid ${colors.blueAccent[100]}`,
             borderRadius: "5px",
-            padding: "50px"
+            padding: "50px",
           }}
         >
           <h2>Login</h2>
@@ -135,7 +135,12 @@ const PgLogin = () => {
           </p>
           <form>
             {user ? (
-              <div></div>
+              <div>
+                {" "}
+                {/* <Link to="/dashboard">
+                  <Button>Go To Dashboard</Button>
+                </Link> */}
+              </div>
             ) : (
               <div>
                 <div>

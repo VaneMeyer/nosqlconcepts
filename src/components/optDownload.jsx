@@ -1,11 +1,11 @@
 import React from "react";
 import * as xlsx from "xlsx";
-import { Button, useTheme } from "@mui/material";
+import { Button, useTheme, Box, Typography } from "@mui/material";
 import { pgTasks } from "../data/tasksData";
 import { cassandraTasks } from "../data/tasksData";
 import { neo4jTasks } from "../data/tasksData";
 import { mongodbTasks } from "../data/tasksData";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { tokens } from "../theme";
 
 const OptDownload = () => {
@@ -115,6 +115,13 @@ const OptDownload = () => {
       <Button sx={muiButtonStyle} onClick={handleDownload}>
         Download Excel
       </Button>
+      <Box p={7}>
+            <Typography variant="p" sx={{ padding: "30px 30px 0 30px", fontSize: '20px' }}>
+              Please fill the questionnaire on the following link before leaving: {" "}
+              <Link to="https://survey.studiumdigitale.uni-frankfurt.de/nosqlconcepts" target="_blank" rel="noopener noreferrer">SoSci Survey Link</Link>
+          
+            </Typography>
+          </Box>
     </div>
   );
 };

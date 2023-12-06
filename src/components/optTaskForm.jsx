@@ -13,6 +13,7 @@ import {
   Button,
   TextField,
   InputLabel,
+  MenuItem,
   RadioGroup,
   FormControlLabel,
   Radio,
@@ -175,6 +176,11 @@ const OptTaskForm = ({ title }) => {
     }
   };
 
+  const handleTaskChange = (event) => {
+    const { value } = event.target;
+    updateTaskAndFormData(value);
+  }
+
   const handleFinish = () => {
     saveAnswersToLocalStorage();
 
@@ -185,8 +191,28 @@ const OptTaskForm = ({ title }) => {
   return (
     <Box display="flex" justifyContent="space-between">
       <Box>
+      <Box>
+          {/* Füge die Dropdown-Liste für die Aufgaben hinzu */}
+          <InputLabel id="task-number-label" style={labelStyle}>
+            Jump to task:
+          </InputLabel>
+          <TextField
+            select
+            name="taskNumber"
+            id="task-number-label"
+            fullWidth
+            value={taskNumber}
+            onChange={handleTaskChange}
+          >
+            {tasksArray.map((task, index) => (
+              <MenuItem key={index} value={index + 1}>
+                Task {index + 1}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Box>
         <Box>
-          <p style={{ fontSize: "26px" }}>{task}</p>
+          <p style={{ maxWidth:"1500px", fontSize: "26px" }}>{task}</p>
         </Box>
         <Box p={7}>
           {hasStarted ? (
