@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import pgDataModel from "../images/datamodel1-transp.png";
 import mongoDataModel from "../images/datamodel4-transp.png";
@@ -51,9 +52,11 @@ const OptTaskForm = ({ title }) => {
   const [task, setTask] = useState("");
   const [isRunning, setIsRunning] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [receivedTime, setReceivedTime] = useState(null);
   const [taskNumber, setTaskNumber] = useState(1);
   const [tasksArray, setTasksArray] = useState([]);
-  const [dataModel, setDataModel] = useState("");
+  const [taskAreaId, setTaskAreaId] = useState(0);
+  const [dataModel, setDataModel] = useState(""); 
   const [formData, setFormData] = useState({
     partialSolution:
       localStorage.getItem(
@@ -66,6 +69,8 @@ const OptTaskForm = ({ title }) => {
       localStorage.getItem(`${title.toLowerCase()}difficulty${taskNumber}`) ||
       "0",
   });
+  const [username, setUsername] = useState(localStorage.getItem("token"));
+
 
   const saveAnswersToLocalStorage = () => {
     if (typeof localStorage !== "undefined") {
@@ -81,30 +86,77 @@ const OptTaskForm = ({ title }) => {
         `${title.toLowerCase()}difficulty${taskNumber}`,
         formData.difficulty
       );
+      //sendDataToDb();
     }
   };
+const sendDataToDb = async () => {
+  let queryText = `${localStorage.getItem(`${title.toLowerCase()}query${taskNumber}`)}` ||  "";
+  const dataToSend = {
+    username:username.replace(/"/g, ''), //get rid of "" of the string
+    statementId:taskNumber, 
+    taskAreaId:taskAreaId,
+    queryText:queryText.replace(/'/g, "''"), // get from child component
+    isExecutable:localStorage.getItem(`${title.toLowerCase()}isExecutable${taskNumber}`) ||
+    "No", // get from child component
+    resultSize:localStorage.getItem(`${title.toLowerCase()}resultSize${taskNumber}`) ||
+    0, // get from child component
+    isCorrect:formData.isCorrect, 
+    partialSolution:formData.partialSolution,
+    difficultyLevel:formData.difficulty,
+    processingTime:parseInt(
+      localStorage.getItem(`${title.toLowerCase()}time${taskNumber}`) || 0
+    )/* receivedTime */, // get from child component timer
+  }
+   try {
+    const response = await axios.post("/api/store-data", dataToSend);
+    if (response.data.success) {
+      console.log("Data stored successfully!");
+    } else {
+      console.error("Error occured:", response.data.error);
+    }
+  } catch (error) {
+    console.error("Error server:", error);
+  } 
+}
+
+//TODO get form data from db, but also keep localstorage as backup
+const getDataFromDB = () => {
+
+}
+/* const handleTimeFromChild = (data) => {
+  setReceivedTime(data);
+};
+const handleQueryFromChild = (data) => {
+  setReceivedQuery(data);
+} */
 
   useEffect(() => {
     let taskarray = [];
     let datamodel = "";
+    let taskAreaId = 0;
     if (title === "PostgreSQL") {
       taskarray = pgTasks;
       datamodel = pgDataModel;
+      taskAreaId = 1;
     }
     if (title === "Cassandra") {
       taskarray = cassandraTasks;
       datamodel = cassandraDataModel;
+      taskAreaId = 2;
     }
     if (title === "Neo4J") {
       taskarray = neo4jTasks;
       datamodel = neoDataModel;
+      taskAreaId = 3;
     }
     if (title === "MongoDB") {
       taskarray = mongodbTasks;
       datamodel = mongoDataModel;
+      taskAreaId = 4; 
     }
     setTask(taskarray[taskNumber - 1]);
     setTasksArray(taskarray);
+    setTaskAreaId(taskAreaId);
     setDataModel(datamodel);
     setFormData({
       partialSolution:
@@ -133,6 +185,7 @@ const OptTaskForm = ({ title }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
 
     saveAnswersToLocalStorage();
+    
   };
 
   // Function to handle navigation to the next task
@@ -160,6 +213,7 @@ const OptTaskForm = ({ title }) => {
     setIsRunning(false);
     setHasStarted(false);
     saveAnswersToLocalStorage();
+    sendDataToDb();
   };
 
   const handleNextTask = () => {
@@ -178,11 +232,13 @@ const OptTaskForm = ({ title }) => {
 
   const handleTaskChange = (event) => {
     const { value } = event.target;
+
     updateTaskAndFormData(value);
-  }
+  };
 
   const handleFinish = () => {
     saveAnswersToLocalStorage();
+    sendDataToDb();
 
     localStorage.setItem(`${title.toLowerCase()}Status`, "FINISHED");
     const dataToSend = { title: title };
@@ -191,7 +247,7 @@ const OptTaskForm = ({ title }) => {
   return (
     <Box display="flex" justifyContent="space-between">
       <Box>
-      <Box>
+        <Box>
           {/* Füge die Dropdown-Liste für die Aufgaben hinzu */}
           <InputLabel id="task-number-label" style={labelStyle}>
             Jump to task:
@@ -212,7 +268,7 @@ const OptTaskForm = ({ title }) => {
           </TextField>
         </Box>
         <Box>
-          <p style={{ maxWidth:"1500px", fontSize: "26px" }}>{task}</p>
+          <p style={{ maxWidth: "1500px", fontSize: "26px" }}>{task}</p>
         </Box>
         <Box p={7}>
           {hasStarted ? (
@@ -309,6 +365,7 @@ const OptTaskForm = ({ title }) => {
                     run={isRunning}
                     taskNumber={taskNumber}
                     title={title}
+                    /* onDataFromChild={handleTimeFromChild} */
                   />
                   {taskNumber !== 1 && (
                     <Button sx={muiButtonStyle} onClick={handlePrevTask}>

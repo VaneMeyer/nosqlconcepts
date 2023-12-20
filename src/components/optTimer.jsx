@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
-const OptTimer = ({ run, taskNumber, title }) => {
+const OptTimer = ({ run, taskNumber, title, onDataFromChild }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -27,10 +27,16 @@ const OptTimer = ({ run, taskNumber, title }) => {
     localStorage.setItem(`${title.toLowerCase()}time${taskNumber}`, time);
   };
 
+  const sendDataToParent = () => {
+  
+    onDataFromChild(time);
+  }
+
   const stopTimer = () => {
     setIsRunning(false);
 
     saveToLocalStorage();
+   // sendDataToParent();
   };
 
   const continueTimer = () => {
@@ -66,7 +72,7 @@ const OptTimer = ({ run, taskNumber, title }) => {
       setTime(0);
     } */
     saveToLocalStorage();
-
+   // sendDataToParent();
     return () => clearInterval(interval);
   }, [isRunning, time]); // dependency on isRunning and time
 
