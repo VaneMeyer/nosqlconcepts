@@ -12,6 +12,8 @@ import Cassandra from "./scenes/assignments/cassandra";
 import MongoDB from "./scenes/assignments/mongodb";
 import PgLogin from "./components/pgLogin";
 import OptDownload from "./components/optDownload";
+import GraphComponent from "./components/GraphComponent";
+import StatisticsMain from "./Statistics/statisticsMain";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -36,9 +38,12 @@ function App() {
                 <Route path="/neo4j" element={<Neo4J />} />
                 <Route path="/mongodb" element={<MongoDB />} />
                 <Route path="/download" element={<OptDownload />} />
+                <Route path="/statistics" element={<StatisticsMain />} />
               </Route>
 
               <Route path="/signin" element={<PgLogin />} />
+              <Route path="/example" element={<StatisticsMain />} />
+
             </Routes>{" "}
           </main>
         </div>

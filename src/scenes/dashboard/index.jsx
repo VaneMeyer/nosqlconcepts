@@ -16,10 +16,23 @@ import PieChart from "../../components/PieChart";
 import ImportantMsg from "../../components/importantMsg";
 import CountdownTimer from "../../components/countdownTimer";
 import BarChart from "../../components/BarChart";
+import SolvedTasksBar from "../../Statistics/statisticComponents/solvedTasksBar";
+import TotalUsers from "../../Statistics/statisticComponents/userNumber";
+import DifficultyRating from "../../Statistics/statisticComponents/difficultyRating";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  // Styles for mui components
+  let muiButtonStyle = {
+    backgroundColor: colors.blueAccent[100],
+    color: colors.grey[900],
+    fontSize: "14px",
+    fontWeight: "bold",
+    padding: "10px 20px",
+    margin: "10px",
+  };
 
   useEffect(() => {}, []);
 
@@ -51,13 +64,13 @@ const Dashboard = () => {
           subtitle={"Welcome to the DBMS practical course!"}
         />
       </Box>
-      <Box>
+      {/* <Box>
         <ImportantMsg
           message="
 Important Notice! This tool is still in the development phase. Please save your inputs in a separate file as a precaution to prevent potential loss. Currently, inputs are not user-specific and are only stored in the browser. This means that if you switch to another browser or clear browser data, your entries in the task areas will be lost."
           type="error"
         />
-      </Box>
+      </Box> */}
 
       {/* GRID & CHARTS */}
       <Box
@@ -141,19 +154,19 @@ Important Notice! This tool is still in the development phase. Please save your 
             /* alignItems="center" */
             overflow="auto"
           >
-            <Box width="400px">
+            {/*  <Box width="400px">
               <Typography
                 variant="h5"
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Statistics (Implementation In Progress...)
+                Average number of solved/correct solved/executable tasks
               </Typography>
               <Box pt={2}>
-                 {/* <ChristmasCountdown />  */}
-                <CountdownTimer deadline={'2023-12-19T23:59:59'}/>
+                <SolvedTasksBar />
+                
               </Box>
-            </Box>
+            </Box> */}
             <Box
               gridColumn="span 4"
               gridRow="span 2"
@@ -181,6 +194,50 @@ Important Notice! This tool is still in the development phase. Please save your 
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
+            Statistics Summary
+          </Typography>
+          <TotalUsers />
+          <DifficultyRating />
+          <Link to="/statistics">
+            <Button sx={muiButtonStyle}>View more Statistics</Button>
+          </Link>
+        </Box>
+
+        {/* ROW 3 */}
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+          p="30px"
+        >
+          <Typography variant="h5" fontWeight="600">
+            Material
+          </Typography>
+        </Box>
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+        >
+          <Typography
+            variant="h5"
+            fontWeight="600"
+            sx={{ padding: "30px 30px 0 30px" }}
+          >
+            Feedback
+          </Typography>
+        </Box>
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+          padding="30px"
+        >
+          <Typography
+            variant="h5"
+            fontWeight="600"
+            sx={{ marginBottom: "15px" }}
+          >
             Evaluation
           </Typography>
           <Typography variant="p" sx={{ padding: "30px 30px 0 30px" }}>
@@ -202,47 +259,6 @@ Important Notice! This tool is still in the development phase. Please save your 
             </Typography>
           </Box>
         </Box>
-
-        {/* ROW 3 */}
-        {/* <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          p="30px"
-        >
-          <Typography variant="h5" fontWeight="600">
-            Material
-          </Typography>
-          
-        </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ padding: "30px 30px 0 30px" }}
-          >
-            Feedback
-          </Typography>
-           
-        </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          padding="30px"
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ marginBottom: "15px" }}
-          >
-            Evaluation
-          </Typography>
-        </Box> */}
       </Box>
     </Box>
   );
