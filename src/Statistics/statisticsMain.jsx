@@ -31,7 +31,7 @@ const StatisticsMain = () => {
           <Typography variant="h5" gutterBottom>
             Average Processing Time
           </Typography>
-          <AvgProcessingTimeChart />
+          <AvgProcessingTimeChart isUser={false} />
         </Paper>
       </Grid>
 
@@ -39,7 +39,7 @@ const StatisticsMain = () => {
       <Grid item xs={12} md={6}>
         <Paper style={{ padding: "20px" }}>
           <Typography variant="h5" gutterBottom>
-            Solved Tasks
+            Average Solved, Executable and Correct Tasks
           </Typography>
           <SolvedTasksBar />
         </Paper>

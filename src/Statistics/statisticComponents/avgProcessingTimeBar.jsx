@@ -2,14 +2,24 @@ import React, { useState, useEffect } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 import axios from "axios";
 
-const AvgProcessingTimeChart = () => {
-  const [data, setData] = useState([]);
 
+const AvgProcessingTimeChart = ({ isUser }) => {
+  const [data, setData] = useState([]);
+  const [username, setUsername] = useState(localStorage.getItem("token").replace(/"/g, ''));
+
+  let path = "";
+  if (isUser === true) {
+    path = "/user-avg-processing-time";
+  } else {
+    path = "/avg-processing-time";
+  }
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
-        const response = await axios.get("/avg-processing-time");
+        const response = await axios.post(path, {username});
         setData(response.data);
+        //console.log(response.data);
       } catch (error) {
         console.error("Error with receiving data:", error);
       }
@@ -28,15 +38,16 @@ const AvgProcessingTimeChart = () => {
         avg_processing_time_formatted: `${hours
           .toString()
           .padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`,
+        avg_processing_time_minutes: minutes,
       };
     });
   };
 
   return (
-    <div style={{ height: "500px" }}>
+    <div style={{ height: "250px" }}>
       <ResponsiveBar
         data={transformData()}
-        keys={["avg_processing_time"]}
+        keys={["avg_processing_time_minutes"]}
         indexBy="task_area_id"
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
@@ -72,7 +83,7 @@ const AvgProcessingTimeChart = () => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "Average processing time for tasks in seconds",
+          legend: "Average time for tasks in minutes",
           legendPosition: "middle",
           legendOffset: -40,
         }}
@@ -104,8 +115,8 @@ const AvgProcessingTimeChart = () => {
           },
         ]}
         tooltip={({ id, value }) => {
-          const hours = Math.floor(value / 3600);
-          const minutes = Math.floor((value % 3600) / 60);
+          const hours = Math.floor(value / 60);
+          const minutes = value;
           return (
             <div
               style={{

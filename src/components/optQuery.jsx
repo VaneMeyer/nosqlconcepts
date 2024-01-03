@@ -29,7 +29,9 @@ const OptQuery = ({ taskNumber, title }) => {
 
   const [queryResult, setQueryResult] = useState("");
   const [error, setError] = useState("");
-
+  //const [taskNumberQuery, setTaskNumberQuery] = useState(taskNumber);
+  const [username, setUsername] = useState(localStorage.getItem("token"));
+  const [taskAreaId, setTaskAreaId] = useState(0);
   const [queryFormData, setQueryFormData] = useState({
     query:
       localStorage.getItem(`${title.toLowerCase()}query${taskNumber}`) || "",
@@ -61,7 +63,37 @@ const OptQuery = ({ taskNumber, title }) => {
     );
   };
 
+  const sendDataToDb = async () => {
+    let queryText = `${localStorage.getItem(`${title.toLowerCase()}query${taskNumber}`)}` ||  "";
+    const dataToSend = {
+      username:username.replace(/"/g, ''), //get rid of "" of the string
+      statementId:taskNumber, 
+      taskAreaId:taskAreaId,
+      queryText:queryText.replace(/'/g, "''"), // get from child component
+      isExecutable:localStorage.getItem(`${title.toLowerCase()}isExecutable${taskNumber}`) ||
+      "No", // get from child component
+      resultSize:localStorage.getItem(`${title.toLowerCase()}resultSize${taskNumber}`) ||
+      0, // get from child component
+      isCorrect: localStorage.getItem(`${title.toLowerCase()}isCorrect${taskNumber}`) ||
+      "0", 
+      
+      
+    }
+     try {
+      const response = await axios.post("/api/store-history-data", dataToSend);
+      if (response.data.success) {
+        console.log("Data stored successfully!");
+      } else {
+        console.error("Error occured:", response.data.error);
+      }
+    } catch (error) {
+      console.error("Error server:", error);
+    } 
+  }
+
   const executeQuery = () => {
+    sendDataToDb();
+    console.log(taskNumber);
     setQueryResult("");
     const execQuery = queryFormData.query;
     let apiRoute = "";
@@ -101,11 +133,32 @@ const OptQuery = ({ taskNumber, title }) => {
             (prev = { query: execQuery, resultSize: 0, isExecutable: "No" })
         );
         saveToLocalStorage();
+        
       });
   };
   saveToLocalStorage();
 
   useEffect(() => {
+   
+    let taskAreaId = 0;
+    if (title === "PostgreSQL") {
+      
+      taskAreaId = 1;
+    }
+    if (title === "Cassandra") {
+    
+      taskAreaId = 2;
+    }
+    if (title === "Neo4J") {
+      
+      taskAreaId = 3;
+    }
+    if (title === "MongoDB") {
+      
+      taskAreaId = 4; 
+    }
+   
+    setTaskAreaId(taskAreaId);
     setQueryFormData({
       query:
         localStorage.getItem(`${title.toLowerCase()}query${taskNumber}`) || "",

@@ -2,13 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import axios from 'axios';
 
-const SolvedTasksBar = () => {
+const SolvedTasksBar = ({isUser}) => {
     const [data, setData] = useState([]);
-
+    const [username, setUsername] = useState(localStorage.getItem("token").replace(/"/g, ''));
+    let path = "";
+    if (isUser === true) {
+      path = "/user-solved-tasks-count";
+    } else {
+      path = '/solved-tasks-count';
+    }
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/solved-tasks-count'); 
+                const response = await axios.post(path, {username}); 
                 setData(response.data);
             } catch (error) {
                 console.error('Error with receiving data:', error);
@@ -19,7 +25,7 @@ const SolvedTasksBar = () => {
     }, []);
 
     return (
-        <div style={{ height: '500px' }}>
+        <div style={{ height: '250px' }}>
             <ResponsiveBar
                 data={data}
                 /* keys={['avg_solved_tasks_count']} */
@@ -27,12 +33,12 @@ const SolvedTasksBar = () => {
                 indexBy="task_area_id"
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.3}
-                valueScale={{ type: 'linear' }}
-                indexScale={{ type: 'band', round: true }}
+                /* valueScale={{ type: 'linear' }}
+                indexScale={{ type: 'band', round: true }} */
                 colors={{ scheme: 'nivo' }}
                 groupMode='grouped'
-                axisTop={null}
-                axisRight={null}
+               /*  axisTop={null}
+                axisRight={null} */
                 axisBottom={{
                     tickSize: 5,
                     tickPadding: 5,
@@ -59,12 +65,12 @@ const SolvedTasksBar = () => {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Average amount of solved tasks',
+                    legend: 'Task count',
                     legendPosition: 'middle',
                     legendOffset: -40
                 }}
-                labelSkipWidth={12}
-                labelSkipHeight={12}
+                /* labelSkipWidth={12}
+                labelSkipHeight={12} */
                 labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
                 legends={[
                     {

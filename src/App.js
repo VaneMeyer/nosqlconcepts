@@ -14,6 +14,7 @@ import PgLogin from "./components/pgLogin";
 import OptDownload from "./components/optDownload";
 import GraphComponent from "./components/GraphComponent";
 import StatisticsMain from "./Statistics/statisticsMain";
+import PageViews from "./Statistics/statisticComponents/pageViews";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -42,7 +43,7 @@ function App() {
               </Route>
 
               <Route path="/signin" element={<PgLogin />} />
-              <Route path="/example" element={<StatisticsMain />} />
+              <Route path="/example" element={<PageViews />} />
 
             </Routes>{" "}
           </main>
