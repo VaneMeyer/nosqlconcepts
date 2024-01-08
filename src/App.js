@@ -25,6 +25,7 @@ import { pgTasks } from "./data/tasksData"
 //import { ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
 import MovieList from "./components/TestComponents/Movies"
+import MathQuery from "./components/MathQuery"
 
 function App() {
   const [theme, colorMode] = useMode()
@@ -69,6 +70,7 @@ function App() {
               <Route path="/bar" element={<Bar />} />
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />
+              <Route path="/math" element={<MathQuery />} />
               {/* Example Components to test functionalities */}
               {/*  <Route path="/example" element={<ExampleForm />} /> */}
               {/* <Route path="/example" element={<MovieList />} /> */}

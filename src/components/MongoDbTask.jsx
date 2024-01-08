@@ -6,9 +6,10 @@ import cassandraDataModel from "../images/datamodel2-transp.png"
 import { pgTasks } from "../data/tasksData"
 import { cassandraTasks } from "../data/tasksData"
 import { neo4jTasks } from "../data/tasksData"
-import { mongodbTasks } from "../data/tasksData"
+import { mongodbTasks1, mongodbTasks11 } from "../data/tasksData"
+import { MathJax, MathJaxContext } from "better-react-mathjax"
 import {
-  Box,
+  B1ox,
   Button,
   TextField,
   Select,
@@ -141,8 +142,8 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
 
     if (title === "MongoDB") {
       setIsMongoDB(true)
-      setTask(mongodbTasks[0])
-      setTasksArray(mongodbTasks.slice(1))
+      setTask(mongodbTasks1[0])
+      setTasksArray(mongodbTasks1.slice(1))
     }
   }, [])
 
@@ -151,8 +152,8 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
     setTaskNumber((prev) => Number(prev - 1))
 
     if (isMongoDB) {
-      setTask(mongodbTasks[taskNumber - 1])
-      setTasksArray(mongodbTasks[taskNumber - 1])
+      setTask(mongodbTasks1[taskNumber - 1])
+      setTasksArray(mongodbTasks1[taskNumber - 1])
       if (!taskNumber) {
         navigation(-1)
       }
@@ -169,10 +170,76 @@ const TaskForm = ({ title, task1, tasksArray1 }) => {
         : localStorage.setItem("mongodbtime", JSON.stringify(mongodbTime))
     }
   }
-
+  //r = 𝑛𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑒𝑚𝑎𝑖𝑙 𝑠𝑒𝑛𝑡 𝑖𝑛 𝑡ℎ𝑒 𝑏𝑢𝑠𝑠𝑖𝑒𝑠𝑡 𝑑𝑎𝑦  − 𝑎𝑣𝑒𝑟𝑎𝑔𝑒 𝑛𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑒𝑚𝑎𝑖𝑙 𝑠𝑒𝑛𝑡 𝑝𝑒𝑟 𝑑𝑎𝑦 / 𝑎𝑣𝑒𝑟𝑎𝑔𝑒 𝑛𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑒𝑚𝑎𝑖𝑙 𝑠𝑒𝑛𝑡 𝑝𝑒𝑟 𝑑𝑎y
   return (
     <>
-      <p>{task}</p>
+      <h3>{task.split(/\n/)[0]}</h3>
+      <p>{task.split(/\n/)[1]}</p>
+      <p>{task.split(/\n/)[2]}</p>
+      {taskNumber === 3 ? (
+        <>
+          {" "}
+          <MathJaxContext>
+            <MathJax>
+              <math>
+                <mrow style={{ fontSize: "50px" }}>
+                  <mn
+                    style={{ color: "red", fontSize: "30px", margin: "10px" }}
+                  >
+                    r
+                  </mn>
+                  <mi
+                    style={{ color: "blue", fontSize: "30px", margin: "10px" }}
+                  >
+                    =
+                  </mi>
+                  <mn
+                    style={{
+                      color: "green",
+                      fontSize: "30px",
+                      FontStyle: "italic",
+                    }}
+                  >
+                    𝑛𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑒𝑚𝑎𝑖𝑙 𝑠𝑒𝑛𝑡 𝑖𝑛 𝑡ℎ𝑒 𝑏𝑢𝑠𝑠𝑖𝑒𝑠𝑡 𝑑𝑎𝑦
+                  </mn>
+                  <mi
+                    style={{
+                      color: "black",
+                      fontSize: "30px",
+                      margin: "10px",
+                    }}
+                  >
+                    -
+                  </mi>
+                  <mfrac>
+                    <mn
+                      style={{
+                        color: "blue",
+                        fontSize: "30px",
+                        FontStyle: "italic",
+                        margin: "10px",
+                      }}
+                    >
+                      𝑎𝑣𝑒𝑟𝑎𝑔𝑒 𝑛𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑒𝑚𝑎𝑖𝑙 𝑠𝑒𝑛𝑡 𝑝𝑒𝑟 𝑑𝑎𝑦
+                    </mn>
+                    <mi
+                      style={{
+                        color: "red",
+                        fontSize: "30px",
+                        FontStyle: "italic",
+                      }}
+                    >
+                      𝑎𝑣𝑒𝑟𝑎𝑔𝑒 𝑛𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑒𝑚𝑎𝑖𝑙 𝑠𝑒𝑛𝑡 𝑝𝑒𝑟 𝑑𝑎y
+                    </mi>
+                  </mfrac>
+                </mrow>
+              </math>
+            </MathJax>
+          </MathJaxContext>
+        </>
+      ) : (
+        ""
+      )}
       <MongoDbTimer
         run={isRunning}
         mongodbTime={mongodbTime}
