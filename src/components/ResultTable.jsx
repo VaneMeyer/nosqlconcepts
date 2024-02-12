@@ -49,6 +49,7 @@ const ResultTable = ({ queryResult, resultSize }) => {
     <div>
       {queryResult && (
         <div style={{ height: 400, width: "100%" }}>
+          
           <DataGrid
             rows={rowsWithUniqueId}
             columns={columns}

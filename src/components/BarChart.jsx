@@ -92,6 +92,7 @@ import { useTheme } from '@mui/material';
 import { pgTasks, cassandraTasks, neo4jTasks, mongodbTasks } from '../data/tasksData';
 import axios from "axios";
 
+
 const BarChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

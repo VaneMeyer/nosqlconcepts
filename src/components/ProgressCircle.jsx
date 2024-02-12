@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { pgTasks } from "../data/tasksData";
@@ -8,6 +9,7 @@ import { mongodbTasks } from "../data/tasksData";
 const ProgressCircle = ({ /* progress = "0.75" */ title, size = "50" }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [username, setUsername] = useState(localStorage.getItem("token"));
   let progress = "0";
   let progressCounter = 0;
   let taskarray = [""];
@@ -24,19 +26,15 @@ const ProgressCircle = ({ /* progress = "0.75" */ title, size = "50" }) => {
   if (title === "MongoDB") {
     taskarray = mongodbTasks;
     }
-  for (let i = 1; i <= taskarray.length; i++) {
-      const answer1 =
-        localStorage.getItem(`${title.toLowerCase()}query${i}`) || "";
-      const answer4 =
-        localStorage.getItem(`${title.toLowerCase()}partialSolution${i}`) || "";
-      const answer5 =
-        localStorage.getItem(`${title.toLowerCase()}isCorrect${i}`) || "0";
-      const answer6 =
-        localStorage.getItem(`${title.toLowerCase()}difficulty${i}`) || "0";
+    for (let i = 1; i <= taskarray.length; i++) {
+      const answer1 = localStorage.getItem(`${title.toLowerCase()}query_${username}_${i}`) || "";
+      const answer4 = localStorage.getItem(`${title.toLowerCase()}partialSolution_${username}_${i}`) || "";
+      const answer5 = localStorage.getItem(`${title.toLowerCase()}isCorrect_${username}_${i}`) || "0";
+      const answer6 = localStorage.getItem(`${title.toLowerCase()}difficulty_${username}_${i}`) || "0";
+    
       if (answer1 !== "") {
         progressCounter += 1;
       }
-     
       if (answer4 !== "") {
         progressCounter += 1;
       }
@@ -46,11 +44,13 @@ const ProgressCircle = ({ /* progress = "0.75" */ title, size = "50" }) => {
       if (answer6 !== "0") {
         progressCounter += 1;
       }
+    
       let numberOfInputs = 4 * taskarray.length;
       if (numberOfInputs !== 0) {
         progress = progressCounter / numberOfInputs;
       }
     }
+    
   const angle = progress * 360;
   return (
     <Box >
@@ -65,7 +65,7 @@ const ProgressCircle = ({ /* progress = "0.75" */ title, size = "50" }) => {
       }}
     />
     <Box>
-      <Typography textAlign="center">{`${progress.toFixed(1)*100}%`}</Typography>
+      <Typography textAlign="center">{`${progress.toFixed(2)*100}%`}</Typography>
     </Box>
     </Box>
     

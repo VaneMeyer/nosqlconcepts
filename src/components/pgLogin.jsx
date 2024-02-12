@@ -4,6 +4,7 @@ import axios from "axios";
 import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { useNavigate, Link } from "react-router-dom";
+import Footer from "../scenes/global/footer";
 
 const PgLogin = () => {
   const navigate = useNavigate();
@@ -116,7 +117,7 @@ const PgLogin = () => {
   }; */
 
   useEffect(() => {
-    // Hier können Sie einen API-Aufruf an Ihren Server senden, um den aktuellen Benutzer abzurufen, wenn vorhanden.
+    
   }, []);
   return (
     <Box display="flex" alignItems="center" justifyContent="center" p={7}>
@@ -190,7 +191,9 @@ const PgLogin = () => {
             )}
           </form>
         </div>
+        <Footer />
       </div>
+      
     </Box>
   );
 };

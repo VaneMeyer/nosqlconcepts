@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as xlsx from "xlsx";
 import { Button, useTheme, Box, Typography } from "@mui/material";
 import { pgTasks } from "../data/tasksData";
@@ -7,6 +7,7 @@ import { neo4jTasks } from "../data/tasksData";
 import { mongodbTasks } from "../data/tasksData";
 import { useLocation, Link } from "react-router-dom";
 import { tokens } from "../theme";
+import DownloadIcon from '@mui/icons-material/Download';
 
 const OptDownload = () => {
   const location = useLocation();
@@ -14,7 +15,7 @@ const OptDownload = () => {
   const title = queryParams.get("title");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  const [username, setUsername] = useState(localStorage.getItem("token"));
   // Styles for mui components
   let muiButtonStyle = {
     backgroundColor: colors.blueAccent[100],
@@ -52,7 +53,7 @@ const OptDownload = () => {
     if (title === "MongoDB") {
       taskarray = mongodbTasks;
     }
-    for (let i = 1; i <= taskarray.length; i++) {
+    /* for (let i = 1; i <= taskarray.length; i++) {
       const answer1 =
         localStorage.getItem(`${title.toLowerCase()}query${i}`) || "";
       const answer2 =
@@ -83,7 +84,34 @@ const OptDownload = () => {
         ],
         { origin: -1 }
       );
+    } */
+    for (let i = 1; i <= taskarray.length; i++) {
+      const answer1 = localStorage.getItem(`${title.toLowerCase()}query_${username}_${i}`) || "";
+      const answer2 = localStorage.getItem(`${title.toLowerCase()}resultSize_${username}_${i}`) || "0";
+      const answer3 = localStorage.getItem(`${title.toLowerCase()}isExecutable_${username}_${i}`) || "";
+      const answer4 = localStorage.getItem(`${title.toLowerCase()}partialSolution_${username}_${i}`) || "";
+      const answer5 = localStorage.getItem(`${title.toLowerCase()}isCorrect_${username}_${i}`) || "0";
+      const answer6 = localStorage.getItem(`${title.toLowerCase()}difficulty_${username}_${i}`) || "0";
+      const answer7 = localStorage.getItem(`${title.toLowerCase()}time_${username}_${i}`) || "0";
+    
+      xlsx.utils.sheet_add_aoa(
+        ws,
+        [
+          [
+            i,
+            answer1,
+            answer2,
+            answer3,
+            answer4,
+            answer5,
+            answer6,
+            formatTime(answer7),
+          ],
+        ],
+        { origin: -1 }
+      );
     }
+    
 
     const wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, ws, "fileData");
@@ -113,7 +141,7 @@ const OptDownload = () => {
         name.
       </p>
       <Button sx={muiButtonStyle} onClick={handleDownload}>
-        Download Excel
+        Download Excel <DownloadIcon></DownloadIcon>
       </Button>
       <Box p={7}>
             <Typography variant="p" sx={{ padding: "30px 30px 0 30px", fontSize: '20px' }}>
