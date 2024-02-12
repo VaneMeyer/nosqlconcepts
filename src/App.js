@@ -15,6 +15,9 @@ import OptDownload from "./components/optDownload";
 import GraphComponent from "./components/GraphComponent";
 import StatisticsMain from "./Statistics/statisticsMain";
 import PageViews from "./Statistics/statisticComponents/pageViews";
+import Navigation from "./components/testWebDisability";
+import Footer from "./scenes/global/footer";
+import History from "./components/History";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -40,12 +43,14 @@ function App() {
                 <Route path="/mongodb" element={<MongoDB />} />
                 <Route path="/download" element={<OptDownload />} />
                 <Route path="/statistics" element={<StatisticsMain />} />
+                <Route path="/history" element={<History />} />
               </Route>
 
               <Route path="/signin" element={<PgLogin />} />
-              <Route path="/example" element={<PageViews />} />
-
+              <Route path="/example" element={<Navigation />} />
+              
             </Routes>{" "}
+            {/* <Footer/> */}
           </main>
         </div>
       </ThemeProvider>
