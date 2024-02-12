@@ -7,7 +7,11 @@ import CassandraLogo from "../../images/logo-cassandra.png";
 import Neo4JLogo from "../../images/logo-neo4j.png";
 import MongoDBLogo from "../../images/logo-mongodb.png";
 import { Link } from "react-router-dom";
-
+import DataObjectIcon from "@mui/icons-material/DataObject";
+import SchemaIcon from "@mui/icons-material/Schema";
+import TableRowsIcon from "@mui/icons-material/TableRows";
+import BlurOnIcon from "@mui/icons-material/BlurOn";
+import ViewColumnIcon from "@mui/icons-material/ViewColumn";
 import Header from "../../components/Header";
 
 import StatBox from "../../components/StatBox";
@@ -22,6 +26,8 @@ import DifficultyRating from "../../Statistics/statisticComponents/difficultyRat
 import PageViews from "../../Statistics/statisticComponents/pageViews";
 import AvgProcessingTimeChart from "../../Statistics/statisticComponents/avgProcessingTimeBar";
 import QueryHistoryChart from "../../Statistics/statisticComponents/historyLineChart";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import Footer from "../global/footer";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -78,89 +84,103 @@ Important Notice! This tool is still in the development phase. Please save your 
       {/* GRID & CHARTS */}
       <Box
         display="grid"
+        gridTemplateColumns={{ xs: "1fr", md: "repeat(12, 1fr)" }}
+        gridAutoRows={{ xs: "auto", md: "140px" }}
+        gap="20px"
+        /*  display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="140px"
-        gap="20px"
+        gap="20px" */
       >
         {/* ROW 1 */}
+
         <Box
-          gridColumn="span 3"
+          gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
+          flexDirection={{ xs: 'column', md: 'row' }}
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
             title="PostgreSQL"
-            /* progress="0.75"
-            increase="75%" */
             link="/postgresql"
             logo={postgreSQLLogo}
-            /* link="/pglogin" */
+            icon={<TableRowsIcon></TableRowsIcon>}
           />
         </Box>
         <Box
-          gridColumn="span 3"
+          /* gridColumn="span 3" */
+          gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
+          flexDirection={{ xs: 'column', md: 'row' }}
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
             title="Cassandra"
-            /* progress="0.50"
-            increase="50%" */
             logo={CassandraLogo}
             link="/cassandra"
+            icon={<ViewColumnIcon></ViewColumnIcon>}
           />
         </Box>
         <Box
-          gridColumn="span 3"
+          /* gridColumn="span 3" */
+          gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
+          flexDirection={{ xs: 'column', md: 'row' }}
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
             title="Neo4J"
             logo={Neo4JLogo}
-            /* progress="0.30" increase="30%" */ link="/neo4j"
+            icon={<SchemaIcon></SchemaIcon>}
+            link="/neo4j"
           />
         </Box>
         <Box
-          gridColumn="span 3"
+          /* gridColumn="span 3" */
+          gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
+          flexDirection={{ xs: 'column', md: 'row' }}
           alignItems="center"
           justifyContent="center"
         >
           <StatBox
             title="MongoDB"
-            /* progress="0.80"
-            increase="80%" */
             logo={MongoDBLogo}
             link="/mongodb"
+            icon={<DataObjectIcon></DataObjectIcon>}
           />
         </Box>
 
         {/* ROW 2 */}
         <Box
-          gridColumn="span 8"
-          gridRow="span 2"
+          gridColumn={{ xs: "span 20", md: "span 8" }}
+          gridRow={{ xs: "span 2", md: "span 2" }}
+          /* gridColumn="span 8" */
+          /* gridRow="span 2" */
           backgroundColor={colors.primary[400]}
         >
           <Box
             mt="25px"
             p="0 30px"
             display="flex"
+            flexDirection={{ xs: 'column', md: 'row' }}
             justifyContent="space-between"
             /* alignItems="center" */
             overflow="auto"
           >
-              <Box gridColumn="span 4"
+            <Box
+              gridColumn="span 4"
               gridRow="span 2"
               backgroundColor={colors.primary[400]}
-              overflow="auto">
+              overflow="auto"
+            >
               <Typography
                 variant="h5"
                 fontWeight="600"
@@ -169,10 +189,9 @@ Important Notice! This tool is still in the development phase. Please save your 
                 Your average processing time for each area
               </Typography>
               <Box height="250px" width="600px" mt="-20px">
-              <AvgProcessingTimeChart isUser={true} />
-                
+                <AvgProcessingTimeChart isUser={true} />
               </Box>
-            </Box> 
+            </Box>
             <Box
               gridColumn="span 4"
               gridRow="span 2"
@@ -186,13 +205,15 @@ Important Notice! This tool is still in the development phase. Please save your 
                 {/* <PieChart /> */}
                 <SolvedTasksBar isUser={true} />
               </Box>
-
             </Box>
           </Box>
         </Box>
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+         /*  gridColumn="span 4"*/
+          gridRow="span 2" 
+          gridColumn={{ xs: "span 20", md: "span 4" }}
+          /* display="flex" */
+          flexDirection={{ xs: 'column', md: 'row' }}
           backgroundColor={colors.primary[400]}
           overflow="auto"
         >
@@ -201,18 +222,23 @@ Important Notice! This tool is still in the development phase. Please save your 
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Statistics Summary
+            Course Summary
           </Typography>
           <TotalUsers />
           <DifficultyRating />
           <Link to="/statistics">
-            <Button sx={muiButtonStyle}>View more Statistics</Button>
+            <Button sx={muiButtonStyle}>
+              {" "}
+              <BarChartIcon></BarChartIcon> View course Statistics
+            </Button>
           </Link>
         </Box>
         {/* ROW 3 */}
         <Box
-          gridColumn="span 12"
-          gridRow="span 3"
+          gridColumn={{ xs: "span 20", md: "span 12" }}
+          gridRow={{ xs: "span 3", md: "span 3" }}
+          /* gridColumn="span 12"
+          gridRow="span 3" */
           backgroundColor={colors.primary[400]}
         >
           <Box
@@ -223,10 +249,12 @@ Important Notice! This tool is still in the development phase. Please save your 
             /* alignItems="center" */
             overflow="auto"
           >
-              <Box gridColumn="span 4"
+            <Box
+              gridColumn="span 4"
               gridRow="span 2"
               backgroundColor={colors.primary[400]}
-              overflow="auto">
+              overflow="auto"
+            >
               <Typography
                 variant="h5"
                 fontWeight="600"
@@ -235,19 +263,19 @@ Important Notice! This tool is still in the development phase. Please save your 
                 Your Query Executions per Day
               </Typography>
               <Box height="350px" width="1000px" mt="-20px">
-              <QueryHistoryChart isUser={true}/>
-                
+                <QueryHistoryChart isUser={true} />
               </Box>
-            </Box> 
-           
+            </Box>
           </Box>
         </Box>
-        
 
         {/* ROW 4 */}
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+           gridColumn={{ xs: "span 20", md: "span 4" }}
+          gridRow={{ xs: "span 2", md: "span 2" }} 
+          /*  gridColumn="span 4"
+          gridRow="span 2"  */
+          flexDirection={{ xs: 'column', md: 'row' }}
           backgroundColor={colors.primary[400]}
           p="30px"
         >
@@ -257,8 +285,11 @@ Important Notice! This tool is still in the development phase. Please save your 
           {/* <PageViews /> */}
         </Box>
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+         /*  gridColumn="span 4"
+          gridRow="span 2"  */
+          gridColumn={{ xs: "span 20", md: "span 4" }}
+          gridRow={{ xs: "span 2", md: "span 2" }} 
+          flexDirection={{ xs: 'column', md: 'row' }}
           backgroundColor={colors.primary[400]}
         >
           <Typography
@@ -270,8 +301,11 @@ Important Notice! This tool is still in the development phase. Please save your 
           </Typography>
         </Box>
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+        /*   gridColumn="span 4"
+          gridRow="span 2"  */
+           gridColumn={{ xs: "span 20", md: "span 4" }}
+          gridRow={{ xs: "span 2", md: "span 2" }} 
+          flexDirection={{ xs: 'column', md: 'row' }}
           backgroundColor={colors.primary[400]}
           padding="30px"
         >
@@ -302,6 +336,7 @@ Important Notice! This tool is still in the development phase. Please save your 
           </Box>
         </Box>
       </Box>
+      <Footer />
     </Box>
   );
 };

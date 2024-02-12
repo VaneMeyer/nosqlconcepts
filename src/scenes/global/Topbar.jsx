@@ -4,7 +4,7 @@ import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import LogOut from "../../Sign-in/logout";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-
+import HistoryIcon from '@mui/icons-material/History';
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -36,6 +36,17 @@ const Topbar = () => {
             >
               <HomeOutlinedIcon />
               Dashboard
+            </IconButton>
+          </Link>
+          <Link to="/history">
+            <IconButton
+              sx={{
+                color: colors.grey[900],
+                "&:hover": { backgroundColor: `${colors.blueAccent[200]}` },
+              }}
+            >
+              <HistoryIcon />
+              History
             </IconButton>
           </Link>
         </Box>

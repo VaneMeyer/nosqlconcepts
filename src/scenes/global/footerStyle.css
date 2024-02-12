@@ -1,0 +1,15 @@
+.footer-container {
+    display: flex; 
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    color: rgb(12, 11, 11);
+    padding: 10px;
+    
+  }
+  
+  .logo-container img {
+    width: 150px; /* Passe die Breite nach Bedarf an */
+    height: auto;
+  }
+  
