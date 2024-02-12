@@ -77,6 +77,7 @@ const pool2 = new Pool({
   database: process.env.PG_DATABASE2,
 });
 
+
 app.get("/", (req, res) => {
   const dir = "public";
   res.sendFile(path.join(__dirname, dir, "index.html"));
@@ -110,7 +111,7 @@ app.get("/logout", (req, res) => {
 });
 
 // Execute SQL queries
-app.post("/api/execute-sql", async (req, res) => {
+/* app.post("/api/execute-sql", async (req, res) => {
   const { execQuery } = req.body;
   try {
     const queryFunction = () => pool.query(execQuery);
@@ -120,7 +121,36 @@ app.post("/api/execute-sql", async (req, res) => {
     console.error(err.message);
     res.status(500).json({ message: "Server error", error: err.message });
   }
+ 
+ 
+
+
+}); */
+ // check if query is equal to the expected solution
+ app.post("/api/execute-sql", async (req, res) => {
+  const { execQuery, taskNumber, taskAreaId } = req.body;
+
+  try {
+    // Execute user's SQL query
+    const userQueryResult = await executeQueryWithTimeout(() => pool.query(execQuery), 50000);
+
+    // Check if the user's query matches the expected solution
+    const getSolutionQuery = `SELECT solution_query FROM task_statements WHERE statement_id = ${taskNumber} AND area_id = ${taskAreaId}`;
+    const expectedSolutionResult = await executeQueryWithTimeout(() => pool2.query(getSolutionQuery), 50000);
+    const solution = await executeQueryWithTimeout(() => pool.query(expectedSolutionResult.rows[0].solution_query), 50000);
+    // Send both results to the client
+    res.json({
+      userQueryResult: userQueryResult.rows,
+      expectedResult: solution.rows
+    });
+    //console.log(solution.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
 });
+
+
 
 // execute MongoDB queries
 const COLLECTION_MAP = {
@@ -365,6 +395,45 @@ app.post("/api/store-history-data", async (req, res) => {
     res.json({ success: false, error: error.message });
   }
 });
+//get data for history
+app.post("/gethistory", async (req, res) => {
+  const {
+    username,
+    databasetype,
+  } = req.body;
+    // Ensure the username and databasetype parameters are provided
+    if (!username || !databasetype) {
+      return res.status(400).send("Missing username or databasetype");
+    }
+    let areaId = 0;
+    if (databasetype === "PostgreSQL") {areaId = 1;}
+    else if (databasetype === "Cassandra") {areaId = 2;}
+    else if (databasetype === "Neo4J") {areaId = 3;}
+    else if (databasetype === "MongoDB") {areaId = 4;}
+
+  const query = `
+  SELECT query_text, executed_at FROM query_history WHERE username = $1 AND task_area_id = ${areaId}
+  `;
+
+  try {
+   const result = await pool2.query(query, [
+      username
+    ]);
+    if (result.rows.length === 0) {
+      return res
+        .status(404)
+        .send("No records found for the specified username and databasetype");
+    }
+
+    // Send the data back
+    res.status(200).json(result.rows);
+    
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    res.json({ success: false, error: error.message });
+  }
+});
+
 
 //get statistics data
 app.post("/solved-tasks-count", async (req, res) => {
@@ -680,6 +749,201 @@ app.get("/track", (req, res) => {
 
 app.get("/getViews", (req, res) => {
   res.json({ pageViews });
+});
+
+// Queryfunction for the structure of the PostgreSQL-DB.
+const postgreSQL = `SELECT 
+c.table_name, 
+c.column_name, 
+c.udt_name,
+c.character_maximum_length,
+foreign_constraints.foreign_table_name,
+foreign_constraints.foreign_column_name
+FROM 
+information_schema.columns as c
+LEFT OUTER JOIN 
+(SELECT
+ kcu.table_name, 
+ kcu.column_name, 
+ ccu.table_name AS foreign_table_name,
+ ccu.column_name AS foreign_column_name 
+ FROM information_schema.table_constraints AS tc 
+ JOIN information_schema.key_column_usage AS kcu
+     ON tc.constraint_name = kcu.constraint_name
+     AND tc.table_schema = kcu.table_schema
+ JOIN information_schema.constraint_column_usage AS ccu
+     ON ccu.constraint_name = tc.constraint_name
+ WHERE tc.constraint_type = 'FOREIGN KEY'
+) as foreign_constraints
+ON foreign_constraints.table_name = c.table_name
+AND foreign_constraints.column_name = c.column_name
+WHERE 
+c.table_schema = 'email';` 
+// For testing purposes
+/* const pool3 = new Pool({
+  host: 'localhost',
+  port: 5432,
+  database: 'enron',
+  user: 'postgres',
+  password: process.env.PG_PASSWORD,
+}) */
+app.get("/getPostgreSQLStructure", async (req, res) => {
+  try{
+    const postgreSQL_query = () => pool.query(postgreSQL);
+    let result = await executeQueryWithTimeout(postgreSQL_query, 50000)
+
+    tables_set = new Set();
+    for(let entry in result.rows){
+        tables_set.add(result.rows[entry].table_name)
+    }
+    tables = Array.from(tables_set)
+
+    columns = []
+    for(let table in tables){columns.push([])}
+    for(let entry in result.rows){
+        let i = tables.indexOf(result.rows[entry].table_name)
+        let temp_entry = result.rows[entry]
+        columns[i].push({"table_name": temp_entry.table_name, "column_name": temp_entry.column_name, "data_type": temp_entry.udt_name + (temp_entry.character_maximum_length != null ? ("(" + temp_entry.character_maximum_length + ")") : ""), "foreign_column_name": (temp_entry.foreign_table_name != null ) ? (temp_entry.foreign_table_name + "." + temp_entry.foreign_column_name) : " "})
+    }
+
+    res.json({"tables": tables, "columns": columns })
+  }
+  catch{
+    console.log("Error in /getPostgreSQLStructure.")
+  }
+})
+app.set("trust proxy", "loopback");
+app.get("/getMongoStructure", async (req, res) => {
+  let list_of_collections = [];
+  let list_of_fields = [];
+  let pipeline = [
+    { "$project": { "fields": { "$objectToArray": "$$ROOT" } } },
+    { "$unwind": "$fields" },
+    { "$group": { "_id": "$fields.k", "datatype": { "$addToSet": { "$type": "$fields.v" } } } }
+  ];
+
+  let collection_query;
+  let current_collection;
+  let field_query;
+  let temp_list;
+
+  try {
+    
+    //mongoose.connection.useDb("local");
+    mongoose.connection.useDb("enron");
+   
+    collection_query = await mongoose.connection.db.listCollections().toArray()  
+
+
+    for (collection of collection_query) {
+      if (collection["name"] == "startup_log") {
+        continue;
+      };
+      list_of_collections.push(collection["name"]);
+      current_collection = mongoose.connection.db.collection(collection["name"]);
+
+      field_query = await current_collection.aggregate(pipeline).toArray();
+
+      temp_list = [];
+      for (field of field_query) {
+        temp_list.push({ "name": field["_id"], "datatype": field["datatype"][0] });
+      }
+      list_of_fields.push(temp_list);
+    }
+  }
+  finally {
+    res.json({ "tables": list_of_collections, "columns": list_of_fields });
+  };
+});
+
+app.get("/getNeo4JStructure", async (req, res) => {
+  try {
+    const session = driver.session();
+    const result = await session.run('CALL db.schema.visualization');
+    const result_node_properties = await session.run('CALL db.schema.nodeTypeProperties()')
+    const result_rel_properties = await session.run('CALL db.schema.relTypeProperties()')
+    session.close();
+
+    if (result.summary.queryType === "r") {
+      nodes_index = 0
+      relationship_index = 1
+
+      nodes = result.records[0]._fields[nodes_index]
+      let cleaned_nodes = []
+      let node_refs = {}
+      for (const node in nodes){
+          cleaned_nodes.push({"id": nodes[node].elementId, "name": nodes[node].properties.name})
+          node_refs[nodes[node].elementId] = {"name": nodes[node].properties.name}
+      }
+      
+      let arr_node_refs = []
+      for(const elem in node_refs){arr_node_refs.push(node_refs[elem].name);}
+
+      cleaned_nodes_props = []
+      for (const n in arr_node_refs){cleaned_nodes_props.push([])}
+
+      for (const node_prop in result_node_properties.records){
+          let i = arr_node_refs.indexOf(result_node_properties.records[node_prop]._fields[0].substring(2,result_node_properties.records[node_prop]._fields[0].length - 1))
+          cleaned_nodes_props[i].push({"type": result_node_properties.records[node_prop]._fields[0],"label": String(result_node_properties.records[node_prop]._fields[1]), "property": String(result_node_properties.records[node_prop]._fields[2]), "datatype": String(result_node_properties.records[node_prop]._fields[3]), "mandatory": String(result_node_properties.records[node_prop]._fields[4])})
+      }
+
+      let relationships = result.records[0]._fields[relationship_index]
+      let cleaned_relationships = []
+      for(const relationship in relationships){
+          cleaned_relationships.push({"id": relationships[relationship].elementId, "name": relationships[relationship].properties.name, "start": node_refs[relationships[relationship].startNodeElementId].name, "end": node_refs[relationships[relationship].endNodeElementId].name})
+      }
+
+      let arr_rel_refs = []
+      for(const elem in cleaned_relationships){arr_rel_refs.push(cleaned_relationships[elem].name);}
+
+      cleaned_rel_props = []
+      for (const n in arr_rel_refs){cleaned_rel_props.push([])}
+
+      for (const rel_prop in result_rel_properties.records){
+          let i = arr_rel_refs.indexOf(result_rel_properties.records[rel_prop]._fields[0].substring(2,result_rel_properties.records[rel_prop]._fields[0].length - 1))
+          cleaned_rel_props[i].push({"type": result_rel_properties.records[rel_prop]._fields[0], "property": String(result_rel_properties.records[rel_prop]._fields[1]), "datatype": String(result_rel_properties.records[rel_prop]._fields[2]), "mandatory": String(result_rel_properties.records[rel_prop]._fields[3])})
+      }
+
+      res.json({"nodes": cleaned_nodes, "relationships": cleaned_relationships, "node_props": cleaned_nodes_props, "rel_props": cleaned_rel_props})
+    } else {
+      res
+        .status(400)
+        .json({ message: "Only queries to read data are allowed" });
+    }
+  } catch (error) {
+    console.error("Error with executing Neo4J query:", error);
+    res.status(500).json({ error: "Server error occurred" });
+  }
+})
+
+app.get("/getCassandraStructure", async (req, res) => {
+  let list_of_tables = [];
+  let list_of_columns = [];
+  try {
+    let table_query = await client.execute("DESCRIBE TABLES")
+
+    let column_query;
+    for (table of table_query) {
+      list_of_tables.push(table.name);
+      column_query = await client.execute("DESCRIBE " + table.name);
+      
+      column_query_processed = column_query.rows[0].create_statement
+      .split(")")[0]	// remove everything after the table creation part
+      .split("(")[1]	// remove everything before the column definition
+      .split(",\n");	// split the individual columns 
+      
+      let temp;
+      let tempList = [];
+      for (column of column_query_processed) {
+        temp = column.trim().split(" ");
+        tempList.push({ "name": temp[0], "datatype": temp[1] });
+      }
+      list_of_columns.push(tempList);
+    }
+  }
+  finally{
+    res.json({ "tables": list_of_tables, "columns": list_of_columns });
+  };
 });
 
 const port = process.env.PORT || 8000;
