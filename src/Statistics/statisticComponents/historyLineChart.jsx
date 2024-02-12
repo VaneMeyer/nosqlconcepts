@@ -7,6 +7,8 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
+import InsightsIcon from '@mui/icons-material/Insights';
+
 
 const QueryHistoryChart = ({ isUser }) => {
   const theme = useTheme();
@@ -33,17 +35,40 @@ const QueryHistoryChart = ({ isUser }) => {
     path = "";
   }
 
+  const getStoredData = () => {
+    const storedData = localStorage.getItem("queryHistoryData");
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  };
   const fetchData = async () => {
     try {
       const response = await axios.post(path, { username, limit });
-      const lineChartDataArray = response.data;
+      const data = response.data;
+      data.forEach(item => {
+        // Erzeuge ein Date-Objekt aus dem String
+        const dateObj = new Date(item.x);
+    
+        // Extrahiere das Datum ohne die Uhrzeit
+        //const dateStr = dateObj.toISOString().split('T')[0];
+    
+        // Füge einen Tag zum Datum hinzu
+        dateObj.setDate(dateObj.getDate() + 1);
+        const newDateStr = dateObj.toISOString().split('T')[0];
+    
+        // Aktualisiere den Wert von "x" im Datenpunkt
+        item.x = newDateStr;
+    });
+      const lineChartDataArray = data;
       const transfomedData = [
         { id: "queryHistory", data: lineChartDataArray.reverse() },
       ];
       setData(transfomedData);
-      console.log(transfomedData);
+      localStorage.setItem("queryHistoryData", JSON.stringify(transfomedData));
+      //console.log(transfomedData);
     } catch (error) {
       console.error("Error with receiving data:", error);
+      getStoredData();
     }
   };
   useEffect(() => {
@@ -160,7 +185,7 @@ const QueryHistoryChart = ({ isUser }) => {
           </Select>
         </FormControl>
         <Button sx={muiButtonStyle} onClick={handleClick}>
-          Apply
+         <InsightsIcon></InsightsIcon> Apply 
         </Button>
       </Box>
       <div style={{ height: "270px", padding: 0 }}>
@@ -195,7 +220,8 @@ const QueryHistoryChart = ({ isUser }) => {
             legendOffset: -40,
             legendPosition: "middle",
           }}
-          colors={{ scheme: "nivo" }}
+          colors={[colors.blueAccent[600], colors.greenAccent[400], colors.blueAccent[700], colors.greenAccent[700], colors.primary[900]]}
+          /* colors={{ scheme: "nivo" }} */
           pointSize={10}
           pointColor={{ theme: "background" }}
           pointBorderWidth={2}

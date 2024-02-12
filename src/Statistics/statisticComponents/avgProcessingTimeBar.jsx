@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 import axios from "axios";
+import { tokens } from '../../theme';
+import { useTheme } from '@mui/material';
 
 
 const AvgProcessingTimeChart = ({ isUser }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
   const [username, setUsername] = useState(localStorage.getItem("token").replace(/"/g, ''));
 
@@ -13,15 +17,25 @@ const AvgProcessingTimeChart = ({ isUser }) => {
   } else {
     path = "/avg-processing-time";
   }
+
+  
+  const getStoredData = () => {
+    const storedData = localStorage.getItem("avgProcessingTimeData");
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  };
   useEffect(() => {
     
     const fetchData = async () => {
       try {
         const response = await axios.post(path, {username});
         setData(response.data);
+        localStorage.setItem("avgProcessingTimeData", JSON.stringify(response.data));
         //console.log(response.data);
       } catch (error) {
         console.error("Error with receiving data:", error);
+        getStoredData();
       }
     };
 
@@ -53,7 +67,8 @@ const AvgProcessingTimeChart = ({ isUser }) => {
         padding={0.3}
         valueScale={{ type: "linear" }}
         indexScale={{ type: "band", round: true }}
-        colors={{ scheme: "nivo" }}
+        colors={[colors.blueAccent[700], colors.greenAccent[700]]}
+        /* colors={{ scheme: "nivo" }} */
         groupMode="grouped"
         axisTop={null}
         axisRight={null}
