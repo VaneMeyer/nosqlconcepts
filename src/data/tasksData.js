@@ -1,7 +1,7 @@
 import React from 'react';
 import MathComponent from 'react-mathjax2';
 
-/* export const pgTasks = [
+export const pgTasks = [
   "Task 1.1: For each person you want to know in which department she or he works. Therefore, you should make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
   "Task 1.2: For each department: Find out how many emails in total were sent out from employees working there. The output per department shall contain the corresponding number of emails.",
   "Task 1.3: For each department: Find out how many emails in total were sent to employees working there (hint: carbon copies included). The output shall have the same structure as the output of Task 1.2.",
@@ -17,15 +17,8 @@ import MathComponent from 'react-mathjax2';
   "Task 6.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).",
   "Task 7.1: Take an email text and count the occurrence of each word in that email. The output shall contain the words and the number of occurrence. You might need to use an external programming language to implement a UDF (User defined function) to split the email text into words. Apply the UDF to a particular email body. Bonus: Show the result according to ·	the alphabetical order of the words ·	the ascending order of occurrence ·	the descending order of occurrence Remember: Delete any created functions before you leave the site.",
   "Task 7.2: Now, create an output similar to task 7.1 for all emails. Info: depending on the database management system, this operation might be very expensive and can result in a timeout. In that case you might want to set a threshold for a timeout, if possible. Remember: Delete any created functions before you leave the site.",
-]; */
-//5 tasks for on site session
-export const pgTasks = [
-  "Task 1: For each department, find how many persons have sent more than 100 emails.",
-  "Task 2: How many persons have sent one or more emails to more than three department?",
-  "Task 3: Same of Task 3, but don’t count the person’s department.",
-  
-  
-];
+]; 
+
 
 export const cassandraTasks = [
   "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
@@ -47,23 +40,8 @@ export const cassandraTasks = [
   "Task 7.2: Now, create an output similar to task 7.1 for all emails. Info: depending on the database management system, this operation might be very expensive and can result in a timeout. In that case you might want to set a threshold for a timeout, if possible.", */
 ];
 
-export const neo4jTasks = [
-  "Task 1: Find all the persons who work in the Health department.",
-  "Task 2: Find all the persons who sent an email to any person that works in the Health department.",
-  
- /*  "Task 1: Give a network of persons that know each other. The network should contain 5 relationships.",
-  "Task 1.2: For each department: Find out how many emails in total were sent out from employees working there. The output per department shall contain the corresponding number of emails.",
-  "Task 1.3: For each department: Find out how many emails in total were sent to employees working there (hint: carbon copies included). The output shall have the same structure as the output of Task 1.2.", */
-  /* "Task 2.1: Do people that earn more than the average salary in their department write more emails than those who don’t? Query for people that earn more than the average salary at their department and find out whether they write more emails than the other employees that earn less than the average salary at their department (equal is not considered). Check that for each department. First compute the result for the average salary (avg. S.) per department that contains the brief-name of all the departments and the average salary for that department. Then produce the output of all the people that earn more than the avg. Salary and accordingly produce the output for all the people who earn less than the avg. Salary. Produce a query result per department that contains the number of emails written by the people earning more and the people earning less than the average.",
-  "Task 3.1: Find missing values for each attribute of the e-mails. Which attribute has the most missing values?",
-  "Task 4.1: Select all emails that have been written between the 01.09.2001 and the 31.10.2001. First, find out which date and time format is used in email!",
-  "Task 4.2: Larry May is an employee of Enron. Find all emails he received between the 01.09.2001 and the 31.10.2001.",
-  "Task 5.1: Network analysis can be done to investigate social structures. In the related field of social network analysis a network is characterized by nodes (individual actors, people, or things within the network) and the edges (relationships or interactions) that connect them. To find out, how far from each other two nodes of the network are, we can count hops. To calculate the number of hops, we calculate m+1, where m is the number of intermediate nodes between the two nodes we’re looking at. If the network nodes (the persons) are fully connected, how many hops are needed to reach everyone in Enron from Larry May by email? Consider “EMAIL_FROM” and “EMAIL_TO” links to compute the amount of hops that is needed to reach everyone in Enron.",
-  "Task 5.2: How many hops are needed to reach everyone by their 'KNOWS' relationship starting from Larry May (similar to task 5.1)?",
-  "Task 5.3: Which people are in the 2-hop email network of Larry May? Again, consider the “KNOWS” relationship, but only for people that are reachable with two hops.",
-  "Task 5.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).", */
-];
-/* export const neo4jTasks = [
+
+ export const neo4jTasks = [
   "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
   "Task 1.2: For each department: Find out how many emails in total were sent out from employees working there. The output per department shall contain the corresponding number of emails.",
   "Task 1.3: For each department: Find out how many emails in total were sent to employees working there (hint: carbon copies included). The output shall have the same structure as the output of Task 1.2.",
@@ -75,7 +53,7 @@ export const neo4jTasks = [
   "Task 5.2: How many hops are needed to reach everyone by their 'KNOWS' relationship starting from Larry May (similar to task 5.1)?",
   "Task 5.3: Which people are in the 2-hop email network of Larry May? Again, consider the “KNOWS” relationship, but only for people that are reachable with two hops.",
   "Task 5.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).",
-]; */
+]; 
  
 export const mongodbTasks = [
   "TASK 1 - USE CASE: EQUI JOIN - Task 1.1 List of people with their department (Max Time: 0,5h): For each person you want to know in which department she or he works. Therefore, you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
