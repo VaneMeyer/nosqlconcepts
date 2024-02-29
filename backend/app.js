@@ -701,43 +701,7 @@ app.post("/getTaskFormData", async (req, res) => {
   }
 });
 
-//example feedback postgreSQL task 1
-app.get("/getCorrectResult", async (req, res) => {
-  try {
-    const query = `
-      WITH persons_email_counts AS (
-        SELECT 
-          email.person.*, 
-          COUNT(email.emails.id) AS no_emails 
-        FROM 
-          email.person 
-        LEFT JOIN 
-          email.emails ON email.person.email_address = email.emails.message_from 
-        GROUP BY 
-          email.person.id
-      ),
-      persons_100emails AS (
-        SELECT * FROM persons_email_counts 
-        WHERE no_emails > 100
-      )
-      SELECT 
-        email.department.id, 
-        COUNT(persons_100emails.id) 
-      FROM 
-        email.department 
-      LEFT JOIN 
-        persons_100emails ON email.department.id = works_in 
-      GROUP BY 
-        email.department.id;
-    `;
 
-    const { rows } = await pool.query(query);
-    res.json(rows);
-  } catch (error) {
-    console.error("Error fetching correct result:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
 
 //page views
 let pageViews = 0;
@@ -780,13 +744,7 @@ AND foreign_constraints.column_name = c.column_name
 WHERE 
 c.table_schema = 'email';` 
 // For testing purposes
-/* const pool3 = new Pool({
-  host: 'localhost',
-  port: 5432,
-  database: 'enron',
-  user: 'postgres',
-  password: process.env.PG_PASSWORD,
-}) */
+
 app.get("/getPostgreSQLStructure", async (req, res) => {
   try{
     const postgreSQL_query = () => pool.query(postgreSQL);
