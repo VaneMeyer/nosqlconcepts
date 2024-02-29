@@ -111,21 +111,7 @@ app.get("/logout", (req, res) => {
 });
 
 // Execute SQL queries
-/* app.post("/api/execute-sql", async (req, res) => {
-  const { execQuery } = req.body;
-  try {
-    const queryFunction = () => pool.query(execQuery);
-    const result = await executeQueryWithTimeout(queryFunction, 50000);
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
- 
- 
 
-
-}); */
  // check if query is equal to the expected solution
  app.post("/api/execute-sql", async (req, res) => {
   const { execQuery, taskNumber, taskAreaId } = req.body;
@@ -401,7 +387,7 @@ app.post("/gethistory", async (req, res) => {
     username,
     databasetype,
   } = req.body;
-    // Ensure the username and databasetype parameters are provided
+    
     if (!username || !databasetype) {
       return res.status(400).send("Missing username or databasetype");
     }
@@ -701,43 +687,7 @@ app.post("/getTaskFormData", async (req, res) => {
   }
 });
 
-//example feedback postgreSQL task 1
-app.get("/getCorrectResult", async (req, res) => {
-  try {
-    const query = `
-      WITH persons_email_counts AS (
-        SELECT 
-          email.person.*, 
-          COUNT(email.emails.id) AS no_emails 
-        FROM 
-          email.person 
-        LEFT JOIN 
-          email.emails ON email.person.email_address = email.emails.message_from 
-        GROUP BY 
-          email.person.id
-      ),
-      persons_100emails AS (
-        SELECT * FROM persons_email_counts 
-        WHERE no_emails > 100
-      )
-      SELECT 
-        email.department.id, 
-        COUNT(persons_100emails.id) 
-      FROM 
-        email.department 
-      LEFT JOIN 
-        persons_100emails ON email.department.id = works_in 
-      GROUP BY 
-        email.department.id;
-    `;
 
-    const { rows } = await pool.query(query);
-    res.json(rows);
-  } catch (error) {
-    console.error("Error fetching correct result:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
 
 //page views
 let pageViews = 0;
@@ -779,14 +729,7 @@ ON foreign_constraints.table_name = c.table_name
 AND foreign_constraints.column_name = c.column_name
 WHERE 
 c.table_schema = 'email';` 
-// For testing purposes
-/* const pool3 = new Pool({
-  host: 'localhost',
-  port: 5432,
-  database: 'enron',
-  user: 'postgres',
-  password: process.env.PG_PASSWORD,
-}) */
+
 app.get("/getPostgreSQLStructure", async (req, res) => {
   try{
     const postgreSQL_query = () => pool.query(postgreSQL);
