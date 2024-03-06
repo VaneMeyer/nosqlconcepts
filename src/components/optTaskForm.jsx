@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import pgDataModel from "../images/datamodel1-transp.png";
-import mongoDataModel from "../images/datamodel4-transp.png";
-import neoDataModel from "../images/datamodel3-transp.png";
-import cassandraDataModel from "../images/datamodel2-transp.png";
-import { pgTasks } from "../data/tasksData";
-import { cassandraTasks } from "../data/tasksData";
-import { neo4jTasks } from "../data/tasksData";
-import { mongodbTasks } from "../data/tasksData";
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import pgDataModel from "../images/datamodel1-transp.png"
+import mongoDataModel from "../images/datamodel4-transp.png"
+import neoDataModel from "../images/datamodel3-transp.png"
+import cassandraDataModel from "../images/datamodel2-transp.png"
+import { pgTasks } from "../data/tasksData"
+import { cassandraTasks } from "../data/tasksData"
+import { neo4jTasks } from "../data/tasksData"
+import { mongodbTasks } from "../data/tasksData"
 import {
   Box,
   Button,
@@ -19,24 +19,24 @@ import {
   FormControlLabel,
   Radio,
   useTheme,
-  Grid
-} from "@mui/material";
-import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
-import SaveIcon from "@mui/icons-material/Save";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import { tokens } from "../theme";
-import OptQuery from "./optQuery";
-import OptTimer from "./optTimer";
-import Example from "./example";
-import DbStructureTable from "./DbStructureTable";
+  Grid,
+} from "@mui/material"
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty"
+import SaveIcon from "@mui/icons-material/Save"
+import NavigateNextIcon from "@mui/icons-material/NavigateNext"
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore"
+import { tokens } from "../theme"
+import OptQuery from "./optQuery"
+import OptTimer from "./optTimer"
+//import Example from "./example"
+import DbStructureTable from "./DbStructureTable"
 import DbStructureTablePostgres from "../scenes/db_structures/postgres_structure"
 import DbStructureTableNeo4j from "../scenes/db_structures/neo4j_structure"
-import DbStructureTableGen from "./DbStructureTableGeneral";
+//import DbStructureTableGen from "./DbStructureTableGeneral"
 const OptTaskForm = ({ title }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const navigate = useNavigate();
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
+  const navigate = useNavigate()
 
   // Styles for mui components
   let muiButtonStyle = {
@@ -46,26 +46,26 @@ const OptTaskForm = ({ title }) => {
     fontWeight: "bold",
     padding: "10px 20px",
     margin: "10px",
-  };
+  }
   let muiRadioStyle = {
     "&.Mui-checked": {
       color: colors.primary[100],
     },
-  };
+  }
   let labelStyle = {
     color: colors.grey[100],
     fontSize: "16px",
-  };
+  }
 
-  const [task, setTask] = useState("");
-  const [isRunning, setIsRunning] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-  const [receivedTime, setReceivedTime] = useState(null);
-  const [taskNumber, setTaskNumber] = useState(1);
-  const [tasksArray, setTasksArray] = useState([]);
-  const [taskAreaId, setTaskAreaId] = useState(0);
-  const [dataModel, setDataModel] = useState("");
-  const [username, setUsername] = useState(localStorage.getItem("token"));
+  const [task, setTask] = useState("")
+  const [isRunning, setIsRunning] = useState(false)
+  const [hasStarted, setHasStarted] = useState(false)
+  //const [receivedTime, setReceivedTime] = useState(null);
+  const [taskNumber, setTaskNumber] = useState(1)
+  const [tasksArray, setTasksArray] = useState([])
+  const [taskAreaId, setTaskAreaId] = useState(0)
+  const [dataModel, setDataModel] = useState("")
+  const [username, setUsername] = useState(localStorage.getItem("token"))
   const [formData, setFormData] = useState({
     partialSolution:
       localStorage.getItem(
@@ -79,33 +79,33 @@ const OptTaskForm = ({ title }) => {
       localStorage.getItem(
         `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
       ) || "0",
-  });
-  const [endPoint, setEndPoint] = useState("");
-  const [dbTable, setDbTable] = useState(null);
+  })
+  const [endPoint, setEndPoint] = useState("")
+  const [dbTable, setDbTable] = useState(null)
 
   const saveAnswersToLocalStorage = () => {
     if (typeof localStorage !== "undefined") {
       localStorage.setItem(
         `${title.toLowerCase()}partialSolution_${username}_${taskNumber}`,
         formData.partialSolution
-      );
+      )
       localStorage.setItem(
         `${title.toLowerCase()}isCorrect_${username}_${taskNumber}`,
         formData.isCorrect
-      );
+      )
       localStorage.setItem(
         `${title.toLowerCase()}difficulty_${username}_${taskNumber}`,
         formData.difficulty
-      );
+      )
       //sendDataToDb();
     }
-  };
+  }
 
   const sendDataToDb = async () => {
     let queryText =
       `${localStorage.getItem(
         `${title.toLowerCase()}query_${username}_${taskNumber}`
-      )}` || "";
+      )}` || ""
     const dataToSend = {
       username: username.replace(/"/g, ""), //get rid of "" of the string
       statementId: taskNumber,
@@ -136,53 +136,53 @@ const OptTaskForm = ({ title }) => {
           `${title.toLowerCase()}time_${username}_${taskNumber}`
         ) || 0
       ), // receivedTime
-    };
+    }
 
     try {
-      const response = await axios.post("/api/store-data", dataToSend);
+      const response = await axios.post("/api/store-data", dataToSend)
       if (response.data.success) {
-        console.log("Data stored successfully!");
+        console.log("Data stored successfully!")
       } else {
-        console.error("Error occurred:", response.data.error);
+        console.error("Error occurred:", response.data.error)
       }
     } catch (error) {
-      console.error("Server error:", error);
+      console.error("Server error:", error)
     }
-  };
+  }
 
   useEffect(() => {
-    let taskarray = [];
-    let datamodel = "";
-    let taskAreaId = 0;
-    let endpoint = "";
+    let taskarray = []
+    let datamodel = ""
+    let taskAreaId = 0
+    let endpoint = ""
     if (title === "PostgreSQL") {
-      taskarray = pgTasks;
-      datamodel = pgDataModel;
-      taskAreaId = 1;
-      endpoint = "/getPostgreSQLStructure";
+      taskarray = pgTasks
+      datamodel = pgDataModel
+      taskAreaId = 1
+      endpoint = "/getPostgreSQLStructure"
     }
     if (title === "Cassandra") {
-      taskarray = cassandraTasks;
-      datamodel = cassandraDataModel;
-      taskAreaId = 2;
-      endpoint = "/getCassandraStructure";
+      taskarray = cassandraTasks
+      datamodel = cassandraDataModel
+      taskAreaId = 2
+      endpoint = "/getCassandraStructure"
     }
     if (title === "Neo4J") {
-      taskarray = neo4jTasks;
-      datamodel = neoDataModel;
-      taskAreaId = 3;
-      endpoint = "/getNeo4JStructure";
+      taskarray = neo4jTasks
+      datamodel = neoDataModel
+      taskAreaId = 3
+      endpoint = "/getNeo4JStructure"
     }
     if (title === "MongoDB") {
-      taskarray = mongodbTasks;
-      datamodel = mongoDataModel;
-      taskAreaId = 4;
-      endpoint = "/getMongoStructure";
+      taskarray = mongodbTasks
+      datamodel = mongoDataModel
+      taskAreaId = 4
+      endpoint = "/getMongoStructure"
     }
-    setTask(taskarray[taskNumber - 1]);
-    setTasksArray(taskarray);
-    setTaskAreaId(taskAreaId);
-    setDataModel(datamodel);
+    setTask(taskarray[taskNumber - 1])
+    setTasksArray(taskarray)
+    setTaskAreaId(taskAreaId)
+    setDataModel(datamodel)
     setFormData({
       partialSolution:
         localStorage.getItem(
@@ -196,48 +196,57 @@ const OptTaskForm = ({ title }) => {
         localStorage.getItem(
           `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
         ) || "0",
-    });
-    setEndPoint(endpoint);
-    fetchData();
-  }, [title, taskNumber]);
+    })
+    setEndPoint(endpoint)
+    fetchData()
+  }, [title, taskNumber])
 
   const fetchData = async () => {
-    let response = await axios.get(endPoint);
-    response = response.data;
-    switch(taskAreaId){
+    let response = await axios.get(endPoint)
+    response = response.data
+    switch (taskAreaId) {
       case 1:
-        setDbTable(DbStructureTablePostgres(response["tables"], response["columns"]));
+        setDbTable(
+          DbStructureTablePostgres(response["tables"], response["columns"])
+        )
         break
       case 3:
-        setDbTable(DbStructureTableNeo4j(response["nodes"], response["relationships"], response["node_props"], response["rel_props"]))
+        setDbTable(
+          DbStructureTableNeo4j(
+            response["nodes"],
+            response["relationships"],
+            response["node_props"],
+            response["rel_props"]
+          )
+        )
         break
       default:
-        setDbTable(DbStructureTable(response["tables"], response["columns"]));
+        setDbTable(DbStructureTable(response["tables"], response["columns"]))
         break
     }
-  };
+  }
 
   const startTimer = () => {
-    setIsRunning(true);
-    setHasStarted(true);
+    setIsRunning(true)
+    setHasStarted(true)
 
-    localStorage.setItem(`${title.toLowerCase()}Status`, "STARTED");
-  };
+    localStorage.setItem(`${title.toLowerCase()}Status`, "STARTED")
+  }
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target
 
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }))
 
-    saveAnswersToLocalStorage();
-  };
+    saveAnswersToLocalStorage()
+  }
 
   // Function to handle navigation to the next task
 
   const updateTaskAndFormData = (newTaskNumber) => {
-    let newTaskIndex = newTaskNumber - 1;
-    setTask(tasksArray[newTaskIndex]);
-    setTaskNumber(newTaskNumber);
+    let newTaskIndex = newTaskNumber - 1
+    setTask(tasksArray[newTaskIndex])
+    setTaskNumber(newTaskNumber)
 
     setFormData({
       partialSolution:
@@ -252,47 +261,46 @@ const OptTaskForm = ({ title }) => {
         localStorage.getItem(
           `${title.toLowerCase()}difficulty_${username}_${newTaskNumber}`
         ) || "0",
-    });
+    })
 
-    setIsRunning(false);
-    setHasStarted(false);
-    saveAnswersToLocalStorage();
-    sendDataToDb();
-  };
+    setIsRunning(false)
+    setHasStarted(false)
+    saveAnswersToLocalStorage()
+    sendDataToDb()
+  }
 
   const handleNextTask = () => {
     if (taskNumber === tasksArray.length) {
-      alert("This is the last task");
+      alert("This is the last task")
     } else {
-      updateTaskAndFormData(taskNumber + 1);
+      updateTaskAndFormData(taskNumber + 1)
     }
-  };
+  }
 
   const handlePrevTask = () => {
     if (taskNumber > 1) {
-      updateTaskAndFormData(taskNumber - 1);
+      updateTaskAndFormData(taskNumber - 1)
     }
-  };
+  }
 
   const handleTaskChange = (event) => {
-    const { value } = event.target;
+    const { value } = event.target
 
-    updateTaskAndFormData(value);
-  };
+    updateTaskAndFormData(value)
+  }
 
   const handleFinish = () => {
-    saveAnswersToLocalStorage();
-    sendDataToDb();
+    saveAnswersToLocalStorage()
+    sendDataToDb()
 
-    localStorage.setItem(`${title.toLowerCase()}Status`, "FINISHED");
-    const dataToSend = { title: title };
-    navigate(`/download?title=${dataToSend.title}`);
-  };
+    localStorage.setItem(`${title.toLowerCase()}Status`, "FINISHED")
+    const dataToSend = { title: title }
+    navigate(`/download?title=${dataToSend.title}`)
+  }
   return (
     <Box display="flex" justifyContent="space-between">
       <Box>
         <Box>
-          
           <InputLabel id="task-number-label" style={labelStyle}>
             Jump to task:
           </InputLabel>
@@ -471,10 +479,8 @@ const OptTaskForm = ({ title }) => {
             </div>
           )}
         </Box>
-
       </Box>
-
-     {/*   <Box>
+      {/*   <Box>
         <img
           src={dataModel}
           alt="Data model of enron database"
@@ -482,31 +488,28 @@ const OptTaskForm = ({ title }) => {
           height="auto"
         />
       </Box>  */}
-       &nbsp;
-      &nbsp;
-      &nbsp;
-      &nbsp;
+      &nbsp; &nbsp; &nbsp; &nbsp;
       <Box>
         <Button sx={muiButtonStyle} onClick={fetchData}>
           Update Structure
         </Button>
         <Grid container spacing={2}>
           {dbTable}
-        </Grid> <Box>
-        <img
-          src={dataModel}
-          alt="Data model of enron database"
-          width="100%"
-          height="auto"
-        />
-      </Box> 
+        </Grid>{" "}
+        <Box>
+          <img
+            src={dataModel}
+            alt="Data model of enron database"
+            width="100%"
+            height="auto"
+          />
+        </Box>
       </Box>
-     
     </Box>
-  );
-};
+  )
+}
 
-export default OptTaskForm;
+export default OptTaskForm
 //only store in DB version
 /* import React, { useState, useEffect } from "react";
 import axios from "axios";

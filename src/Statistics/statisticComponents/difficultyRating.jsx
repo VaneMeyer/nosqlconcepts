@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Box, Typography, Paper, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
-import PersonIcon from "@mui/icons-material/Person";
-import MoodIcon from "@mui/icons-material/Mood";
-import MoodBadIcon from "@mui/icons-material/MoodBad";
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import { Box, Typography, useTheme } from "@mui/material"
+import { tokens } from "../../theme"
+import MoodIcon from "@mui/icons-material/Mood"
+import MoodBadIcon from "@mui/icons-material/MoodBad"
 
 function DifficultyRating() {
-  const [easyTask, setEasyTask] = useState(0);
-  const [difficultTask, setDifficultTask] = useState(0);
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const [easyTask, setEasyTask] = useState(0)
+  const [difficultTask, setDifficultTask] = useState(0)
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
   const userStyle = {
     margin: "20px",
     padding: "10px",
@@ -18,53 +17,58 @@ function DifficultyRating() {
     backgroundColor: colors.blueAccent[800],
     color: "black",
     textAlign: "center",
-  };
+  }
   const getStoredData = () => {
-    const storedData = localStorage.getItem("easyTaskData");
+    const storedData = localStorage.getItem("easyTaskData")
     const storedData2 = localStorage.getItem("difficultTaskData")
     if (storedData) {
-      setEasyTask(JSON.parse(storedData));
+      setEasyTask(JSON.parse(storedData))
     }
     if (storedData2) {
-      setDifficultTask(JSON.parse(storedData2));
+      setDifficultTask(JSON.parse(storedData2))
     }
-  };
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/difficulty-rating-easy");
-        setEasyTask(response.data[0]);
-        localStorage.setItem("easyTaskData", JSON.stringify(response.data[0]));
+        const response = await axios.get("/difficulty-rating-easy")
+        setEasyTask(response.data[0])
+        localStorage.setItem("easyTaskData", JSON.stringify(response.data[0]))
       } catch (error) {
-        console.error("Error with receiving data:", error);
+        console.error("Error with receiving data:", error)
       }
       try {
-        const response2 = await axios.get("/difficulty-rating-difficult");
-        setDifficultTask(response2.data[0]);
-        localStorage.setItem("difficultTaskData", JSON.stringify(response2.data[0]));
+        const response2 = await axios.get("/difficulty-rating-difficult")
+        setDifficultTask(response2.data[0])
+        localStorage.setItem(
+          "difficultTaskData",
+          JSON.stringify(response2.data[0])
+        )
       } catch (error) {
-        console.error("Error with receiving data:", error);
-        getStoredData();
+        console.error("Error with receiving data:", error)
+        getStoredData()
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   return (
     <div>
       <Box sx={userStyle}>
         <Typography>
           <MoodIcon />
-          Most easy rated task: {`Task ${easyTask.task_id} (${easyTask.task_area})`}
+          Most easy rated task:{" "}
+          {`Task ${easyTask?.task_id} (${easyTask?.task_area})`}
         </Typography>
         <Typography>
           <MoodBadIcon />
-          Most difficult rated task: {`Task ${difficultTask.task_id} (${difficultTask.task_area})`}
+          Most difficult rated task:{" "}
+          {`Task ${difficultTask?.task_id} (${difficultTask?.task_area})`}
         </Typography>
       </Box>
     </div>
-  );
+  )
 }
 
-export default DifficultyRating;
+export default DifficultyRating
