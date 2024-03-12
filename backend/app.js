@@ -124,10 +124,11 @@ app.get("/logout", (req, res) => {
 
 }); */
 // check if query is equal to the expected solution
-app.post("/api/execute-sql", async (req, res) => {
-  const { execQuery, taskNumber, taskAreaId } = req.body
+app.post(
+  "/api/execute-sql",
+  catchAsync(async (req, res) => {
+    const { execQuery, taskNumber, taskAreaId } = req.body
 
-  try {
     // Execute user's SQL query
     const userQueryResult = await executeQueryWithTimeout(
       () => pool.query(execQuery),
@@ -150,11 +151,8 @@ app.post("/api/execute-sql", async (req, res) => {
       expectedResult: solution.rows,
     })
     //console.log(solution.rows);
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).json({ message: "Server error", error: err.message })
-  }
-})
+  })
+)
 
 // execute MongoDB queries
 const COLLECTION_MAP = {
@@ -180,24 +178,20 @@ const getModifiedQuery = (originalQuery) => {
   return modifiedQuery
 }
 //check this query
-app.post("/api/execute-mql", async (req, res) => {
-  const { execQuery } = req.body
-  const modifiedQuery = getModifiedQuery(execQuery)
-
-  try {
+app.post(
+  "/api/execute-mql",
+  catchAsync(async (req, res) => {
+    const { execQuery } = req.body
+    const modifiedQuery = getModifiedQuery(execQuery)
     const queryFunction = async () => {
       const db = mongoose.connection.useDb("enron")
       const query = eval(`${modifiedQuery}`)
       return await query.toArray()
     }
-
     const result = await executeQueryWithTimeout(queryFunction, 50000)
     res.json(result)
-  } catch (error) {
-    console.error("Error executing query:", error)
-    res.status(500).json({ error: "Server error occurred" })
-  }
-})
+  })
+)
 
 mongoose
   .connect(process.env.MONGODATABASE, {
