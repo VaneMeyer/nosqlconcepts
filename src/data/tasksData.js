@@ -1,7 +1,11 @@
 import React from 'react';
 import MathComponent from 'react-mathjax2';
 
+<<<<<<< HEAD
  export const pgTasks = [
+=======
+export const pgTasks = [
+>>>>>>> 8c1c0e379a4c9025ca43cc0c1fe7f1b7a367510e
   "Task 1.1: For each person you want to know in which department she or he works. Therefore, you should make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
   "Task 1.2: For each department: Find out how many emails in total were sent out from employees working there. The output per department shall contain the corresponding number of emails.",
   "Task 1.3: For each department: Find out how many emails in total were sent to employees working there (hint: carbon copies included). The output shall have the same structure as the output of Task 1.2.",
@@ -18,6 +22,7 @@ import MathComponent from 'react-mathjax2';
   "Task 7.1: Take an email text and count the occurrence of each word in that email. The output shall contain the words and the number of occurrence. You might need to use an external programming language to implement a UDF (User defined function) to split the email text into words. Apply the UDF to a particular email body. Bonus: Show the result according to ·	the alphabetical order of the words ·	the ascending order of occurrence ·	the descending order of occurrence Remember: Delete any created functions before you leave the site.",
   "Task 7.2: Now, create an output similar to task 7.1 for all emails. Info: depending on the database management system, this operation might be very expensive and can result in a timeout. In that case you might want to set a threshold for a timeout, if possible. Remember: Delete any created functions before you leave the site.",
 ]; 
+<<<<<<< HEAD
 //5 tasks for on site session
 export const pgTasksOnSite = [
   "Task 1: For each department, find how many persons have sent more than 100 emails.",
@@ -26,6 +31,9 @@ export const pgTasksOnSite = [
   
   
 ];
+=======
+
+>>>>>>> 8c1c0e379a4c9025ca43cc0c1fe7f1b7a367510e
 
 export const cassandraTasks = [
   "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
@@ -47,6 +55,7 @@ export const cassandraTasks = [
   "Task 7.2: Now, create an output similar to task 7.1 for all emails. Info: depending on the database management system, this operation might be very expensive and can result in a timeout. In that case you might want to set a threshold for a timeout, if possible.", 
 ];
 
+<<<<<<< HEAD
 export const neo4jTasksOnSite = [
   "Task 1: Find all the persons who work in the Health department.",
   "Task 2: Find all the persons who sent an email to any person that works in the Health department.",
@@ -63,6 +72,9 @@ export const neo4jTasksOnSite = [
   "Task 5.3: Which people are in the 2-hop email network of Larry May? Again, consider the “KNOWS” relationship, but only for people that are reachable with two hops.",
   "Task 5.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).", */
 ];
+=======
+
+>>>>>>> 8c1c0e379a4c9025ca43cc0c1fe7f1b7a367510e
  export const neo4jTasks = [
   "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
   "Task 1.2: For each department: Find out how many emails in total were sent out from employees working there. The output per department shall contain the corresponding number of emails.",

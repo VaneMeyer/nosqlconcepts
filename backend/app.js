@@ -729,7 +729,14 @@ ON foreign_constraints.table_name = c.table_name
 AND foreign_constraints.column_name = c.column_name
 WHERE 
 c.table_schema = 'email';` 
-
+// For testing purposes
+/* const pool3 = new Pool({
+  host: 'localhost',
+  port: 5432,
+  database: 'enron',
+  user: 'postgres',
+  password: process.env.PG_PASSWORD,
+}) */
 app.get("/getPostgreSQLStructure", async (req, res) => {
   try{
     const postgreSQL_query = () => pool.query(postgreSQL);
