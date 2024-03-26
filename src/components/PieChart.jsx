@@ -1,7 +1,7 @@
 import { ResponsivePie } from "@nivo/pie";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
-import { neo4jTasks } from "../data/tasksData";
+import { neo4jTasks } from "../data/tasks";
 
 const PieChart = () => {
   const theme = useTheme();

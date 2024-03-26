@@ -89,7 +89,7 @@ import React, {useState, useEffect} from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { tokens } from '../theme';
 import { useTheme } from '@mui/material';
-import { pgTasks, cassandraTasks, neo4jTasks, mongodbTasks } from '../data/tasksData';
+import { pgTasks, cassandraTasks, neo4jTasks, mongodbTasks } from '../data/tasks';
 import axios from "axios";
 
 

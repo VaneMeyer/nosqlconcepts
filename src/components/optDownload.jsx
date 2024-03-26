@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import * as xlsx from "xlsx";
 import { Button, useTheme, Box, Typography } from "@mui/material";
-import { pgTasks } from "../data/tasksData";
-import { cassandraTasks } from "../data/tasksData";
-import { neo4jTasks } from "../data/tasksData";
-import { mongodbTasks } from "../data/tasksData";
+import { pgTasks } from "../data/tasks";
+import { cassandraTasks } from "../data/tasks";
+import { neo4jTasks } from "../data/tasks";
+import { mongodbTasks } from "../data/tasks";
 import { useLocation, Link } from "react-router-dom";
 import { tokens } from "../theme";
 import DownloadIcon from '@mui/icons-material/Download';

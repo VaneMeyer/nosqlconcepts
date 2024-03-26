@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { pgTasks } from "../data/tasksData";
-import { cassandraTasks } from "../data/tasksData";
-import { neo4jTasks } from "../data/tasksData";
-import { mongodbTasks } from "../data/tasksData";
+import { pgTasks } from "../data/tasks";
+import { cassandraTasks } from "../data/tasks";
+import { neo4jTasks } from "../data/tasks";
+import { mongodbTasks } from "../data/tasks";
 
 const ProgressCircle = ({ /* progress = "0.75" */ title, size = "50" }) => {
   const theme = useTheme();
