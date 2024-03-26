@@ -1,5 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#DB and testing folders/files
+/src/DB
+/do-not-publish
+/.vscode
+/src/Sign-in/oauth-config.js
+/src/data/tasks.js
+
+
+
 # dependencies
 /node_modules
 /.pnp
@@ -17,6 +26,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
+/src/.env
 
 npm-debug.log*
 yarn-debug.log*
