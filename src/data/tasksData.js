@@ -1,7 +1,7 @@
 import React from 'react';
 import MathComponent from 'react-mathjax2';
 
-/* export const pgTasks = [
+ export const pgTasks = [
   "Task 1.1: For each person you want to know in which department she or he works. Therefore, you should make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
   "Task 1.2: For each department: Find out how many emails in total were sent out from employees working there. The output per department shall contain the corresponding number of emails.",
   "Task 1.3: For each department: Find out how many emails in total were sent to employees working there (hint: carbon copies included). The output shall have the same structure as the output of Task 1.2.",
@@ -17,9 +17,9 @@ import MathComponent from 'react-mathjax2';
   "Task 6.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).",
   "Task 7.1: Take an email text and count the occurrence of each word in that email. The output shall contain the words and the number of occurrence. You might need to use an external programming language to implement a UDF (User defined function) to split the email text into words. Apply the UDF to a particular email body. Bonus: Show the result according to ·	the alphabetical order of the words ·	the ascending order of occurrence ·	the descending order of occurrence Remember: Delete any created functions before you leave the site.",
   "Task 7.2: Now, create an output similar to task 7.1 for all emails. Info: depending on the database management system, this operation might be very expensive and can result in a timeout. In that case you might want to set a threshold for a timeout, if possible. Remember: Delete any created functions before you leave the site.",
-]; */
+]; 
 //5 tasks for on site session
-export const pgTasks = [
+export const pgTasksOnSite = [
   "Task 1: For each department, find how many persons have sent more than 100 emails.",
   "Task 2: How many persons have sent one or more emails to more than three department?",
   "Task 3: Same of Task 3, but don’t count the person’s department.",
@@ -31,7 +31,7 @@ export const cassandraTasks = [
   "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
   "Task 1.2: For each department: Find out how many emails in total were sent out from employees working there. The output per department shall contain the corresponding number of emails.",
   "Task 1.3: For each department: Find out how many emails in total were sent to employees working there (hint: carbon copies included). The output shall have the same structure as the output of Task 1.2.",
-  /* "Task 2.1: Do people that earn more than the average salary in their department write more emails than those who don’t? Query for people that earn more than the average salary at their department and find out whether they write more emails than the other employees that earn less than the average salary at their department (equal is not considered). Check that for each department. First compute the result for the average salary (avg. S.) per department. Then produce the output of people that earn more than the avg. S. and accordingly produce the output for people who earn less than the average salary. Produce a query result per department that contains the number of emails written by the people earning more and the people earning less than the average.",
+   "Task 2.1: Do people that earn more than the average salary in their department write more emails than those who don’t? Query for people that earn more than the average salary at their department and find out whether they write more emails than the other employees that earn less than the average salary at their department (equal is not considered). Check that for each department. First compute the result for the average salary (avg. S.) per department. Then produce the output of people that earn more than the avg. S. and accordingly produce the output for people who earn less than the average salary. Produce a query result per department that contains the number of emails written by the people earning more and the people earning less than the average.",
   "Task 3.1: Create a copy of email table and name it with “email_yourname” (e.g. email_elmamooz) and execute the queries of task 3 (3.2, 3.3, 3.4) on this new table.",
   "Task 3.2: You have to introduce a new element (attribute) to the person’s entity set (to your own copy of email table you created in task 3.1). Find the general syntax to do that.",
   "Task 3.3: Now, use the syntax from task 3.2 and add a new element “priority” to the person’s entity set (your copy of table) with a default value of 1 for each entry. Then take a single entry of your choice (with a certain id) and set its priority to a value of 3.",
@@ -44,10 +44,10 @@ export const cassandraTasks = [
   "Task 6.3: Which people are in the 2-hop email network? Again, consider the “knows” relationship, but only for people that are reachable with two hops.",
   "Task 6.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).",
   "Task 7.1: Take an email text and count the occurrence of each word in that email. The output shall contain the words and the number of occurrence. You might need to integrate Java code into an UDF (User defined function) to split the email text into words. Apply the UDF to a particular email body. Hint: You might need an UDA (User defined aggregation) to produce the required output. Bonus: Show the result according to - the alphabetical order of the words - the ascending order of occurrence - the descending order of occurrence",
-  "Task 7.2: Now, create an output similar to task 7.1 for all emails. Info: depending on the database management system, this operation might be very expensive and can result in a timeout. In that case you might want to set a threshold for a timeout, if possible.", */
+  "Task 7.2: Now, create an output similar to task 7.1 for all emails. Info: depending on the database management system, this operation might be very expensive and can result in a timeout. In that case you might want to set a threshold for a timeout, if possible.", 
 ];
 
-export const neo4jTasks = [
+export const neo4jTasksOnSite = [
   "Task 1: Find all the persons who work in the Health department.",
   "Task 2: Find all the persons who sent an email to any person that works in the Health department.",
   
@@ -63,7 +63,7 @@ export const neo4jTasks = [
   "Task 5.3: Which people are in the 2-hop email network of Larry May? Again, consider the “KNOWS” relationship, but only for people that are reachable with two hops.",
   "Task 5.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).", */
 ];
-/* export const neo4jTasks = [
+ export const neo4jTasks = [
   "Task 1.1: For each person you want to know in which department she or he works. Therefore you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.",
   "Task 1.2: For each department: Find out how many emails in total were sent out from employees working there. The output per department shall contain the corresponding number of emails.",
   "Task 1.3: For each department: Find out how many emails in total were sent to employees working there (hint: carbon copies included). The output shall have the same structure as the output of Task 1.2.",
@@ -75,7 +75,7 @@ export const neo4jTasks = [
   "Task 5.2: How many hops are needed to reach everyone by their 'KNOWS' relationship starting from Larry May (similar to task 5.1)?",
   "Task 5.3: Which people are in the 2-hop email network of Larry May? Again, consider the “KNOWS” relationship, but only for people that are reachable with two hops.",
   "Task 5.4: Find out who sent emails to exact 7 TO-recipients. The output shall contain the name(s) of the sender(s).",
-]; */
+]; 
  
 export const mongodbTasks = [
   "TASK 1 - USE CASE: EQUI JOIN - Task 1.1 List of people with their department (Max Time: 0,5h): For each person you want to know in which department she or he works. Therefore, you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.",

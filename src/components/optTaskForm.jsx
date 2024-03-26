@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import pgDataModel from "../images/datamodel1-transp.png";
-import mongoDataModel from "../images/datamodel4-transp.png";
-import neoDataModel from "../images/datamodel3-transp.png";
-import cassandraDataModel from "../images/datamodel2-transp.png";
-import { pgTasks } from "../data/tasksData";
-import { cassandraTasks } from "../data/tasksData";
-import { neo4jTasks } from "../data/tasksData";
-import { mongodbTasks } from "../data/tasksData";
 import {
   Box,
   Button,
@@ -19,7 +11,7 @@ import {
   FormControlLabel,
   Radio,
   useTheme,
-  Grid
+  Grid,
 } from "@mui/material";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import SaveIcon from "@mui/icons-material/Save";
@@ -30,10 +22,11 @@ import OptQuery from "./optQuery";
 import OptTimer from "./optTimer";
 import Example from "./example";
 import DbStructureTable from "./DbStructureTable";
-import DbStructureTablePostgres from "../scenes/db_structures/postgres_structure"
-import DbStructureTableNeo4j from "../scenes/db_structures/neo4j_structure"
+import DbStructureTablePostgres from "../scenes/db_structures/postgres_structure";
+import DbStructureTableNeo4j from "../scenes/db_structures/neo4j_structure";
 import DbStructureTableGen from "./DbStructureTableGeneral";
-const OptTaskForm = ({ title }) => {
+import ImportantMsg from "./importantMsg";
+const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
@@ -82,6 +75,7 @@ const OptTaskForm = ({ title }) => {
   });
   const [endPoint, setEndPoint] = useState("");
   const [dbTable, setDbTable] = useState(null);
+  const [showDbStructure, setShowDbStructure] = useState(true);
 
   const saveAnswersToLocalStorage = () => {
     if (typeof localStorage !== "undefined") {
@@ -151,37 +145,9 @@ const OptTaskForm = ({ title }) => {
   };
 
   useEffect(() => {
-    let taskarray = [];
-    let datamodel = "";
-    let taskAreaId = 0;
-    let endpoint = "";
-    if (title === "PostgreSQL") {
-      taskarray = pgTasks;
-      datamodel = pgDataModel;
-      taskAreaId = 1;
-      endpoint = "/getPostgreSQLStructure";
-    }
-    if (title === "Cassandra") {
-      taskarray = cassandraTasks;
-      datamodel = cassandraDataModel;
-      taskAreaId = 2;
-      endpoint = "/getCassandraStructure";
-    }
-    if (title === "Neo4J") {
-      taskarray = neo4jTasks;
-      datamodel = neoDataModel;
-      taskAreaId = 3;
-      endpoint = "/getNeo4JStructure";
-    }
-    if (title === "MongoDB") {
-      taskarray = mongodbTasks;
-      datamodel = mongoDataModel;
-      taskAreaId = 4;
-      endpoint = "/getMongoStructure";
-    }
     setTask(taskarray[taskNumber - 1]);
     setTasksArray(taskarray);
-    setTaskAreaId(taskAreaId);
+    setTaskAreaId(taskarea);
     setDataModel(datamodel);
     setFormData({
       partialSolution:
@@ -198,22 +164,37 @@ const OptTaskForm = ({ title }) => {
         ) || "0",
     });
     setEndPoint(endpoint);
+    setShowDbStructure(true);
     fetchData();
   }, [title, taskNumber]);
 
   const fetchData = async () => {
+    if (showDbStructure === false) {
+      setShowDbStructure(true);
+    } else {
+      setShowDbStructure(false);
+    }
     let response = await axios.get(endPoint);
     response = response.data;
-    switch(taskAreaId){
+    switch (taskAreaId) {
       case 1:
-        setDbTable(DbStructureTablePostgres(response["tables"], response["columns"]));
-        break
+        setDbTable(
+          DbStructureTablePostgres(response["tables"], response["columns"])
+        );
+        break;
       case 3:
-        setDbTable(DbStructureTableNeo4j(response["nodes"], response["relationships"], response["node_props"], response["rel_props"]))
-        break
+        setDbTable(
+          DbStructureTableNeo4j(
+            response["nodes"],
+            response["relationships"],
+            response["node_props"],
+            response["rel_props"]
+          )
+        );
+        break;
       default:
         setDbTable(DbStructureTable(response["tables"], response["columns"]));
-        break
+        break;
     }
   };
 
@@ -288,193 +269,240 @@ const OptTaskForm = ({ title }) => {
     const dataToSend = { title: title };
     navigate(`/download?title=${dataToSend.title}`);
   };
-  return (
-    <Box display="flex" justifyContent="space-between">
-      <Box>
-        <Box>
-          
-          <InputLabel id="task-number-label" style={labelStyle}>
-            Jump to task:
-          </InputLabel>
+  const handleDownload = () => {
+    saveAnswersToLocalStorage();
+    sendDataToDb();
+    const dataToSend = { title: title };
+    navigate(`/download?title=${dataToSend.title}`);
+  };
 
-          <TextField
-            select
-            name="taskNumber"
-            id="task-number-label"
-            fullWidth
-            value={taskNumber}
-            onChange={handleTaskChange}
-          >
-            {tasksArray.map((task, index) => (
-              <MenuItem key={index} value={index + 1}>
-                Task {index + 1}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-        <Box>
-          <p style={{ maxWidth: "1500px", fontSize: "26px" }}>{task}</p>
-        </Box>
-        <Box p={7}>
-          {hasStarted ? (
-            <form>
-              <OptQuery taskNumber={taskNumber} title={title} />
-              <hr></hr>
-              <InputLabel id="partial-solution-label" style={labelStyle}>
-                Your partial solution/further comments:
+  return (
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ width: "70%" }}>
+        <Button onClick={handleDownload}>Go to download section</Button>
+        <hr></hr>
+        <Box
+          /* display="flex"
+          justifyContent="center" */ /* justifyContent="space-between" */
+        >
+          <Box>
+            <Box>
+              <InputLabel id="task-number-label" style={labelStyle}>
+                Jump to task:
               </InputLabel>
+
               <TextField
-                name="partialSolution"
-                id="partial-solution-label"
+                select
+                name="taskNumber"
+                id="task-number-label"
                 fullWidth
-                multiline
-                rows={6}
-                value={formData.partialSolution}
-                onChange={handleChange}
-              />
-              <hr></hr>
-              <InputLabel id="isCorrect-radiogroup" style={labelStyle}>
-                Does your query return correct results?
-              </InputLabel>
-              <RadioGroup
-                name="isCorrect"
-                row
-                id="isCorrect-radiogroup"
-                /* defaultValue={"I don't know"} */
-                value={formData.isCorrect}
-                onChange={handleChange}
+                value={taskNumber}
+                onChange={handleTaskChange}
               >
-                <FormControlLabel
-                  value={"I don't know"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="I don't know"
-                />
-                <FormControlLabel
-                  value={"Yes"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="Yes"
-                />
-                <FormControlLabel
-                  value={"No"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="No"
-                />
-              </RadioGroup>
+                {tasksArray.map((task, index) => (
+                  <MenuItem key={index} value={index + 1}>
+                    Task {index + 1}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <hr></hr>
+            <Box>
+              <Button sx={muiButtonStyle} onClick={fetchData}>
+                Inspect Database Structure
+              </Button>
+
+              {showDbStructure && (
+                <Grid container spacing={2}>
+                  {dbTable}
+                <img
+                    src={dataModel}
+                    alt="Data model of enron database"
+                    width="60%"
+                    height="auto"
+                  />
+                </Grid>  
+              )}
+            </Box>
+            <hr></hr>
+            <Box>
+              <h1>{task.tasknumber}</h1>
+              <h2>{task.topic}</h2>
+              <h3>{task.subtasknumber}</h3>
+              <h4 style={{ border: "1px solid black", borderRadius: 5 }}>
+                {task.maxtime}
+              </h4>
+              <p style={{ maxWidth: "1500px", fontSize: "26px" }}>
+                {task.description}
+              </p>
               <hr></hr>
-              <InputLabel id="difficulty-level-radiogroup" style={labelStyle}>
-                How difficult was this task for you?
-              </InputLabel>
-              <RadioGroup
-                name="difficulty"
-                row
-                id="difficulty-level-radiogroup"
-                defaultValue={"No answer"}
-                value={formData.difficulty}
-                onChange={handleChange}
-              >
-                <FormControlLabel
-                  value={"No answer"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="No answer"
-                />
-                <FormControlLabel
-                  value={"Very easy"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="Very easy"
-                />
-                <FormControlLabel
-                  value={"Easy"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="Easy"
-                />
-                <FormControlLabel
-                  value={"Normal"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="Normal"
-                />
-                <FormControlLabel
-                  value={"Difficult"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="Difficult"
-                />
-                <FormControlLabel
-                  value={"Very difficult"}
-                  control={<Radio sx={muiRadioStyle} />}
-                  label="Very difficult"
-                />
-              </RadioGroup>
-              <br />
-              <br />
-              {taskNumber === tasksArray.length ? (
-                <div>
-                  {" "}
-                  <OptTimer
-                    run={isRunning}
+              <p>{task.hint}</p>
+            </Box>
+            <Box p={7}>
+              {hasStarted ? (
+                <form>
+                  <OptQuery
                     taskNumber={taskNumber}
                     title={title}
-                    username={username}
-                    /* onDataFromChild={handleTimeFromChild} */
+                    taskarea={taskarea}
                   />
-                  {taskNumber !== 1 && (
-                    <Button sx={muiButtonStyle} onClick={handlePrevTask}>
-                      <SaveIcon></SaveIcon> Save & Previous Task{" "}
-                      <NavigateBeforeIcon></NavigateBeforeIcon>
-                    </Button>
+                  <hr></hr>
+                  <InputLabel id="partial-solution-label" style={labelStyle}>
+                    Your partial solution/further comments:
+                  </InputLabel>
+                  <TextField
+                    name="partialSolution"
+                    id="partial-solution-label"
+                    fullWidth
+                    multiline
+                    rows={6}
+                    value={formData.partialSolution}
+                    onChange={handleChange}
+                  />
+                  <hr></hr>
+                  <InputLabel id="isCorrect-radiogroup" style={labelStyle}>
+                    Does your query return correct results?
+                  </InputLabel>
+                  <RadioGroup
+                    name="isCorrect"
+                    row
+                    id="isCorrect-radiogroup"
+                    /* defaultValue={"I don't know"} */
+                    value={formData.isCorrect}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel
+                      value={"I don't know"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="I don't know"
+                    />
+                    <FormControlLabel
+                      value={"Yes"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value={"No"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="No"
+                    />
+                  </RadioGroup>
+                  <hr></hr>
+                  <InputLabel
+                    id="difficulty-level-radiogroup"
+                    style={labelStyle}
+                  >
+                    How difficult was this task for you?
+                  </InputLabel>
+                  <RadioGroup
+                    name="difficulty"
+                    row
+                    id="difficulty-level-radiogroup"
+                    defaultValue={"No answer"}
+                    value={formData.difficulty}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel
+                      value={"No answer"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="No answer"
+                    />
+                    <FormControlLabel
+                      value={"Very easy"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="Very easy"
+                    />
+                    <FormControlLabel
+                      value={"Easy"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="Easy"
+                    />
+                    <FormControlLabel
+                      value={"Normal"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="Normal"
+                    />
+                    <FormControlLabel
+                      value={"Difficult"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="Difficult"
+                    />
+                    <FormControlLabel
+                      value={"Very difficult"}
+                      control={<Radio sx={muiRadioStyle} />}
+                      label="Very difficult"
+                    />
+                  </RadioGroup>
+                  <br />
+                  <br />
+                  {taskNumber === tasksArray.length ? (
+                    <div>
+                      {" "}
+                      <OptTimer
+                        run={isRunning}
+                        taskNumber={taskNumber}
+                        title={title}
+                        username={username}
+                        /* onDataFromChild={handleTimeFromChild} */
+                      />
+                      {taskNumber !== 1 && (
+                        <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+                          <SaveIcon></SaveIcon> Save & Previous Task{" "}
+                          <NavigateBeforeIcon></NavigateBeforeIcon>
+                        </Button>
+                      )}{" "}
+                      <Button sx={muiButtonStyle} onClick={handleFinish}>
+                        <SaveIcon></SaveIcon> save & finish{" "}
+                        <NavigateNextIcon></NavigateNextIcon>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div>
+                      <OptTimer
+                        run={isRunning}
+                        taskNumber={taskNumber}
+                        title={title}
+                        username={username}
+                      />
+                      {taskNumber !== 1 && (
+                        <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+                          <SaveIcon></SaveIcon> Save & Previous Task{" "}
+                          <NavigateBeforeIcon></NavigateBeforeIcon>
+                        </Button>
+                      )}
+
+                      <Button sx={muiButtonStyle} onClick={handleNextTask}>
+                        <SaveIcon></SaveIcon> Save & Next Task{" "}
+                        <NavigateNextIcon></NavigateNextIcon>
+                      </Button>
+                      <Button onClick={handleDownload}>
+                        Go to download section
+                      </Button>
+                    </div>
                   )}{" "}
-                  <Button sx={muiButtonStyle} onClick={handleFinish}>
-                    <SaveIcon></SaveIcon> save & finish{" "}
-                    <NavigateNextIcon></NavigateNextIcon>
-                  </Button>
-                </div>
+                </form>
               ) : (
                 <div>
-                  <OptTimer
-                    run={isRunning}
-                    taskNumber={taskNumber}
-                    title={title}
-                    username={username}
-                  />
-                  {taskNumber !== 1 && (
-                    <Button sx={muiButtonStyle} onClick={handlePrevTask}>
-                      <SaveIcon></SaveIcon> Save & Previous Task{" "}
-                      <NavigateBeforeIcon></NavigateBeforeIcon>
-                    </Button>
-                  )}
-
-                  <Button sx={muiButtonStyle} onClick={handleNextTask}>
-                    <SaveIcon></SaveIcon> Save & Next Task{" "}
-                    <NavigateNextIcon></NavigateNextIcon>
+                  <Button sx={muiButtonStyle} onClick={startTimer}>
+                    Start task
+                    <HourglassEmptyIcon></HourglassEmptyIcon>
                   </Button>
-                </div>
-              )}{" "}
-            </form>
-          ) : (
-            <div>
-              <Button sx={muiButtonStyle} onClick={startTimer}>
-                Start task
-                <HourglassEmptyIcon></HourglassEmptyIcon>
-              </Button>
-              <p>{""}</p>
-              <p
-                style={{
-                  fontWeight: "bold",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  backgroundColor: `${colors.redAccent[700]}`,
-                  color: `${colors.primary[100]}`,
-                }}
-              >
-                Note: A timer will start, when you start the task. You can stop
+                  <p>{""}</p>
+
+                  <ImportantMsg
+                    message="Note: A timer will start, when you start the task. You can stop
                 and continue the timer if needed. Also make sure to save your
-                data at the end of the page to update your statistics.
-              </p>
-            </div>
-          )}
-        </Box>
-
-      </Box>
-
-     {/*   <Box>
+                data at the end of the page to update your statistics."
+                    type="info"
+                  />
+                </div>
+              )}
+            </Box>
+          </Box>
+          <Box>
+            <p> </p>
+          </Box>
+          {/*   <Box>
         <img
           src={dataModel}
           alt="Data model of enron database"
@@ -482,27 +510,26 @@ const OptTaskForm = ({ title }) => {
           height="auto"
         />
       </Box>  */}
-       &nbsp;
-      &nbsp;
-      &nbsp;
-      &nbsp;
-      <Box>
+          &nbsp; &nbsp; &nbsp; &nbsp;
+          {/* <Box  style={{ maxWidth: '40%', float: 'right' }} >
         <Button sx={muiButtonStyle} onClick={fetchData}>
           Update Structure
         </Button>
         <Grid container spacing={2}>
           {dbTable}
-        </Grid> <Box>
-        <img
-          src={dataModel}
-          alt="Data model of enron database"
-          width="100%"
-          height="auto"
-        />
-      </Box> 
-      </Box>
-     
-    </Box>
+        </Grid>{" "}
+        <Box>
+          <img
+            src={dataModel}
+            alt="Data model of enron database"
+            width="100%"
+            height="auto"
+          />
+        </Box>
+      </Box>  */}
+        </Box>
+      </div>
+    </div>
   );
 };
 

@@ -161,7 +161,7 @@ const ResultGraph = ({ queryResult }) => {
     edges: edges,
   };
 
-  const subEdges = edges.slice(0, 2);
+ /*  const subEdges = edges.slice(0, 2);
   const subNodes = [];
   subEdges.forEach((element) => {
     if (!subNodes.some((node) => node.id === element.from)) {
@@ -171,12 +171,12 @@ const ResultGraph = ({ queryResult }) => {
     if (!subNodes.some((node) => node.id === element.to)) {
       subNodes.push({ id: element.to });
     }
-  });
+  }); */
   //use subgraph for visualization because of performance issues
-  const subGraphData = {
+/*   const subGraphData = {
     nodes: subNodes,
     edges: subEdges,
-  };
+  }; */
 
   const loadMoreData = () => {
     return {
@@ -226,7 +226,8 @@ const ResultGraph = ({ queryResult }) => {
   );
 };
 
-export default ResultGraph;
+export default React.memo(ResultGraph);
+//export default ResultGraph;
 
 /* import React from "react";
 import { v4 as uuidv4 } from "uuid";

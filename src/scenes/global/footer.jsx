@@ -15,7 +15,7 @@ const Footer = () => {
           <img src={GULogo} alt="Goethe University Logo" />
         </div>
         <div className="logo-container">
-            <p>gefördert durch</p>
+            <p>funded by</p>
           <img src={StiftungLogo} alt="Logo Stiftung Hochschullehre" />
         </div>
       </div>

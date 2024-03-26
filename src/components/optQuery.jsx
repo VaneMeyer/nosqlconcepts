@@ -10,7 +10,7 @@ import ResultGraph from "./ResultGraph";
 import ImportantMsg from "./importantMsg";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 
-const OptQuery = ({ taskNumber, title }) => {
+const OptQuery = ({ taskNumber, title, taskarea }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -25,8 +25,8 @@ const OptQuery = ({ taskNumber, title }) => {
 
   let labelStyle = {
     color: colors.grey[100],
-    fontSize: "16px"
-  }
+    fontSize: "16px",
+  };
 
   const [queryResult, setQueryResult] = useState("");
   const [solutionResult, setSolutionResult] = useState("");
@@ -38,13 +38,18 @@ const OptQuery = ({ taskNumber, title }) => {
   const [taskAreaId, setTaskAreaId] = useState(0);
   const [queryFormData, setQueryFormData] = useState({
     query:
-      localStorage.getItem(`${title.toLowerCase()}query_${username}_${taskNumber}`) || "",
+      localStorage.getItem(
+        `${title.toLowerCase()}query_${username}_${taskNumber}`
+      ) || "",
     resultSize:
-      localStorage.getItem(`${title.toLowerCase()}resultSize_${username}_${taskNumber}`) || 0,
+      localStorage.getItem(
+        `${title.toLowerCase()}resultSize_${username}_${taskNumber}`
+      ) || 0,
     isExecutable:
-      localStorage.getItem(`${title.toLowerCase()}isExecutable_${username}_${taskNumber}`) || "No",
+      localStorage.getItem(
+        `${title.toLowerCase()}isExecutable_${username}_${taskNumber}`
+      ) || "No",
   });
-  
 
   const handleEditorChange = (newContent) => {
     setQueryFormData({ ...queryFormData, query: newContent });
@@ -65,22 +70,32 @@ const OptQuery = ({ taskNumber, title }) => {
       queryFormData.isExecutable
     );
   };
-  
+
   const sendDataToDb = async () => {
-    let queryText = `${localStorage.getItem(`${title.toLowerCase()}query_${username}_${taskNumber}`)}` || "";
+    let queryText =
+      `${localStorage.getItem(
+        `${title.toLowerCase()}query_${username}_${taskNumber}`
+      )}` || "";
     const dataToSend = {
-      username: username.replace(/"/g, ''), // get rid of "" of the string
-      statementId: taskNumber, 
+      username: username.replace(/"/g, ""), // get rid of "" of the string
+      statementId: taskNumber,
       taskAreaId: taskAreaId,
       queryText: queryText.replace(/'/g, "''"), // get from child component
-      isExecutable: localStorage.getItem(`${title.toLowerCase()}isExecutable_${username}_${taskNumber}`) || "No", // get from child component
-      resultSize: localStorage.getItem(`${title.toLowerCase()}resultSize_${username}_${taskNumber}`) || 0, // get from child component
-      isCorrect: localStorage.getItem(`${title.toLowerCase()}isCorrect_${username}_${taskNumber}`) || "0", 
+      isExecutable:
+        localStorage.getItem(
+          `${title.toLowerCase()}isExecutable_${username}_${taskNumber}`
+        ) || "No", // get from child component
+      resultSize:
+        localStorage.getItem(
+          `${title.toLowerCase()}resultSize_${username}_${taskNumber}`
+        ) || 0, // get from child component
+      isCorrect:
+        localStorage.getItem(
+          `${title.toLowerCase()}isCorrect_${username}_${taskNumber}`
+        ) || "0",
     };
-    
-  
-  
-     try {
+
+    try {
       const response = await axios.post("/api/store-history-data", dataToSend);
       if (response.data.success) {
         console.log("Data stored successfully!");
@@ -89,8 +104,8 @@ const OptQuery = ({ taskNumber, title }) => {
       }
     } catch (error) {
       console.error("Error server:", error);
-    } 
-  }
+    }
+  };
 
   const executeQuery = () => {
     sendDataToDb();
@@ -110,7 +125,8 @@ const OptQuery = ({ taskNumber, title }) => {
     if (title === "MongoDB") {
       apiRoute = "/api/execute-mql";
     }
-    if (title === "PostgreSQL"){    axios
+
+    axios
       .post(apiRoute, { execQuery, taskNumber, taskAreaId })
       .then((response) => {
         setQueryResult(response.data.userQueryResult);
@@ -123,11 +139,25 @@ const OptQuery = ({ taskNumber, title }) => {
               isExecutable: "Yes",
             })
         );
-        if (JSON.stringify(response.data.userQueryResult) === JSON.stringify(response.data.expectedResult)){
-          setFeedback("Correct")
+
+        if (
+          JSON.stringify(response.data.userQueryResult) ===
+          JSON.stringify(response.data.expectedResult)
+        ) {
+          setFeedback(
+            "Correct! Your query output is equal to the expected output."
+          );
+          console.log("correct");
           setFeedbackType("success");
         } else {
-          setFeedback("Not correct")
+        /* else if(response.data.expectedResult === "no solution"){
+          setFeedback("no solution to compare to")
+          setFeedbackType("info");
+        } */
+          setFeedback(
+            "Not correct (does not match the expected output)! Please try again, if you think that this task is solvable with a query. You can also write a comment in the partial solution textfield, explaining why your solution is correct. In some cases this message occurs because there is no (or no clear) solution query  (use the textfield for your solution then)."
+          );
+          console.log("not correct");
           setFeedbackType("error");
         }
         setError("");
@@ -135,113 +165,85 @@ const OptQuery = ({ taskNumber, title }) => {
         //console.log(response.data.userQueryResult);
       })
       .catch((error) => {
-        setError(`Error: ${error.response.data.error}`);
+        setError(
+          `Error: ${error.response.data.error}. Note: Please try again, if you think that this task is solvable with a query. You can also write a comment in the partial solution textfield, explaining why your solution is correct. In some cases this message occurs because there is no solution query (use the textfield for your solution then).`
+        );
         setQueryResult("");
         setQueryFormData(
           (prev) =>
             (prev = { query: execQuery, resultSize: 0, isExecutable: "No" })
         );
         saveToLocalStorage();
-        
-      });} else {
-        axios
-        .post(apiRoute, { execQuery })
-        .then((response) => {
-          setQueryResult(response.data);
-          setQueryFormData(
-            (prev) =>
-              (prev = {
-                query: execQuery,
-                resultSize: response.data.length,
-                isExecutable: "Yes",
-              })
-          );
-  
-          setError("");
-          saveToLocalStorage();
-        })
-        .catch((error) => {
-          setError(`Error: ${error.response.data.error}`);
-          setQueryResult("");
-          setQueryFormData(
-            (prev) =>
-              (prev = { query: execQuery, resultSize: 0, isExecutable: "No" })
-          );
-          saveToLocalStorage();
-          
-        });
-      }
+      });
   };
   saveToLocalStorage();
 
   useEffect(() => {
-   
-    let taskAreaId = 0;
-    if (title === "PostgreSQL") {
-      
-      taskAreaId = 1;
-    }
-    if (title === "Cassandra") {
-    
-      taskAreaId = 2;
-    }
-    if (title === "Neo4J") {
-      
-      taskAreaId = 3;
-    }
-    if (title === "MongoDB") {
-      
-      taskAreaId = 4; 
-    }
-   
-    setTaskAreaId(taskAreaId);
+    setTaskAreaId(taskarea);
     setQueryFormData({
       query:
-        localStorage.getItem(`${title.toLowerCase()}query_${username}_${taskNumber}`) || "",
+        localStorage.getItem(
+          `${title.toLowerCase()}query_${username}_${taskNumber}`
+        ) || "",
       resultSize:
-        localStorage.getItem(`${title.toLowerCase()}resultSize_${username}_${taskNumber}`) || 0,
+        localStorage.getItem(
+          `${title.toLowerCase()}resultSize_${username}_${taskNumber}`
+        ) || 0,
       isExecutable:
-        localStorage.getItem(`${title.toLowerCase()}isExecutable_${username}_${taskNumber}`) || "No",
+        localStorage.getItem(
+          `${title.toLowerCase()}isExecutable_${username}_${taskNumber}`
+        ) || "No",
     });
-    
   }, [taskNumber]);
   return (
-    <Box>
-      <InputLabel id="query-input-label" style={labelStyle}>Type and run your query:</InputLabel>
-      <p>{""}</p>
-      <AceEditor
-        id="query-input-label"
-        name="query"
-        mode="sql"
-        onChange={handleEditorChange}
-        value={queryFormData.query}
-        editorProps={{ $blockScrolling: true }}
-        style={{ width:"70%", height: "200px"/* , fontSize: "large" */ }}
-        setOptions={{ fontSize: "16px" }}
-      />
-      <p>{""}</p>
-      <Button sx={muiButtonStyle} onClick={executeQuery}>
-        Run query
-        <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
-      </Button>
-      <p>{""}</p>
-      {queryResult && <ImportantMsg message="Query was executed successfully!" type="success"/>}
-      {queryResult && title === "PostgreSQL" &&<ImportantMsg message={feedback} type={feedbackType}/>}
-       {title === "Neo4J" && queryResult && (
-        <ResultGraph queryResult={queryResult} />
-      )}
-      <ResultTable
-        queryResult={queryResult}
-        resultSize={queryFormData.resultSize}
-      />
-      {error && <ImportantMsg message={error} type="error"/> }
-      
-      <Box sx={{padding: "10px", borderRadius:"5px", border: "black"}}>
-        {<p>Result Size: {queryFormData.resultSize}</p>}
-      {<p>Is the query executable?: {queryFormData.isExecutable}</p>}
-      </Box>
-      
-    </Box>
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ width: "100%" }}>
+        <Box>
+          <InputLabel id="query-input-label" style={labelStyle}>
+            Type and run your query:
+          </InputLabel>
+          <p>{""}</p>
+          <AceEditor
+            id="query-input-label"
+            name="query"
+            mode="sql"
+            onChange={handleEditorChange}
+            value={queryFormData.query}
+            editorProps={{ $blockScrolling: true }}
+            style={{ width: "100%", height: "200px" /* , fontSize: "large" */ }}
+            setOptions={{ fontSize: "16px" }}
+          />
+          <p>{""}</p>
+          <Button sx={muiButtonStyle} onClick={executeQuery}>
+            Run query
+            <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
+          </Button>
+          <p>{""}</p>
+          {queryResult && (
+            <ImportantMsg
+              message="Query was executed successfully!"
+              type="success"
+            />
+          )}
+          {queryResult && (
+            <ImportantMsg message={feedback} type={feedbackType} />
+          )}
+          {title === "Neo4J" && queryResult && (
+            <ResultGraph queryResult={queryResult} />
+          )}
+          <ResultTable
+            queryResult={queryResult}
+            resultSize={queryFormData.resultSize}
+          />
+          {error && <ImportantMsg message={error} type="error" />}
+
+          <Box sx={{ padding: "10px", borderRadius: "5px", border: "black" }}>
+            {<p>Result Size: {queryFormData.resultSize}</p>}
+            {<p>Is the query executable?: {queryFormData.isExecutable}</p>}
+          </Box>
+        </Box>
+      </div>
+    </div>
   );
 };
 

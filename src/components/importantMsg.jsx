@@ -13,6 +13,9 @@ const ImportantMsg = ({ message, type }) => {
     if (type === "error") {
       msgStyle = {fontSize: "16px", margin:"20px", fontWeight: "bold", padding: "10px", borderRadius:"5px", backgroundColor:`${colors.redAccent[700]}` };
     }
+    if (type === "info") {
+      msgStyle = {fontSize: "16px", margin:"20px", fontWeight: "bold", padding: "10px", borderRadius:"5px", backgroundColor:"#e1edf7" };
+    }
   return (
     <div style={msgStyle}>
       {message}

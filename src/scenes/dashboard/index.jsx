@@ -41,6 +41,9 @@ const Dashboard = () => {
     fontWeight: "bold",
     padding: "10px 20px",
     margin: "10px",
+    "&:hover": {
+      color: colors.primary[500],
+    },
   };
 
   useEffect(() => {}, []);
@@ -72,14 +75,19 @@ const Dashboard = () => {
           /* subtitle={`Welcome to your dashboard, ${name}`} */
           subtitle={"Welcome to the DBMS practical course!"}
         />
-      </Box>
-      {/* <Box>
         <ImportantMsg
           message="
-Important Notice! This tool is still in the development phase. Please save your inputs in a separate file as a precaution to prevent potential loss. Currently, inputs are not user-specific and are only stored in the browser. This means that if you switch to another browser or clear browser data, your entries in the task areas will be lost."
-          type="error"
+Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool.  "
+          type="info"
         />
-      </Box> */}
+      </Box>
+      {/*   <Box>
+        <ImportantMsg
+          message="
+Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool.  "
+          type="info"
+        />
+      </Box>  */}
 
       {/* GRID & CHARTS */}
       <Box
@@ -98,7 +106,7 @@ Important Notice! This tool is still in the development phase. Please save your 
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
-          flexDirection={{ xs: 'column', md: 'row' }}
+          flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
         >
@@ -114,7 +122,7 @@ Important Notice! This tool is still in the development phase. Please save your 
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
-          flexDirection={{ xs: 'column', md: 'row' }}
+          flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
         >
@@ -130,7 +138,7 @@ Important Notice! This tool is still in the development phase. Please save your 
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
-          flexDirection={{ xs: 'column', md: 'row' }}
+          flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
         >
@@ -146,7 +154,7 @@ Important Notice! This tool is still in the development phase. Please save your 
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
-          flexDirection={{ xs: 'column', md: 'row' }}
+          flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
         >
@@ -170,7 +178,7 @@ Important Notice! This tool is still in the development phase. Please save your 
             mt="25px"
             p="0 30px"
             display="flex"
-            flexDirection={{ xs: 'column', md: 'row' }}
+            flexDirection={{ xs: "column", md: "row" }}
             justifyContent="space-between"
             /* alignItems="center" */
             overflow="auto"
@@ -209,11 +217,11 @@ Important Notice! This tool is still in the development phase. Please save your 
           </Box>
         </Box>
         <Box
-         /*  gridColumn="span 4"*/
-          gridRow="span 2" 
+          /*  gridColumn="span 4"*/
+          gridRow="span 2"
           gridColumn={{ xs: "span 20", md: "span 4" }}
           /* display="flex" */
-          flexDirection={{ xs: 'column', md: 'row' }}
+          flexDirection={{ xs: "column", md: "row" }}
           backgroundColor={colors.primary[400]}
           overflow="auto"
         >
@@ -271,11 +279,11 @@ Important Notice! This tool is still in the development phase. Please save your 
 
         {/* ROW 4 */}
         <Box
-           gridColumn={{ xs: "span 20", md: "span 4" }}
-          gridRow={{ xs: "span 2", md: "span 2" }} 
+          gridColumn={{ xs: "span 20", md: "span 4" }}
+          gridRow={{ xs: "span 2", md: "span 2" }}
           /*  gridColumn="span 4"
           gridRow="span 2"  */
-          flexDirection={{ xs: 'column', md: 'row' }}
+          flexDirection={{ xs: "column", md: "row" }}
           backgroundColor={colors.primary[400]}
           p="30px"
         >
@@ -285,11 +293,11 @@ Important Notice! This tool is still in the development phase. Please save your 
           {/* <PageViews /> */}
         </Box>
         <Box
-         /*  gridColumn="span 4"
+          /*  gridColumn="span 4"
           gridRow="span 2"  */
           gridColumn={{ xs: "span 20", md: "span 4" }}
-          gridRow={{ xs: "span 2", md: "span 2" }} 
-          flexDirection={{ xs: 'column', md: 'row' }}
+          gridRow={{ xs: "span 2", md: "span 2" }}
+          flexDirection={{ xs: "column", md: "row" }}
           backgroundColor={colors.primary[400]}
         >
           <Typography
@@ -301,11 +309,11 @@ Important Notice! This tool is still in the development phase. Please save your 
           </Typography>
         </Box>
         <Box
-        /*   gridColumn="span 4"
+          /*   gridColumn="span 4"
           gridRow="span 2"  */
-           gridColumn={{ xs: "span 20", md: "span 4" }}
-          gridRow={{ xs: "span 2", md: "span 2" }} 
-          flexDirection={{ xs: 'column', md: 'row' }}
+          gridColumn={{ xs: "span 20", md: "span 4" }}
+          gridRow={{ xs: "span 2", md: "span 2" }}
+          flexDirection={{ xs: "column", md: "row" }}
           backgroundColor={colors.primary[400]}
           padding="30px"
         >
