@@ -29,54 +29,11 @@ const PgLogin = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  //const { username, password } = values;
-
-  /* const handleChange = (name) => (e) => {
-    setValues({ ...values, [name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    axios
-      .post("/api/pgaccess", {
-        username,
-        password,
-      })
-      .then((response) => {
-        setIsConnected(true);
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsConnected(false);
-        setErrorMessage("Connection failed. Please check your username and password again or ask your tutors for help.")
-
-      });
-  }; */
-
-  // login
-  /* const handleLogin = async () => {
-    try {
-      const response = await axios.post('/login', { username, password });
-      if (response.status === 200) {
-        setUser(response.user);
-        setIsLoggedIn(true);
-        setUsername('');
-        setPassword('');
-        navigate("/dashboard"); 
-        
-      } else {
-        alert('Fehler: Ungültige Anmeldeinformationen');
-      }
-    } catch (error) {
-      console.error('Fehler beim Anmelden:', error);
-      alert('Fehler beim Anmelden');
-    }
-  }; */
   const handleLogin = async (e) => {
     e.preventDefault();
     axios
@@ -87,11 +44,13 @@ const PgLogin = () => {
       .then((response) => {
         setIsLoggedIn(true);
         setUser(response.data.user_name);
-        localStorage.setItem("token", JSON.stringify(response.data.user_name));
-        //localStorage.setItem("user", JSON.stringify(response.data.user_name) );
+        setRole(response.data.role);
+        localStorage.setItem("token", JSON.stringify(response.data.username));
+        /* localStorage.setItem("token", JSON.stringify(response.data.user_name)); */
+        localStorage.setItem("role", response.data.role);
 
-        navigate("/");//dashboard
-        /* window.location.href = "http://162.55.237.41:8765/dashboard"; */
+        navigate("/"); //dashboard
+
         window.location.reload();
       })
       .catch((error) => {
@@ -102,23 +61,8 @@ const PgLogin = () => {
         );
       });
   };
-  /*  const handleLogout = async () => {
-    try {
-      const response = await axios.get('/logout');
-      if (response.status === 200) {
-        setUser(null);
-      } else {
-        alert('Fehler beim Abmelden');
-      }
-    } catch (error) {
-      console.error('Fehler beim Abmelden:', error);
-      alert('Fehler beim Abmelden');
-    }
-  }; */
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
   return (
     <Box display="flex" alignItems="center" justifyContent="center" p={7}>
       <div>
@@ -193,7 +137,6 @@ const PgLogin = () => {
         </div>
         <Footer />
       </div>
-      
     </Box>
   );
 };

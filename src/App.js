@@ -18,6 +18,7 @@ import PageViews from "./Statistics/statisticComponents/pageViews";
 import Navigation from "./components/testWebDisability";
 import Footer from "./scenes/global/footer";
 import History from "./components/History";
+import AdminC from "./components/admin";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -44,6 +45,9 @@ function App() {
                 <Route path="/download" element={<OptDownload />} />
                 <Route path="/statistics" element={<StatisticsMain />} />
                 <Route path="/history" element={<History />} />
+                {(localStorage.getItem("role") === "admin") && <Route path="/admin" element={<AdminC />} />}
+                
+                
               </Route>
 
               <Route path="/signin" element={<PgLogin />} />

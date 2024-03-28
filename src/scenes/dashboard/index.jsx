@@ -1,4 +1,3 @@
-//######### Testphase DBMS - PostgreSQL session ###########
 import React, { useState, useEffect } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -46,24 +45,16 @@ const Dashboard = () => {
     },
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (role === "admin") {
+      setIsAdmin(true);
+    }
+  }, []);
 
   const [profile, setProfile] = useState("");
+  const [role, setRole] = useState(localStorage.getItem("role"));
+  const [isAdmin, setIsAdmin] = useState(false);
   const { name } = profile;
-  //comment for DBMS Testphase
-  /*  useEffect(() => {
-    fetch("/api/getme")
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        //console.log(result);
-        setProfile(result.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []); */
 
   return (
     <Box m="20px" p={7}>
@@ -71,8 +62,6 @@ const Dashboard = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="DASHBOARD"
-          //comment for DBMS Testphase
-          /* subtitle={`Welcome to your dashboard, ${name}`} */
           subtitle={"Welcome to the DBMS practical course!"}
         />
         <ImportantMsg
@@ -80,14 +69,8 @@ const Dashboard = () => {
 Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool.  "
           type="info"
         />
+        {isAdmin && <Link to="/admin"><Button>Admin</Button></Link>}
       </Box>
-      {/*   <Box>
-        <ImportantMsg
-          message="
-Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool.  "
-          type="info"
-        />
-      </Box>  */}
 
       {/* GRID & CHARTS */}
       <Box
