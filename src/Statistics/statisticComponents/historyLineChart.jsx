@@ -4,13 +4,13 @@ import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import Select from "@mui/material/Select";
+import { Box, Button, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import InsightsIcon from '@mui/icons-material/Insights';
-
+import InsightsIcon from "@mui/icons-material/Insights";
 
 const QueryHistoryChart = ({ isUser }) => {
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   // Styles for mui components
@@ -22,7 +22,7 @@ const QueryHistoryChart = ({ isUser }) => {
     padding: "10px 20px",
     margin: "10px",
   };
-
+  //################# State Variables ######################################################
   const [data, setData] = useState([]); /* useState([{data:[]}]) */
   const [limit, setLimit] = useState(7);
   const [username, setUsername] = useState(
@@ -34,7 +34,7 @@ const QueryHistoryChart = ({ isUser }) => {
   } else {
     path = "";
   }
-
+  //################# Functions ######################################################
   const getStoredData = () => {
     const storedData = localStorage.getItem("queryHistoryData");
     if (storedData) {
@@ -45,114 +45,30 @@ const QueryHistoryChart = ({ isUser }) => {
     try {
       const response = await axios.post(path, { username, limit });
       const data = response.data;
-      data.forEach(item => {
-        // Erzeuge ein Date-Objekt aus dem String
+      data.forEach((item) => {
         const dateObj = new Date(item.x);
-    
-        // Extrahiere das Datum ohne die Uhrzeit
-        //const dateStr = dateObj.toISOString().split('T')[0];
-    
-        // Füge einen Tag zum Datum hinzu
+
         dateObj.setDate(dateObj.getDate() + 1);
-        const newDateStr = dateObj.toISOString().split('T')[0];
-    
-        // Aktualisiere den Wert von "x" im Datenpunkt
+        const newDateStr = dateObj.toISOString().split("T")[0];
+
         item.x = newDateStr;
-    });
+      });
       const lineChartDataArray = data;
       const transfomedData = [
         { id: "queryHistory", data: lineChartDataArray.reverse() },
       ];
       setData(transfomedData);
       localStorage.setItem("queryHistoryData", JSON.stringify(transfomedData));
-      //console.log(transfomedData);
     } catch (error) {
       console.error("Error with receiving data:", error);
       getStoredData();
     }
   };
+  //################# useEffect Function ######################################################
   useEffect(() => {
     fetchData();
-    /* const data = [
-            {
-                id: "query history",
-                
-                "data": [
-                    {
-                        "x": "2024-01-02T23:00:00.000Z",
-                        "y": "5"
-                    },
-                    {
-                        "x": "2024-01-03T23:00:00.000Z",
-                        "y": "6"
-                    },
-                    {
-                        "x": "2024-01-04T23:00:00.000Z",
-                        "y": "2"
-                    },
-                ]
-            }
-        ]; */
-
-    /* const data = [
-      {
-        id: "japan",
-
-        data: [
-          {
-            x: "plane",
-            y: 101,
-          },
-          {
-            x: "helicopter",
-            y: 75,
-          },
-          {
-            x: "boat",
-            y: 36,
-          },
-          {
-            x: "train",
-            y: 216,
-          },
-          {
-            x: "subway",
-            y: 35,
-          },
-          {
-            x: "bus",
-            y: 236,
-          },
-          {
-            x: "car",
-            y: 88,
-          },
-          {
-            x: "moto",
-            y: 232,
-          },
-          {
-            x: "bicycle",
-            y: 281,
-          },
-          {
-            x: "horse",
-            y: 1,
-          },
-          {
-            x: "skateboard",
-            y: 35,
-          },
-          {
-            x: "others",
-            y: 14,
-          },
-        ],
-      },
-    ]; */
-    /*  setData(data);  */
   }, []);
-
+  //################# handle Functions ######################################################
   const handleChange = (event) => {
     setLimit((limit) => event.target.value);
   };
@@ -160,11 +76,11 @@ const QueryHistoryChart = ({ isUser }) => {
   const handleClick = () => {
     fetchData();
   };
-
+  //################# Frontend ######################################################
   return (
-    <Box /* display="flex" justifyContent="space-between" */>
+    <Box>
       <Box
-        sx={{ marginTop: "30px", marginBottom: 0, minWidth: 200, padding:0}}
+        sx={{ marginTop: "30px", marginBottom: 0, minWidth: 200, padding: 0 }}
         display="flex"
         justifyContent="space-between"
       >
@@ -185,7 +101,7 @@ const QueryHistoryChart = ({ isUser }) => {
           </Select>
         </FormControl>
         <Button sx={muiButtonStyle} onClick={handleClick}>
-         <InsightsIcon></InsightsIcon> Apply 
+          <InsightsIcon></InsightsIcon> Apply
         </Button>
       </Box>
       <div style={{ height: "270px", padding: 0 }}>
@@ -220,8 +136,13 @@ const QueryHistoryChart = ({ isUser }) => {
             legendOffset: -40,
             legendPosition: "middle",
           }}
-          colors={[colors.blueAccent[600], colors.greenAccent[400], colors.blueAccent[700], colors.greenAccent[700], colors.primary[900]]}
-          /* colors={{ scheme: "nivo" }} */
+          colors={[
+            colors.blueAccent[600],
+            colors.greenAccent[400],
+            colors.blueAccent[700],
+            colors.greenAccent[700],
+            colors.primary[900],
+          ]}
           pointSize={10}
           pointColor={{ theme: "background" }}
           pointBorderWidth={2}

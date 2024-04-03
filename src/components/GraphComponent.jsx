@@ -1,10 +1,10 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Network } from 'vis-network';
 
+//################# Test another use case ######################################################
 const GraphComponent = () => {
   const containerRef = useRef(null);
-
+//################# useEffect Function ######################################################
   useEffect(() => {
     fetch('/bio-CE-CX-copy.edges')
       .then(response => response.text())

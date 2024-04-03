@@ -1,53 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const LogOut = () => {
-  const [loggedOut, setLoggedOut] = useState(false);
   const navigate = useNavigate();
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  //const logOut = () => {
-    const handleLogout = async () => {
-      try {
-        const response = await axios.get('/logout');
-        if (response.status === 200) {
-          //setUser(null);
-          localStorage.removeItem("token");
-          //localStorage.removeItem("user");
-          navigate("/");
-          window.location.reload();
-        } else {
-          alert('Fehler beim Abmelden');
-        }
-      } catch (error) {
-        console.error('Fehler beim Abmelden:', error);
-        alert('Fehler beim Abmelden');
-      }
-    };
-   /*  axios
-      .get("api/logout")
-      .then((result) => {
-        toast.success("Log out successfull");
+//################# handle Functions ######################################################
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get("/logout");
+      if (response.status === 200) {
         localStorage.removeItem("token");
-        setLoggedOut(true); // **
-        console.log(loggedOut); // **
-        navigate("/signin");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log(error);
-      }); */
- // };
 
+        navigate("/");
+        window.location.reload();
+      } else {
+        alert("Fehler beim Abmelden");
+      }
+    } catch (error) {
+      console.error("Fehler beim Abmelden:", error);
+      alert("Fehler beim Abmelden");
+    }
+  };
+//################# Frontend ######################################################
   return (
     <Link to="signin" replace>
-      <Button sx={{ color: colors.grey[900], "&:hover": { backgroundColor: `${colors.blueAccent[200]}` } }} onClick={handleLogout}>
+      <Button
+        sx={{
+          color: colors.grey[900],
+          "&:hover": { backgroundColor: `${colors.blueAccent[200]}` },
+        }}
+        onClick={handleLogout}
+      >
         Logout
       </Button>
     </Link>

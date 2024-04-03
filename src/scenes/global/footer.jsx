@@ -5,6 +5,7 @@ import GULogo from "../../images/GU-Logo-blau.jpg";
 import StiftungLogo from "../../images/Logo_Stiftung_Hochschullehre_pos_klein.jpg";
 
 const Footer = () => {
+  //################# Frontend ######################################################
   return (
     <footer>
       <div className="footer-container">

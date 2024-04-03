@@ -1,13 +1,14 @@
-//######### Testphase DBMS - PostgreSQL session ###########
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Footer from "../scenes/global/footer";
 
 const PgLogin = () => {
   const navigate = useNavigate();
+
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -21,11 +22,7 @@ const PgLogin = () => {
     margin: "10px",
   };
 
-  /* const [values, setValues] = useState({
-    username: "",
-    password: "",
-  });
-  const [isConnected, setIsConnected] = useState(false);*/
+  //################# State Variables ######################################################
   const [errorMessage, setErrorMessage] = useState("");
 
   const [user, setUser] = useState(null);
@@ -34,6 +31,7 @@ const PgLogin = () => {
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  //################# handle Functions ######################################################
   const handleLogin = async (e) => {
     e.preventDefault();
     axios
@@ -62,7 +60,7 @@ const PgLogin = () => {
       });
   };
 
-  useEffect(() => {}, []);
+  //################# Frontend ######################################################
   return (
     <Box display="flex" alignItems="center" justifyContent="center" p={7}>
       <div>

@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
 const ImportantMsg = ({ message, type }) => {
+  //################# Style Settings ######################################################
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -16,6 +17,7 @@ const ImportantMsg = ({ message, type }) => {
     if (type === "info") {
       msgStyle = {fontSize: "16px", margin:"20px", fontWeight: "bold", padding: "10px", borderRadius:"5px", backgroundColor:"#e1edf7" };
     }
+    //################# Frontend ######################################################
   return (
     <div style={msgStyle}>
       {message}

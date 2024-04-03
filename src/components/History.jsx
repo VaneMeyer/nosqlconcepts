@@ -1,3 +1,4 @@
+// student project DBMS course WS 23/24
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";

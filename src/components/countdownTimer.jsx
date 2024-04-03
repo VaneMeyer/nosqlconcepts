@@ -1,52 +1,10 @@
-/* import React, { useState, useEffect } from 'react';
-
-const CountdownTimer = ({ deadline }) => {
-  const calculateTimeLeft = () => {
-    const now = new Date();
-    const difference = new Date(deadline) - now;
-
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((difference % (1000 * 60)) / 1000),
-      };
-    }
-
-    return timeLeft;
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <div>
-        <h4>Countdown until submission deadline</h4>
-      {timeLeft.days > 0 && <p>{timeLeft.days} Days</p>}
-      <p>{timeLeft.hours} Hours</p>
-      <p>{timeLeft.minutes} Minutes</p>
-      <p>{timeLeft.seconds} Seconds</p>
-    </div>
-  );
-};
-
-export default CountdownTimer;
- */
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Paper, useTheme } from '@mui/material';
 import { tokens } from "../theme";
 
 const CountdownTimer = ({ deadline }) => {
+
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const countdownStyle = {
@@ -57,6 +15,7 @@ const CountdownTimer = ({ deadline }) => {
     textAlign: 'center',
   };
 
+  //################# Functions ######################################################
   const calculateTimeLeft = () => {
     const now = new Date();
     const difference = new Date(deadline) - now;
@@ -75,8 +34,10 @@ const CountdownTimer = ({ deadline }) => {
     return timeLeft;
   };
 
+  //################# State Variables ######################################################
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
+  //################# useEffect Function ######################################################
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
@@ -85,6 +46,7 @@ const CountdownTimer = ({ deadline }) => {
     return () => clearInterval(timer);
   }, []);
 
+  //################# Frontend ######################################################
   return (
     <Box display="flex" justifyContent="center" alignItems="center" p={2}>
       <Paper style={countdownStyle} elevation={3}>

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Typography, Paper, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import PersonIcon from "@mui/icons-material/Person";
 import MoodIcon from "@mui/icons-material/Mood";
 import MoodBadIcon from "@mui/icons-material/MoodBad";
 
 function DifficultyRating() {
+  //################# State Variables ######################################################
   const [easyTask, setEasyTask] = useState(0);
   const [difficultTask, setDifficultTask] = useState(0);
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const userStyle = {
@@ -19,9 +20,10 @@ function DifficultyRating() {
     color: "black",
     textAlign: "center",
   };
+  //################# Functions ######################################################
   const getStoredData = () => {
     const storedData = localStorage.getItem("easyTaskData");
-    const storedData2 = localStorage.getItem("difficultTaskData")
+    const storedData2 = localStorage.getItem("difficultTaskData");
     if (storedData) {
       setEasyTask(JSON.parse(storedData));
     }
@@ -29,6 +31,7 @@ function DifficultyRating() {
       setDifficultTask(JSON.parse(storedData2));
     }
   };
+  //################# useEffect Function ######################################################
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,7 +44,10 @@ function DifficultyRating() {
       try {
         const response2 = await axios.get("/difficulty-rating-difficult");
         setDifficultTask(response2.data[0]);
-        localStorage.setItem("difficultTaskData", JSON.stringify(response2.data[0]));
+        localStorage.setItem(
+          "difficultTaskData",
+          JSON.stringify(response2.data[0])
+        );
       } catch (error) {
         console.error("Error with receiving data:", error);
         getStoredData();
@@ -50,17 +56,19 @@ function DifficultyRating() {
 
     fetchData();
   }, []);
-
+  //################# Frontend ######################################################
   return (
     <div>
       <Box sx={userStyle}>
         <Typography>
           <MoodIcon />
-          Most easy rated task: {`Task ${easyTask.task_id} (${easyTask.task_area})`}
+          Most easy rated task:{" "}
+          {`Task ${easyTask.task_id} (${easyTask.task_area})`}
         </Typography>
         <Typography>
           <MoodBadIcon />
-          Most difficult rated task: {`Task ${difficultTask.task_id} (${difficultTask.task_area})`}
+          Most difficult rated task:{" "}
+          {`Task ${difficultTask.task_id} (${difficultTask.task_area})`}
         </Typography>
       </Box>
     </div>

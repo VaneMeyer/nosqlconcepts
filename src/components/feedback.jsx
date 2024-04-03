@@ -1,14 +1,9 @@
+//is it in use? delete?
 import React, { useState } from "react";
 import axios from "axios";
 import {
   Box,
   Button,
-  TextField,
-  InputLabel,
-  MenuItem,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   useTheme,
 } from "@mui/material";
 
@@ -17,6 +12,8 @@ import ResultTable from "./ResultTable";
 import ImportantMsg from "./importantMsg";
 
 const Feedback = ({ queryResult }) => {
+
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   // Styles for mui components
@@ -28,14 +25,15 @@ const Feedback = ({ queryResult }) => {
     padding: "10px 20px",
     margin: "10px",
   };
-
+//################# State Variables ######################################################
   const [correctResult, setCorrectResult] = useState("");
   const [feedback, setFeedback] = useState("");
   const [type, setType] = useState("");
 
+  //################# get/post data from/to DB ######################################################
   const fetchData = async () => {
     try {
-      const response = await axios.get("/getCorrectResult"); //add in app.js for aech task
+      const response = await axios.get("/getCorrectResult"); 
 
       //get Result of correct query
       setCorrectResult(response.data);
@@ -50,16 +48,17 @@ const Feedback = ({ queryResult }) => {
         );
         setType("error");
       }
-      //console.log(transfomedData);
+      
     } catch (error) {
       console.error("Error with receiving data:", error);
-      //alert("Could not get data from database! Please try to reload window or open new tab.")
+      
     }
   };
-
+//################# Functions ######################################################
   const checkQueryResult = () => {
     fetchData();
   };
+  //################# Frontend ######################################################
   return (
     <Box>
       <Button sx={muiButtonStyle} onClick={checkQueryResult}>

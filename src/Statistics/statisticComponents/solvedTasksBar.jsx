@@ -5,8 +5,10 @@ import { tokens } from "../../theme";
 import { useTheme } from "@mui/material";
 
 const SolvedTasksBar = ({ isUser }) => {
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  //################# State Variables ######################################################
   const [data, setData] = useState([]);
   const [username, setUsername] = useState(
     localStorage.getItem("token").replace(/"/g, "")
@@ -17,12 +19,14 @@ const SolvedTasksBar = ({ isUser }) => {
   } else {
     path = "/solved-tasks-count";
   }
+  //################# Functions ######################################################
   const getStoredData = () => {
     const storedData = localStorage.getItem("solvedTaskData");
     if (storedData) {
       setData(JSON.parse(storedData));
     }
   };
+  //################# useEffect Function ######################################################
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,22 +41,19 @@ const SolvedTasksBar = ({ isUser }) => {
 
     fetchData();
   }, []);
-
+  //################# Frontend ######################################################
   return (
-    <div style={{ height: "250px" }}>
+    <div style={{ height: "250px", width:"800px" }}>
       <ResponsiveBar
         data={data}
-        /* keys={['avg_solved_tasks_count']} */
         keys={[
           "avg_solved_tasks_count",
           "avg_correct_tasks_count",
           "avg_executable_tasks_count",
         ]}
         indexBy="task_area_id"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 190, bottom: 50, left: 60 }}
         padding={0.3}
-        /* valueScale={{ type: 'linear' }}
-                indexScale={{ type: 'band', round: true }} */
         colors={[
           colors.primary[800],
           colors.greenAccent[500],
@@ -60,10 +61,7 @@ const SolvedTasksBar = ({ isUser }) => {
           colors.greenAccent[800],
           colors.primary[900],
         ]}
-        /* colors={{ scheme: 'nivo' }} */
         groupMode="grouped"
-        /*  axisTop={null}
-                axisRight={null} */
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,
@@ -81,6 +79,10 @@ const SolvedTasksBar = ({ isUser }) => {
                 return "Neo4J";
               case 4:
                 return "MongoDB";
+              case 5:
+                return "Lab 1";
+              case 6:
+                return "Lab 2";
               default:
                 return value;
             }
@@ -94,8 +96,6 @@ const SolvedTasksBar = ({ isUser }) => {
           legendPosition: "middle",
           legendOffset: -40,
         }}
-        /* labelSkipWidth={12}
-                labelSkipHeight={12} */
         labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
         legends={[
           {

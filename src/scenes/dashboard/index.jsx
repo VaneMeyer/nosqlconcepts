@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import postgreSQLLogo from "../../images/logo-postgresql.png";
 import CassandraLogo from "../../images/logo-cassandra.png";
@@ -9,26 +9,20 @@ import { Link } from "react-router-dom";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import SchemaIcon from "@mui/icons-material/Schema";
 import TableRowsIcon from "@mui/icons-material/TableRows";
-import BlurOnIcon from "@mui/icons-material/BlurOn";
 import ViewColumnIcon from "@mui/icons-material/ViewColumn";
 import Header from "../../components/Header";
-
 import StatBox from "../../components/StatBox";
-import ChristmasCountdown from "../../components/xmasCountdown";
-import PieChart from "../../components/PieChart";
 import ImportantMsg from "../../components/importantMsg";
-import CountdownTimer from "../../components/countdownTimer";
-import BarChart from "../../components/BarChart";
 import SolvedTasksBar from "../../Statistics/statisticComponents/solvedTasksBar";
 import TotalUsers from "../../Statistics/statisticComponents/userNumber";
 import DifficultyRating from "../../Statistics/statisticComponents/difficultyRating";
-import PageViews from "../../Statistics/statisticComponents/pageViews";
 import AvgProcessingTimeChart from "../../Statistics/statisticComponents/avgProcessingTimeBar";
 import QueryHistoryChart from "../../Statistics/statisticComponents/historyLineChart";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Footer from "../global/footer";
 
 const Dashboard = () => {
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -44,18 +38,18 @@ const Dashboard = () => {
       color: colors.primary[500],
     },
   };
-
+  //################# useEffect Function ######################################################
   useEffect(() => {
     if (role === "admin") {
       setIsAdmin(true);
     }
   }, []);
-
+  //################# State Variables ######################################################
   const [profile, setProfile] = useState("");
   const [role, setRole] = useState(localStorage.getItem("role"));
   const [isAdmin, setIsAdmin] = useState(false);
   const { name } = profile;
-
+  //################# Frontend ######################################################
   return (
     <Box m="20px" p={7}>
       {/* HEADER */}
@@ -69,7 +63,11 @@ const Dashboard = () => {
 Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool.  "
           type="info"
         />
-        {isAdmin && <Link to="/admin"><Button>Admin</Button></Link>}
+        {isAdmin && (
+          <Link to="/admin">
+            <Button>Admin</Button>
+          </Link>
+        )}
       </Box>
 
       {/* GRID & CHARTS */}
@@ -148,6 +146,36 @@ Note: This tool is still in the development phase. Please make sure to have a ba
             icon={<DataObjectIcon></DataObjectIcon>}
           />
         </Box>
+        <Box
+          gridColumn={{ xs: "span 20", md: "span 3" }}
+          backgroundColor={colors.primary[400]}
+          display="flex"
+          flexDirection={{ xs: "column", md: "row" }}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBox
+            title="Lab Assignment 1"
+            link="/lab1"
+            logo=""
+            icon=""
+          />
+        </Box>
+        <Box
+          gridColumn={{ xs: "span 20", md: "span 3" }}
+          backgroundColor={colors.primary[400]}
+          display="flex"
+          flexDirection={{ xs: "column", md: "row" }}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBox
+            title="Lab Assignment 2"
+            link="/lab2"
+            logo=""
+            icon=""
+          />
+        </Box>
 
         {/* ROW 2 */}
         <Box
@@ -159,7 +187,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
         >
           <Box
             mt="25px"
-            p="0 30px"
+            p="0 80px"
             display="flex"
             flexDirection={{ xs: "column", md: "row" }}
             justifyContent="space-between"
@@ -177,7 +205,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Your average processing time for each area
+                Your average processing time for one task of each area
               </Typography>
               <Box height="250px" width="600px" mt="-20px">
                 <AvgProcessingTimeChart isUser={true} />
@@ -190,7 +218,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
               overflow="auto"
             >
               <Typography variant="h5" fontWeight="600">
-                Number of executable and correct queries
+                Your number of solved, executable and correct queries
               </Typography>
               <Box height="250px" width="600px" mt="-20px">
                 {/* <PieChart /> */}
@@ -251,7 +279,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Your Query Executions per Day
+                Your query executions per day
               </Typography>
               <Box height="350px" width="1000px" mt="-20px">
                 <QueryHistoryChart isUser={true} />

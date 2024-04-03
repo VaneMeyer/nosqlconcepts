@@ -4,8 +4,11 @@ import { useTheme } from "@mui/material";
 import { neo4jTasks } from "../data/tasks";
 
 const PieChart = () => {
+   //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+   //################# Counting ######################################################
   let numCorrect = 0;
   let numIncorrect = 0;
   let numNotSpec = 0;
@@ -36,7 +39,7 @@ const PieChart = () => {
     { id: "not sure", value: numNotKnow },
     { id: "not specified", value: numNotSpec },
   ];
-
+ //################# Frontend ######################################################
   return (
     <ResponsivePie
       data={data}

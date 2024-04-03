@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as xlsx from "xlsx";
 import { Button, useTheme, Box, Typography } from "@mui/material";
-import { pgTasks } from "../data/tasks";
+import { neo4jTasksOnSite, pgTasks, pgTasksOnSite } from "../data/tasks";
 import { cassandraTasks } from "../data/tasks";
 import { neo4jTasks } from "../data/tasks";
 import { mongodbTasks } from "../data/tasks";
@@ -10,12 +10,13 @@ import { tokens } from "../theme";
 import DownloadIcon from '@mui/icons-material/Download';
 
 const OptDownload = () => {
+  //################# General ######################################################
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const title = queryParams.get("title");
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [username, setUsername] = useState(localStorage.getItem("token"));
   // Styles for mui components
   let muiButtonStyle = {
     backgroundColor: colors.blueAccent[100],
@@ -25,7 +26,10 @@ const OptDownload = () => {
     padding: "10px 20px",
     margin: "10px",
   };
-
+  //################# State Variables ######################################################
+  const [username, setUsername] = useState(localStorage.getItem("token"));
+  
+//################# Handle Functions ######################################################
   const handleDownload = () => {
     const header = [
       "taskNumber",
@@ -53,38 +57,13 @@ const OptDownload = () => {
     if (title === "MongoDB") {
       taskarray = mongodbTasks;
     }
-    /* for (let i = 1; i <= taskarray.length; i++) {
-      const answer1 =
-        localStorage.getItem(`${title.toLowerCase()}query${i}`) || "";
-      const answer2 =
-        localStorage.getItem(`${title.toLowerCase()}resultSize${i}`) || "0";
-      const answer3 =
-        localStorage.getItem(`${title.toLowerCase()}isExecutable${i}`) || "";
-      const answer4 =
-        localStorage.getItem(`${title.toLowerCase()}partialSolution${i}`) || "";
-      const answer5 =
-        localStorage.getItem(`${title.toLowerCase()}isCorrect${i}`) || "0";
-      const answer6 =
-        localStorage.getItem(`${title.toLowerCase()}difficulty${i}`) || "0";
-      const answer7 =
-        localStorage.getItem(`${title.toLowerCase()}time${i}`) || "0";
-      xlsx.utils.sheet_add_aoa(
-        ws,
-        [
-          [
-            i,
-            answer1,
-            answer2,
-            answer3,
-            answer4,
-            answer5,
-            answer6,
-            formatTime(answer7),
-          ],
-        ],
-        { origin: -1 }
-      );
-    } */
+    if (title === "Lab Assignment 1") {
+      taskarray = pgTasksOnSite;
+    }
+    if (title === "Lab Assignment 2") {
+      taskarray = neo4jTasksOnSite;
+    }
+   
     for (let i = 1; i <= taskarray.length; i++) {
       const answer1 = localStorage.getItem(`${title.toLowerCase()}query_${username}_${i}`) || "";
       const answer2 = localStorage.getItem(`${title.toLowerCase()}resultSize_${username}_${i}`) || "0";
@@ -117,6 +96,8 @@ const OptDownload = () => {
     xlsx.utils.book_append_sheet(wb, ws, "fileData");
     xlsx.writeFile(wb, `DBMS-${title}-NAME.xlsx`);
   };
+
+  //################# Functions ######################################################
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor((timeInSeconds - hours * 3600) / 60);
@@ -126,7 +107,7 @@ const OptDownload = () => {
       .toString()
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
-
+//################# Frontend ######################################################
   return (
     <div style={{
       margin:"50px"

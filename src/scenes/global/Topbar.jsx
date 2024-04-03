@@ -4,18 +4,21 @@ import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import LogOut from "../../Sign-in/logout";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import HistoryIcon from '@mui/icons-material/History';
+import HistoryIcon from "@mui/icons-material/History";
 const Topbar = () => {
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  //################# State Variables ######################################################
   const [username, setUsername] = useState(localStorage.getItem("token"));
+  //################# Frontend ######################################################
   return (
     <Box
       sx={{ backgroundColor: `${colors.blueAccent[100]}` }}
       display="flex"
       justifyContent="space-between"
       p={2}
+      width="100%"
     >
       <Box display="flex">
         <Typography
@@ -24,7 +27,6 @@ const Topbar = () => {
           sx={{ marginRight: "20px", display: "flex", alignItems: "center" }}
         >
           NoSQLconcepts
-          
         </Typography>
         <Box display="flex" alignItems="center">
           <Link to="/">

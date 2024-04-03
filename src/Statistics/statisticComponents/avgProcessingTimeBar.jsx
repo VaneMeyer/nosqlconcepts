@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 import axios from "axios";
-import { tokens } from '../../theme';
-import { useTheme } from '@mui/material';
-
+import { tokens } from "../../theme";
+import { useTheme } from "@mui/material";
 
 const AvgProcessingTimeChart = ({ isUser }) => {
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  //################# State Variables ######################################################
   const [data, setData] = useState([]);
-  const [username, setUsername] = useState(localStorage.getItem("token").replace(/"/g, ''));
+  const [username, setUsername] = useState(
+    localStorage.getItem("token").replace(/"/g, "")
+  );
 
   let path = "";
   if (isUser === true) {
@@ -18,30 +21,13 @@ const AvgProcessingTimeChart = ({ isUser }) => {
     path = "/avg-processing-time";
   }
 
-  
+  //################# Functions ######################################################
   const getStoredData = () => {
     const storedData = localStorage.getItem("avgProcessingTimeData");
     if (storedData) {
       setData(JSON.parse(storedData));
     }
   };
-  useEffect(() => {
-    
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(path, {username});
-        setData(response.data);
-        localStorage.setItem("avgProcessingTimeData", JSON.stringify(response.data));
-        //console.log(response.data);
-      } catch (error) {
-        console.error("Error with receiving data:", error);
-        getStoredData();
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const transformData = () => {
     return data.map((item) => {
       const totalSeconds = item.avg_processing_time;
@@ -56,19 +42,37 @@ const AvgProcessingTimeChart = ({ isUser }) => {
       };
     });
   };
+  //################# useEffect Function ######################################################
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(path, { username });
+        setData(response.data);
+        localStorage.setItem(
+          "avgProcessingTimeData",
+          JSON.stringify(response.data)
+        );
+        //console.log(response.data);
+      } catch (error) {
+        console.error("Error with receiving data:", error);
+        getStoredData();
+      }
+    };
 
+    fetchData();
+  }, []);
+  //################# Frontend ######################################################
   return (
-    <div style={{ height: "250px" }}>
+    <div style={{ height: "250px", width:"800px"}}>
       <ResponsiveBar
         data={transformData()}
         keys={["avg_processing_time_minutes"]}
         indexBy="task_area_id"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 200, bottom: 50, left: 60 }}
         padding={0.3}
         valueScale={{ type: "linear" }}
         indexScale={{ type: "band", round: true }}
         colors={[colors.blueAccent[700], colors.greenAccent[700]]}
-        /* colors={{ scheme: "nivo" }} */
         groupMode="grouped"
         axisTop={null}
         axisRight={null}
@@ -89,6 +93,10 @@ const AvgProcessingTimeChart = ({ isUser }) => {
                 return "Neo4J";
               case 4:
                 return "MongoDB";
+              case 5:
+                return "Lab 1";
+              case 6:
+                return "Lab 2";
               default:
                 return value;
             }

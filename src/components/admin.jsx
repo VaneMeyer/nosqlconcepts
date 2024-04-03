@@ -13,17 +13,24 @@ import ResultTable from "./ResultTable";
 const AdminC = () => {
   
   //recommendation if user passes or fails (e.g. 50% user inputs? -> pass, else fail)
+
+  //################# State Variables ######################################################
   const [user, setUser] = useState("");
   const [userArray, setUserArray] = useState([]);
   const [userdata, setUserdata] = useState("");
 
+  //################# Handle Functions ######################################################
+
   const handleChange = (event) => {
     setUser(event.target.value);
   };
+
+  //################# useEffect Function ######################################################
   useEffect(() => {
     getUsers();
   }, []);
 
+  //################# get/post data from/to DB ######################################################
   const getUsers = () => {
     fetch("/getUsers")
       .then((response) => response.json())
@@ -46,6 +53,8 @@ const AdminC = () => {
         console.error("Error fetching data:", error);
     });
   }
+
+  //################# Frontend ######################################################
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ width: "70%" }}>

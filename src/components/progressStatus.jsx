@@ -2,6 +2,7 @@ import { Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
 const ProgressStatus = ({ title }) => {
+  //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -27,10 +28,12 @@ const ProgressStatus = ({ title }) => {
 
   if (localStorage.getItem(`${title.toLowerCase()}Status`) === "STARTED") {
     muiBoxStyle = startedStyle;
-  } else if (localStorage.getItem(`${title.toLowerCase()}Status`) === "FINISHED") {
+  } else if (
+    localStorage.getItem(`${title.toLowerCase()}Status`) === "FINISHED"
+  ) {
     muiBoxStyle = finishStyle;
   }
-
+  //################# Frontend ######################################################
   return (
     <Box>
       <Box sx={muiBoxStyle}>
