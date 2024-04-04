@@ -22,7 +22,7 @@ const StatisticsMain = () => {
       <Grid item xs={12} md={6}>
         <Paper style={{ padding: "20px" }}>
           <Typography variant="h5" gutterBottom>
-            Average number of solved, executable and correct tasks
+            Average number of started, executable and correct tasks
           </Typography>
           <SolvedTasksBar />
         </Paper>

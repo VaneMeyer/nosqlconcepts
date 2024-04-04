@@ -47,9 +47,9 @@ const SolvedTasksBar = ({ isUser }) => {
       <ResponsiveBar
         data={data}
         keys={[
-          "avg_solved_tasks_count",
-          "avg_correct_tasks_count",
-          "avg_executable_tasks_count",
+          "started_tasks_count",
+          "correct_tasks_count",
+          "executable_tasks_count",
         ]}
         indexBy="task_area_id"
         margin={{ top: 50, right: 190, bottom: 50, left: 60 }}

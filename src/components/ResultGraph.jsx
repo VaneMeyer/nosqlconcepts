@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Graph from "react-graph-vis";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 
-const ResultGraph = ({ queryResult }) => {
+const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
   queryResult = queryResult.slice(0, 25);
   //################# Style Settings ######################################################
   const theme = useTheme();
@@ -21,6 +21,7 @@ const ResultGraph = ({ queryResult }) => {
   const edgeIdArray = [];
   let nodeId = "";
   let edgeId = "";
+
   //################# Main Functionality to get nodes and edges ######################################################
   try {
     if (queryResult) {
@@ -183,6 +184,12 @@ const ResultGraph = ({ queryResult }) => {
       enabled: true,
     },
   };
+   //################# useEffect Function ######################################################
+   useEffect(() => {
+    if (onGetNodeAndEdgeCount) {
+      onGetNodeAndEdgeCount(numNodes, numEdges);
+    }
+  }, [numNodes, numEdges, onGetNodeAndEdgeCount]);
   //################# Frontend ######################################################
   return (
     <div

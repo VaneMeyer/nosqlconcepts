@@ -215,7 +215,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
               overflow="auto"
             >
               <Typography variant="h5" fontWeight="600">
-                Your number of solved, executable and correct queries
+                Your number of started, executable and correct queries
               </Typography>
               <Box height="250px" width="600px" mt="-20px">
                 {/* <PieChart /> */}

@@ -30,6 +30,8 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   };
   //################# State Variables ######################################################
   const [queryResult, setQueryResult] = useState("");
+  const [numNodes, setNumNodes] = useState(0);
+  const [numEdges, setNumEdges] = useState(0);
   const [solutionResult, setSolutionResult] = useState("");
   const [feedback, setFeedback] = useState("");
   const [feedbackType, setFeedbackType] = useState("error");
@@ -56,7 +58,10 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
     setQueryFormData({ ...queryFormData, query: newContent });
     saveToLocalStorage();
   };
-
+  const handleGetNodeAndEdgeCount = (nodes, edges) => {
+    setNumNodes(nodes);
+    setNumEdges(edges);
+  };
   //################# Functions ######################################################
   const saveToLocalStorage = () => {
     localStorage.setItem(
@@ -202,7 +207,8 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
       <div style={{ width: "100%" }}>
         <Box>
           <InputLabel id="query-input-label" style={labelStyle}>
-            Type and run your query if you think this task is solvable with a query. Otherwise use the partial solution textfield below.
+            Type and run your query if you think this task is solvable with a
+            query. Otherwise use the partial solution textfield below.
           </InputLabel>
           <p>{""}</p>
           <AceEditor
@@ -230,13 +236,20 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
           {queryResult && (
             <ImportantMsg message={feedback} type={feedbackType} />
           )}
-          {(title === "Neo4J" || title === "Lab Assignment 2") && queryResult && (
-            <ResultGraph queryResult={queryResult} />
+          {(title === "Neo4J" || title === "Lab Assignment 2") &&
+            queryResult && (
+              <ResultGraph
+                queryResult={queryResult}
+                onGetNodeAndEdgeCount={handleGetNodeAndEdgeCount}
+              />
+            )}
+          {numNodes === 0 && numEdges === 0 && (
+            <ResultTable
+              queryResult={queryResult}
+              resultSize={queryFormData.resultSize}
+            />
           )}
-          <ResultTable
-            queryResult={queryResult}
-            resultSize={queryFormData.resultSize}
-          />
+
           {error && <ImportantMsg message={error} type="error" />}
 
           <Box sx={{ padding: "10px", borderRadius: "5px", border: "black" }}>
