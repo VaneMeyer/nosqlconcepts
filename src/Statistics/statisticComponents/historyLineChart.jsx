@@ -15,7 +15,7 @@ const QueryHistoryChart = ({ isUser }) => {
   const colors = tokens(theme.palette.mode);
   // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: colors.blueAccent[100],
+    backgroundColor: colors.custom01[100],
     color: colors.grey[900],
     fontSize: "14px",
     fontWeight: "bold",
@@ -137,7 +137,8 @@ const QueryHistoryChart = ({ isUser }) => {
             legendPosition: "middle",
           }}
           colors={[
-            colors.blueAccent[600],
+            /* colors.blueAccent[600], */
+            colors.custom01[200],
             colors.greenAccent[400],
             colors.blueAccent[700],
             colors.greenAccent[700],

@@ -43,7 +43,7 @@ const SolvedTasksBar = ({ isUser }) => {
   }, []);
   //################# Frontend ######################################################
   return (
-    <div style={{ height: "250px", width:"800px" }}>
+    <div style={{ height: "250px", width: "800px" }}>
       <ResponsiveBar
         data={data}
         keys={[
@@ -55,11 +55,24 @@ const SolvedTasksBar = ({ isUser }) => {
         margin={{ top: 50, right: 190, bottom: 50, left: 60 }}
         padding={0.3}
         colors={[
-          colors.primary[800],
+          colors.custom01[400],
+          colors.greenAccent[600],
+          colors.custom01[700],
+          colors.custom01[800],
+          colors.custom01[900],
+          colors.custom01[500],
+          /*colors.custom01[500],
+          colors.custom01[600],
+          colors.custom01[700],
+          colors.custom01[800],
+          colors.custom01[900],
+          colors.custom01[400],
+          ######
+              colors.primary[800],
           colors.greenAccent[500],
           colors.blueAccent[800],
           colors.greenAccent[800],
-          colors.primary[900],
+          colors.primary[900], */
         ]}
         groupMode="grouped"
         axisBottom={{

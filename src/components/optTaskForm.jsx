@@ -32,7 +32,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
 
   // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: colors.blueAccent[100],
+    backgroundColor: colors.custom01[100],
     color: colors.grey[900],
     fontSize: "14px",
     fontWeight: "bold",
@@ -176,7 +176,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     setIsRunning(true);
     setHasStarted(true);
 
-    localStorage.setItem(`${title.toLowerCase()}Status`, "STARTED");
+    localStorage.setItem(`${title.toLowerCase()}Status_${username}`, "STARTED");
   };
 
   //################# useEffect Function ######################################################
@@ -265,7 +265,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     saveAnswersToLocalStorage();
     sendDataToDb();
 
-    localStorage.setItem(`${title.toLowerCase()}Status`, "FINISHED");
+    localStorage.setItem(`${title.toLowerCase()}Status_${username}`, "FINISHED");
     const dataToSend = { title: title };
     navigate(`/download?title=${dataToSend.title}`);
   };

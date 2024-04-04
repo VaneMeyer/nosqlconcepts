@@ -11,7 +11,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link, logo }) => {
   const colors = tokens(theme.palette.mode);
   //################# Frontend ######################################################
   return (
-    <Box width="100%" m="0 30px">
+    <Box /* width="100%" m="0 30px" */ >
       <Box display="flex" justifyContent="space-between">
         <Box>
           <Typography
@@ -44,7 +44,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link, logo }) => {
               title === "PostgreSQL"
             } */
             sx={{
-              backgroundColor: colors.blueAccent[100],
+              backgroundColor: colors.custom01[100],
               color: colors.grey[900],
               fontSize: "14px",
               fontWeight: "bold",

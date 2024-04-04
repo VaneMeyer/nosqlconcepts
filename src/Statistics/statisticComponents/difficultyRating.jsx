@@ -16,7 +16,7 @@ function DifficultyRating() {
     margin: "20px",
     padding: "10px",
     borderRadius: "5px",
-    backgroundColor: colors.blueAccent[800],
+    backgroundColor: colors.custom01[700],
     color: "black",
     textAlign: "center",
   };

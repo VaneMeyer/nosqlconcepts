@@ -72,7 +72,7 @@ const AvgProcessingTimeChart = ({ isUser }) => {
         padding={0.3}
         valueScale={{ type: "linear" }}
         indexScale={{ type: "band", round: true }}
-        colors={[colors.blueAccent[700], colors.greenAccent[700]]}
+        colors={[colors.custom01[400], colors.greenAccent[700]]}
         groupMode="grouped"
         axisTop={null}
         axisRight={null}

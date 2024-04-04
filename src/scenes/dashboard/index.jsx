@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: colors.blueAccent[100],
+    backgroundColor: colors.custom01[100],
     color: colors.grey[900],
     fontSize: "14px",
     fontWeight: "bold",
@@ -38,16 +38,19 @@ const Dashboard = () => {
       color: colors.primary[500],
     },
   };
+
+  let cardStyle = {
+    borderRadius: "12px",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+    transition: "box-shadow 0.3s ease",
+    "&:hover": {
+      boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)",
+    },
+  };
   //################# useEffect Function ######################################################
-  useEffect(() => {
-    if (role === "admin") {
-      setIsAdmin(true);
-    }
-  }, []);
+  useEffect(() => {}, []);
   //################# State Variables ######################################################
   const [profile, setProfile] = useState("");
-  const [role, setRole] = useState(localStorage.getItem("role"));
-  const [isAdmin, setIsAdmin] = useState(false);
   const { name } = profile;
   //################# Frontend ######################################################
   return (
@@ -58,16 +61,13 @@ const Dashboard = () => {
           title="DASHBOARD"
           subtitle={"Welcome to the DBMS practical course!"}
         />
-        <ImportantMsg
+      </Box>
+      <Box>
+      <ImportantMsg
           message="
 Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool.  "
           type="info"
         />
-        {isAdmin && (
-          <Link to="/admin">
-            <Button>Admin</Button>
-          </Link>
-        )}
       </Box>
 
       {/* GRID & CHARTS */}
@@ -90,6 +90,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
+          sx={cardStyle}
         >
           <StatBox
             title="PostgreSQL"
@@ -106,6 +107,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
+          sx={cardStyle}
         >
           <StatBox
             title="Cassandra"
@@ -122,6 +124,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
+          sx={cardStyle}
         >
           <StatBox
             title="Neo4J"
@@ -138,6 +141,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
+          sx={cardStyle}
         >
           <StatBox
             title="MongoDB"
@@ -153,13 +157,9 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
+          sx={cardStyle}
         >
-          <StatBox
-            title="Lab Assignment 1"
-            link="/lab1"
-            logo=""
-            icon=""
-          />
+          <StatBox title="Lab Assignment 1" link="/lab1" logo="" icon="" />
         </Box>
         <Box
           gridColumn={{ xs: "span 20", md: "span 3" }}
@@ -168,13 +168,9 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           flexDirection={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
+          sx={cardStyle}
         >
-          <StatBox
-            title="Lab Assignment 2"
-            link="/lab2"
-            logo=""
-            icon=""
-          />
+          <StatBox title="Lab Assignment 2" link="/lab2" logo="" icon="" />
         </Box>
 
         {/* ROW 2 */}
@@ -184,6 +180,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           /* gridColumn="span 8" */
           /* gridRow="span 2" */
           backgroundColor={colors.primary[400]}
+          sx={cardStyle}
         >
           <Box
             mt="25px"
@@ -235,6 +232,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           flexDirection={{ xs: "column", md: "row" }}
           backgroundColor={colors.primary[400]}
           overflow="auto"
+          sx={cardStyle}
         >
           <Typography
             variant="h5"
@@ -259,6 +257,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           /* gridColumn="span 12"
           gridRow="span 3" */
           backgroundColor={colors.primary[400]}
+          sx={cardStyle}
         >
           <Box
             mt="25px"
@@ -289,27 +288,27 @@ Note: This tool is still in the development phase. Please make sure to have a ba
         </Box>
 
         {/* ROW 4 */}
-        <Box
+        {/* <Box
           gridColumn={{ xs: "span 20", md: "span 4" }}
           gridRow={{ xs: "span 2", md: "span 2" }}
-          /*  gridColumn="span 4"
-          gridRow="span 2"  */
+          
           flexDirection={{ xs: "column", md: "row" }}
           backgroundColor={colors.primary[400]}
           p="30px"
+          sx={cardStyle}
         >
           <Typography variant="h5" fontWeight="600">
             Material
           </Typography>
-          {/* <PageViews /> */}
+          
         </Box>
         <Box
-          /*  gridColumn="span 4"
-          gridRow="span 2"  */
+         
           gridColumn={{ xs: "span 20", md: "span 4" }}
           gridRow={{ xs: "span 2", md: "span 2" }}
           flexDirection={{ xs: "column", md: "row" }}
           backgroundColor={colors.primary[400]}
+          sx={cardStyle}
         >
           <Typography
             variant="h5"
@@ -318,7 +317,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           >
             Feedback
           </Typography>
-        </Box>
+        </Box> */}
         <Box
           /*   gridColumn="span 4"
           gridRow="span 2"  */
@@ -327,6 +326,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           flexDirection={{ xs: "column", md: "row" }}
           backgroundColor={colors.primary[400]}
           padding="30px"
+          sx={cardStyle}
         >
           <Typography
             variant="h5"

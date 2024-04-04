@@ -10,7 +10,7 @@ const OptTimer = ({ run, taskNumber, title, username, onDataFromChild }) => {
 
   // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: "#d993df",
+    backgroundColor: colors.custom01[600] /* "#d993df" */,
     color: colors.grey[100],
     fontSize: "14px",
     fontWeight: "bold",

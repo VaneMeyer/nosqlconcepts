@@ -16,6 +16,7 @@ const LogOut = () => {
       const response = await axios.get("/logout");
       if (response.status === 200) {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
 
         navigate("/");
         window.location.reload();
@@ -32,8 +33,9 @@ const LogOut = () => {
     <Link to="signin" replace>
       <Button
         sx={{
-          color: colors.grey[900],
-          "&:hover": { backgroundColor: `${colors.blueAccent[200]}` },
+          color: colors.grey[100],
+          width:"300px",
+          /* "&:hover": { backgroundColor: `${colors.blueAccent[700]}` }, */
         }}
         onClick={handleLogout}
       >

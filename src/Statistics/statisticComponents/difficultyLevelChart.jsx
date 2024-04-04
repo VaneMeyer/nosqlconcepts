@@ -87,12 +87,23 @@ const DifficultyLevelChart = () => {
                 padAngle={0.7}
                 cornerRadius={3}
                 colors={[
-                  colors.blueAccent[500],
+                  colors.custom01[400],
+                  colors.greenAccent[600],
+                  colors.custom01[700],
+                  colors.custom01[800],
+                  colors.custom01[900],
+                  colors.custom01[500],
+                  /* colors.custom01[500],
+                  colors.custom01[600],
+                  colors.custom01[700],
+                  colors.custom01[800],
+                  colors.custom01[900],
+                  colors.custom01[400], */
+                /*   colors.blueAccent[500],
                   colors.greenAccent[400],
                   colors.blueAccent[700],
                   colors.greenAccent[700],
-                  colors.primary[900],
-                  colors.primary[800],
+                  colors.primary[900], */
                 ]}
                 borderWidth={1}
                 borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}

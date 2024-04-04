@@ -123,6 +123,19 @@ export const tokens = (mode) => ({
           800: "#c3c6fd",
           900: "#e1e2fe",
         },
+      
+        custom01: {
+          100: "#101226", // mui buttons
+          200: "#045a8d", // time line chart
+          300: "#e6c775", // light yellow
+          400: "#f38c73", // light orange
+          500: "#f16272", // light red
+          600: "#cfe0e8", // topbar background
+          700: "#d5d7e6", // course summary and bar/pie chart
+          800: "#5a79a5", // blue
+          900: "#89a7cf", // light blue
+        },
+        
       }),
 });
 

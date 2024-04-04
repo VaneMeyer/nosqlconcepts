@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
@@ -25,11 +26,13 @@ const ProgressStatus = ({ title }) => {
     padding: "5px 10px",
     margin: "10px 10px",
   };
+  //################# State Variables ######################################################
+  const [username, setUsername] = useState(localStorage.getItem("token"));
 
-  if (localStorage.getItem(`${title.toLowerCase()}Status`) === "STARTED") {
+  if (localStorage.getItem(`${title.toLowerCase()}Status_${username}`) === "STARTED") {
     muiBoxStyle = startedStyle;
   } else if (
-    localStorage.getItem(`${title.toLowerCase()}Status`) === "FINISHED"
+    localStorage.getItem(`${title.toLowerCase()}Status_${username}`) === "FINISHED"
   ) {
     muiBoxStyle = finishStyle;
   }
@@ -37,7 +40,7 @@ const ProgressStatus = ({ title }) => {
   return (
     <Box>
       <Box sx={muiBoxStyle}>
-        {localStorage.getItem(`${title.toLowerCase()}Status`) || ""}{" "}
+        {localStorage.getItem(`${title.toLowerCase()}Status_${username}`) || ""}{" "}
       </Box>
     </Box>
   );

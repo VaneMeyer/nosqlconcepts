@@ -14,7 +14,7 @@ const PgLogin = () => {
 
   // Styles for mui components
   let muiButtonStyle = {
-    backgroundColor: colors.blueAccent[100],
+    backgroundColor: colors.custom01[100],
     color: colors.grey[900],
     fontSize: "14px",
     fontWeight: "bold",
