@@ -2,7 +2,7 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DataGrid } from "@mui/x-data-grid";
 
-const ResultTable = ({ queryResult, resultSize }) => {
+const ResultTable = ({ queryResult, resultSize, title }) => {
   let columns = [];
   let rows = [];
   let rowsWithUniqueId = [];
@@ -14,7 +14,7 @@ const ResultTable = ({ queryResult, resultSize }) => {
       const isObject =
         typeof value === "object" && value !== null && !Array.isArray(value);
 
-      if (isObject && Object.keys(value).includes("low")) {
+      if (isObject && Object.keys(value).includes("low") && value.low !== undefined) {
         // If the value is an object with a "low" property, only display the "low" value
         columns.push({
           field: item,
@@ -22,10 +22,23 @@ const ResultTable = ({ queryResult, resultSize }) => {
           width: 200,
           valueGetter: (params) => {
             const cellValue = params.row[item];
-            return cellValue.low;
+            if(cellValue && cellValue.low !== undefined)
+            {return cellValue.low;}
           },
         });
-      } else {
+      } 
+      else if (isObject) {
+        columns.push({
+          field: item,
+          headerName: item,
+          width: 200,
+          valueGetter: (params) => {
+            const cellValue = params.row[item];
+            return JSON.stringify(cellValue); 
+          },
+        });
+      }
+      else {
         columns.push({
           field: item,
           headerName: item,

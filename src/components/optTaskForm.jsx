@@ -24,6 +24,7 @@ import DbStructureTable from "./DbStructureTable";
 import DbStructureTablePostgres from "../scenes/db_structures/postgres_structure";
 import DbStructureTableNeo4j from "../scenes/db_structures/neo4j_structure";
 import ImportantMsg from "./importantMsg";
+
 const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   //################# Style Settings ######################################################
   const theme = useTheme();
@@ -72,9 +73,9 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
         `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
       ) || "0",
   });
-  const [endPoint, setEndPoint] = useState("");
+
   const [dbTable, setDbTable] = useState(null);
-  const [showDbStructure, setShowDbStructure] = useState(true);
+  const [showDbStructure, setShowDbStructure] = useState(false);
 
   //################# Functions for Data Storage and other ######################################################
   const saveAnswersToLocalStorage = () => {
@@ -95,80 +96,88 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   };
 
   const sendDataToDb = async () => {
-    let queryText =
-      `${localStorage.getItem(
-        `${title.toLowerCase()}query_${username}_${taskNumber}`
-      )}` || "";
-    const dataToSend = {
-      username: username.replace(/"/g, ""), //get rid of "" of the string
-      statementId: taskNumber,
-      taskAreaId: taskAreaId,
-      queryText: queryText.replace(/'/g, "''"), // get from child component
-      isExecutable:
-        localStorage.getItem(
-          `${title.toLowerCase()}isExecutable_${username}_${taskNumber}`
-        ) || "No", // get from child component
-      resultSize:
-        localStorage.getItem(
-          `${title.toLowerCase()}resultSize_${username}_${taskNumber}`
-        ) || 0, // get from child component
-      isCorrect:
-        localStorage.getItem(
-          `${title.toLowerCase()}isCorrect_${username}_${taskNumber}`
-        ) || "0",
-      partialSolution:
-        localStorage.getItem(
-          `${title.toLowerCase()}partialSolution_${username}_${taskNumber}`
-        ) || "",
-      difficultyLevel:
-        localStorage.getItem(
-          `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
-        ) || "0",
-      processingTime: parseInt(
-        localStorage.getItem(
-          `${title.toLowerCase()}time_${username}_${taskNumber}`
-        ) || 0
-      ), // receivedTime
-    };
+    if (hasStarted) {
+      let queryText =
+        `${localStorage.getItem(
+          `${title.toLowerCase()}query_${username}_${taskNumber}`
+        )}` || "";
+      const dataToSend = {
+        username: username.replace(/"/g, ""), //get rid of "" of the string
+        statementId: taskNumber,
+        taskAreaId: taskAreaId,
+        queryText: queryText.replace(/'/g, "''"), // get from child component
+        isExecutable:
+          localStorage.getItem(
+            `${title.toLowerCase()}isExecutable_${username}_${taskNumber}`
+          ) || "No", // get from child component
+        resultSize:
+          localStorage.getItem(
+            `${title.toLowerCase()}resultSize_${username}_${taskNumber}`
+          ) || 0, // get from child component
+        isCorrect:
+          localStorage.getItem(
+            `${title.toLowerCase()}isCorrect_${username}_${taskNumber}`
+          ) || "0",
+        partialSolution:
+          localStorage.getItem(
+            `${title.toLowerCase()}partialSolution_${username}_${taskNumber}`
+          ) || "",
+        difficultyLevel:
+          localStorage.getItem(
+            `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
+          ) || "0",
+        processingTime: parseInt(
+          localStorage.getItem(
+            `${title.toLowerCase()}time_${username}_${taskNumber}`
+          ) || 0
+        ), // receivedTime
+      };
 
-    try {
-      const response = await axios.post("/api/store-data", dataToSend);
-      if (response.data.success) {
-        console.log("Data stored successfully!");
-      } else {
-        console.error("Error occurred:", response.data.error);
+      try {
+        const response = await axios.post("/api/store-data", dataToSend);
+        if (response.data.success) {
+          console.log("Data stored successfully!");
+        } else {
+          console.error("Error occurred:", response.data.error);
+        }
+      } catch (error) {
+        console.error("Server error:", error);
       }
-    } catch (error) {
-      console.error("Server error:", error);
     }
   };
   const fetchData = async () => {
-    if (showDbStructure === false) {
-      setShowDbStructure(true);
-    } else {
-      setShowDbStructure(false);
-    }
-    let response = await axios.get(endPoint);
-    response = response.data;
-    switch (taskAreaId) {
-      case 1:
-        setDbTable(
-          DbStructureTablePostgres(response["tables"], response["columns"])
-        );
-        break;
-      case 3:
-        setDbTable(
-          DbStructureTableNeo4j(
+    try {
+      let response = await axios.get(endpoint);
+      response = response.data;
+      let newDbTable;
+      switch (taskAreaId) {
+        case 1:
+        case 5:
+          newDbTable = DbStructureTablePostgres(
+            response["tables"],
+            response["columns"]
+          );
+          break;
+        case 3:
+        case 6:
+          newDbTable = DbStructureTableNeo4j(
             response["nodes"],
             response["relationships"],
             response["node_props"],
             response["rel_props"]
-          )
-        );
-        break;
-      default:
-        setDbTable(DbStructureTable(response["tables"], response["columns"]));
-        break;
+          );
+          break;
+        default:
+          newDbTable = DbStructureTable(
+            response["tables"],
+            response["columns"]
+          );
+          break;
+      }
+      setDbTable(newDbTable);
+      setShowDbStructure((prevShowDbStructure) => !prevShowDbStructure);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -199,10 +208,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
           `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
         ) || "0",
     });
-    setEndPoint(endpoint);
-    setShowDbStructure(true);
-    fetchData();
-  }, [title, taskNumber]);
+  }, [title, taskNumber, datamodel, taskarea, taskarray, username]);
 
   //################# handle Functions ######################################################
   const handleChange = (event) => {
@@ -265,7 +271,10 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     saveAnswersToLocalStorage();
     sendDataToDb();
 
-    localStorage.setItem(`${title.toLowerCase()}Status_${username}`, "FINISHED");
+    localStorage.setItem(
+      `${title.toLowerCase()}Status_${username}`,
+      "FINISHED"
+    );
     const dataToSend = { title: title };
     navigate(`/download?title=${dataToSend.title}`);
   };
@@ -295,7 +304,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
           <Box>
             <Box>
               <InputLabel id="task-number-label" style={labelStyle}>
-                Jump to task page:
+                Jump to task page (your current entries will be saved):
               </InputLabel>
 
               <TextField
@@ -321,7 +330,9 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
 
               {showDbStructure && (
                 <Grid container spacing={2}>
-                  {dbTable}
+                  {dbTable.map((table, index) => (
+                    <div key={index}>{table}</div>
+                  ))}
                   <img
                     src={dataModel}
                     alt="Data model of enron database"
@@ -378,8 +389,9 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                     value={formData.isCorrect}
                     onChange={handleChange}
                   >
-                    {isCorrectOptions.map((item) => (
+                    {isCorrectOptions.map((item, index) => (
                       <FormControlLabel
+                        key={index}
                         value={item}
                         control={<Radio sx={muiRadioStyle} />}
                         label={item}
@@ -401,8 +413,9 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                     value={formData.difficulty}
                     onChange={handleChange}
                   >
-                    {difficultyOptions.map((item) => (
+                    {difficultyOptions.map((item, index) => (
                       <FormControlLabel
+                        key={index}
                         value={item}
                         control={<Radio sx={muiRadioStyle} />}
                         label={item}

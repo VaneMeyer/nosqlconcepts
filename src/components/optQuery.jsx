@@ -115,6 +115,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   };
 
   const executeQuery = () => {
+  
     sendDataToDb();
 
     setQueryResult("");
@@ -138,6 +139,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
       .then((response) => {
         setQueryResult(response.data.userQueryResult);
         setSolutionResult(response.data.expectedResult);
+        //console.log(response.data.userQueryResult);
         setQueryFormData(
           (prev) =>
             (prev = {
@@ -154,7 +156,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
           setFeedback(
             "Correct! Your query output is equal to the expected output."
           );
-          console.log("correct");
+          
           setFeedbackType("success");
         } else {
           /* else if(response.data.expectedResult === "no solution"){
@@ -164,7 +166,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
           setFeedback(
             "Not correct (does not match the expected output)! Please try again, if you think that this task is solvable with a query. You can also write a comment in the partial solution textfield, explaining why your solution is correct. In some cases this message occurs because there is no (or no clear) solution query  (use the textfield for your solution then)."
           );
-          console.log("not correct");
+        
           setFeedbackType("error");
         }
         setError("");
@@ -247,6 +249,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
             <ResultTable
               queryResult={queryResult}
               resultSize={queryFormData.resultSize}
+              title={title}
             />
           )}
 

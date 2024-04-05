@@ -61,11 +61,7 @@ const TopBar = () => {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon
-            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-            component={Link}
-            to="/"
-          />
+         
           <Typography
             variant="h6"
             noWrap
@@ -123,6 +119,13 @@ const TopBar = () => {
               >
                 <Typography textAlign="center">History</Typography>
               </MenuItem>
+              <MenuItem
+                component={Link}
+                to="/backup"
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign="center">Lost your data?</Typography>
+              </MenuItem>
               {isAdmin && (
                 <MenuItem
                   component={Link}
@@ -154,6 +157,16 @@ const TopBar = () => {
               >
                 <HistoryIcon />
                 History
+              </IconButton>
+            </Link>
+            <Link to="/backup">
+              <IconButton
+                sx={{
+                  color: colors.grey[100],
+                }}
+              >
+                
+                Lost your data?
               </IconButton>
             </Link>
             {isAdmin && (

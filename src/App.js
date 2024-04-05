@@ -16,6 +16,7 @@ import Navigation from "./components/testWebDisability";
 import History from "./components/History";
 import AdminC from "./components/admin";
 import { Lab1C, Lab2C } from "./scenes/assignments/lab";
+import BackupC from "./components/backup";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/download" element={<OptDownload />} />
                 <Route path="/statistics" element={<StatisticsMain />} />
                 <Route path="/history" element={<History />} />
+                <Route path="/backup" element={<BackupC />} />
                 {localStorage.getItem("role") === "admin" && (
                   <Route path="/admin" element={<AdminC />} />
                 )}

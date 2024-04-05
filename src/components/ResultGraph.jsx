@@ -5,7 +5,7 @@ import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 
 const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
-  queryResult = queryResult.slice(0, 25);
+  queryResult = queryResult.slice(0, 100);
   //################# Style Settings ######################################################
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -143,7 +143,7 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
   //################# handle Functions and other ######################################################
   const handleViewportChange = (event) => {
@@ -202,7 +202,7 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
       <div>
         <p>
           Note: Due to some issues, the graph visualization is currently limited
-          to 25 relationships. We are working on finding a solution.
+          to 100 relationships. We are working on finding a solution.
         </p>
       </div>
       {numNodes !== 0 && (
