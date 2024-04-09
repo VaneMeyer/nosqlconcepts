@@ -1,12 +1,41 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Box } from "@mui/material";
 import Header from "../../components/Header";
 import OptTaskForm from "../../components/optTaskForm";
 import ImportantMsg from "../../components/importantMsg";
-import { mongodbTasks } from "../../data/tasks";
+/* import { mongodbTasks } from "../../data/tasks"; */
 import mongoDataModel from "../../images/datamodel4-transp.png";
 
 
 const MongoDB = () => {
+    //################# State Variables ######################################################
+    const [mongoTasks, setMongoTasks] = useState([
+      {
+        tasknumber: "",
+        topic: "",
+        subtasknumber: "",
+        maxtime: "",
+        description: "",
+        hint: "",
+      },
+    ]);
+    //################# fetchData Function ######################################################
+    const fetchData = (areaId) => {
+      axios
+        .post("/getTasks", { areaId })
+        .then((response) => {
+          setMongoTasks(response.data);
+        })
+        .catch((error) => {
+          console.error("Failed to get tasks from database");
+        });
+    };
+    //################# useEffect Function ######################################################
+    useEffect(() => {
+      fetchData(4);
+    }, []);
+    //################# Frontend  ######################################################
   return (
     <Box m="20px">
       <Header title="MongoDB" subtitle="Assignment No. 4" />
@@ -27,7 +56,7 @@ const MongoDB = () => {
 
       <hr></hr>
       <Box height="75vh">
-        <OptTaskForm title="MongoDB" taskarray={mongodbTasks}
+        <OptTaskForm title="MongoDB" taskarray={mongoTasks}
           taskarea={4}
           datamodel={mongoDataModel}
           endpoint="/getMongoDBStructure" />

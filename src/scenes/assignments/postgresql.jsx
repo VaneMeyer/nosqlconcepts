@@ -1,12 +1,40 @@
-import { Box, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Box } from "@mui/material";
 import Header from "../../components/Header";
 import OptTaskForm from "../../components/optTaskForm";
-import { pgTasks } from "../../data/tasks";
+/* import { pgTasks } from "../../data/tasks"; */
 import pgdataModel from "../../images/datamodel1-transp.png";
 import ImportantMsg from "../../components/importantMsg";
 
-
 const PostgreSQL = () => {
+  //################# State Variables ######################################################
+  const [pgTasks, setPgTasks] = useState([{
+    tasknumber: "",
+    topic: "",
+    subtasknumber: "",
+    maxtime: "",
+    description:
+      "",
+    hint: "",
+  },]);
+ //################# fetchData Function ######################################################
+  const fetchData = (areaId) => {
+    axios
+      .post("/getTasks", { areaId })
+      .then((response) => {
+        setPgTasks(response.data);
+       
+      })
+      .catch((error) => {
+        console.error("Failed to get tasks from database");
+      });
+  };
+//################# useEffect Function ######################################################
+  useEffect(() => {
+    fetchData(1);
+  }, []);
+  //################# Frontend  ######################################################
   return (
     <Box m="20px">
       <Header title="PostgreSQL" subtitle="Assignment No. 1" />
