@@ -14,7 +14,7 @@ export default function DbStructureTable(list_of_collections, list_of_fields) {
   for (let i = 0; i < list_of_collections.length; i++) {
     list_of_tables.push(
       <Grid sx={{ width: '30%' }}>
-        <Accordion>
+        <Accordion sx={{width: '500px'}}>
           <AccordionSummary
             expandIcon={<ArrowDropDownCircle />}
             aria-controls="panel2-content"

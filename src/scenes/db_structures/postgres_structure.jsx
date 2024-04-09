@@ -14,7 +14,7 @@ export default function DbStructureTablePostgres(list_of_tables, list_of_columns
   for (let i = 0; i < list_of_tables.length; i++) {
     list_of_tables_graphics.push(
       <Grid sx={{ width: '50%' }}>
-        <Accordion>
+        <Accordion sx={{width: '500px'}}>
           <AccordionSummary
             expandIcon={<ArrowDropDownCircle />}
             aria-controls="panel2-content"

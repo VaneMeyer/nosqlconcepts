@@ -144,7 +144,7 @@ const BackupC = () => {
         Have your entries been lost? This can happen if the localStorage is
         cleared. But don't worry, we've saved your entries in the database.
         Click the button below to retrieve your data, which was last saved in
-        the database.
+        the database. 
       </p>
 
       <Button sx={muiButtonStyle} onClick={getDataFromDB}>
@@ -153,11 +153,11 @@ const BackupC = () => {
       {error && <ImportantMsg message={error} type="error" />}
       {success && (
         <div>
-          <Button sx={muiButtonStyle} onClick={fillSheets}>
+         {/*  <Button sx={muiButtonStyle} onClick={fillSheets}>
             Fill task sheets with the data
-          </Button>
+          </Button> */}
           <ImportantMsg message={success} type="success" />
-
+          <p>taskareaIds: 1 = PostgreSQL, 2 = Cassandra, 3 = Neo4J, 4 = MongoDB, 5 = Lab Assignment 1, 6 = Lab Assignment 2; time is shown in seconds</p>
           <ResultTable
             queryResult={userdata}
             resultSize={userdata.length}

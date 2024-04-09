@@ -65,7 +65,7 @@ const Dashboard = () => {
       <Box>
       <ImportantMsg
           message="
-Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool.  "
+Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool. Do not clear your localStorage and stick to the same browser when working on your tasks (DB data storage is still in progress)."
           type="info"
         />
       </Box>
@@ -99,8 +99,8 @@ Note: This tool is still in the development phase. Please make sure to have a ba
             icon={<TableRowsIcon></TableRowsIcon>}
           />
         </Box>
-        <Box
-          /* gridColumn="span 3" */
+         <Box
+          
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -117,7 +117,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           />
         </Box>
         <Box
-          /* gridColumn="span 3" */
+         
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -134,7 +134,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           />
         </Box>
         <Box
-          /* gridColumn="span 3" */
+          
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -172,7 +172,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
         >
           <StatBox title="Lab Assignment 2" link="/lab2" logo="" icon="" />
         </Box>
-
+ 
         {/* ROW 2 */}
         <Box
           gridColumn={{ xs: "span 20", md: "span 8" }}

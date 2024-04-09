@@ -43,8 +43,7 @@ const PgLogin = () => {
         setIsLoggedIn(true);
         setUser(response.data.user_name);
         setRole(response.data.role);
-        localStorage.setItem("token", JSON.stringify(response.data.username));
-        /* localStorage.setItem("token", JSON.stringify(response.data.user_name)); */
+        localStorage.setItem("token", JSON.stringify(response.data.user_name));
         localStorage.setItem("role", response.data.role);
 
         navigate("/"); //dashboard

@@ -23,6 +23,7 @@ const AdminC = () => {
 
   const handleChange = (event) => {
     setUser(event.target.value);
+   
   };
 
   //################# useEffect Function ######################################################
@@ -35,7 +36,7 @@ const AdminC = () => {
     fetch("/getUsers")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        
         setUserArray(data);
       })
       .catch((error) => {
@@ -70,15 +71,18 @@ const AdminC = () => {
             onChange={handleChange}
           >
             {userArray.map((item) => (
-               <MenuItem key={item.username} value={item.username}>{item.username}</MenuItem>
+               <MenuItem key={item.user_name} value={item.user_name}>{item.user_name}</MenuItem>
             ))}
           </Select>
         </FormControl>
         <Button onClick={getUserData}>Get user data</Button>
-        {userdata &&   <ResultTable
+        {userdata && <div>
+          <p>taskareaIds: 1 = PostgreSQL, 2 = Cassandra, 3 = Neo4J, 4 = MongoDB, 5 = Lab Assignment 1, 6 = Lab Assignment 2; time is shown in seconds</p>
+          <ResultTable
             queryResult={userdata}
             resultSize={userdata.length}
-          />}
+          />
+        </div>  }
       </Box>
     </div>
     </div>

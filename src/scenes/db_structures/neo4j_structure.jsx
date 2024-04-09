@@ -14,7 +14,7 @@ export default function DbStructureTablePostgres(list_of_nodes, list_of_rels, li
   for (let i = 0; i < list_of_nodes.length; i++) {
     list_of_tables_graphics.push(
       <Grid sx={{ width: '50%' }}>
-        <Accordion>
+        <Accordion sx={{width: '600px'}}>
           <AccordionSummary
             expandIcon={<ArrowDropDownCircle />}
             aria-controls="panel2-content"
@@ -71,7 +71,7 @@ export default function DbStructureTablePostgres(list_of_nodes, list_of_rels, li
   for (let i = 0; i < list_of_rels.length; i++) {
     list_of_tables_graphics.push(
       <Grid sx={{ width: '50%' }}>
-        <Accordion>
+        <Accordion sx={{width: '600px'}}>
           <AccordionSummary
             expandIcon={<ArrowDropDownCircle />}
             aria-controls="panel2-content"
