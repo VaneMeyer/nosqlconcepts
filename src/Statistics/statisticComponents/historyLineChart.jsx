@@ -78,7 +78,8 @@ const QueryHistoryChart = ({ isUser }) => {
   };
   //################# Frontend ######################################################
   return (
-    <Box>
+    <div>
+      {data && <Box>
       <Box
         sx={{ marginTop: "30px", marginBottom: 0, minWidth: 200, padding: 0 }}
         display="flex"
@@ -152,7 +153,9 @@ const QueryHistoryChart = ({ isUser }) => {
           useMesh={true}
         />
       </div>
-    </Box>
+    </Box>}
+    </div>
+   
   );
 };
 

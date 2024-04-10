@@ -119,13 +119,13 @@ const TopBar = () => {
               >
                 <Typography textAlign="center">History</Typography>
               </MenuItem>
-              <MenuItem
+             {/*  <MenuItem
                 component={Link}
                 to="/backup"
                 onClick={handleCloseNavMenu}
               >
                 <Typography textAlign="center">Lost your data?</Typography>
-              </MenuItem>
+              </MenuItem> */}
               {isAdmin && (
                 <MenuItem
                   component={Link}
@@ -159,7 +159,7 @@ const TopBar = () => {
                 History
               </IconButton>
             </Link>
-            <Link to="/backup">
+      {/*       <Link to="/backup">
               <IconButton
                 sx={{
                   color: colors.grey[100],
@@ -168,7 +168,7 @@ const TopBar = () => {
                 
                 Lost your data?
               </IconButton>
-            </Link>
+            </Link> */}
             {isAdmin && (
               <Link to="/admin">
                 <IconButton

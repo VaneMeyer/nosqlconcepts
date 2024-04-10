@@ -44,7 +44,7 @@ const SolvedTasksBar = ({ isUser }) => {
   //################# Frontend ######################################################
   return (
     <div style={{ height: "250px", width: "800px" }}>
-      <ResponsiveBar
+      {data && <ResponsiveBar
         data={data}
         keys={[
           "started_tasks_count",
@@ -134,7 +134,7 @@ const SolvedTasksBar = ({ isUser }) => {
             ],
           },
         ]}
-      />
+      />}
     </div>
   );
 };

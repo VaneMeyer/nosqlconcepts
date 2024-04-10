@@ -60,9 +60,18 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   const [dataModel, setDataModel] = useState("");
   const [username, setUsername] = useState(localStorage.getItem("token"));
   const [formData, setFormData] = useState({
-    partialSolution: "test state variable",
-    isCorrect: "0",
-    difficulty: "0",
+    partialSolution:
+      localStorage.getItem(
+        `${title.toLowerCase()}partialSolution_${username}_${taskNumber}`
+      ) || "",
+    isCorrect:
+      localStorage.getItem(
+        `${title.toLowerCase()}isCorrect_${username}_${taskNumber}`
+      ) || "0",
+    difficulty:
+      localStorage.getItem(
+        `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
+      ) || "0",
   });
 
   const [dbTable, setDbTable] = useState(null);
@@ -70,26 +79,11 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
 
   //################# Functions for Data Storage and other ######################################################
 
-  const getDataFromDB = (tasknumber) => {
-    let modifiedUser = username.replace(/"/g, "");
+  const getDataFromDB = () => {
     axios
-      .post("/getDataFromDB", { taskAreaId, modifiedUser, tasknumber })
+      .post("/getDataFromDB", { taskAreaId, username, taskNumber })
       .then((response) => {
-        let formDataObj = {};
-        if (response.data.length !== 0) {
-          formDataObj = {
-            partialSolution: response.data[0].partialsolution || "",
-            isCorrect: response.data[0].iscorrect || "0",
-            difficulty: response.data[0].difficulty || "0",
-          };
-        } else {
-          formDataObj = {
-            partialSolution: "",
-            isCorrect: "I don't know",
-            difficulty: "No answer",
-          };
-        }
-        setFormData(formDataObj);
+        //todo
       })
       .catch((error) => {
         console.error("Failed to get data from db");
@@ -145,9 +139,9 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
             `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
           ) || "0",
         processingTime: parseInt(
-           localStorage.getItem(
+          localStorage.getItem(
             `${title.toLowerCase()}time_${username}_${taskNumber}`
-          ) || 0 
+          ) || 0
         ), // receivedTime
       };
 
@@ -212,7 +206,20 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     setTasksArray(taskarray);
     setTaskAreaId(taskarea);
     setDataModel(datamodel);
-    getDataFromDB(taskNumber);
+    setFormData({
+      partialSolution:
+        localStorage.getItem(
+          `${title.toLowerCase()}partialSolution_${username}_${taskNumber}`
+        ) || "",
+      isCorrect:
+        localStorage.getItem(
+          `${title.toLowerCase()}isCorrect_${username}_${taskNumber}`
+        ) || "0",
+      difficulty:
+        localStorage.getItem(
+          `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
+        ) || "0",
+    });
   }, [title, taskNumber, datamodel, taskarea, taskarray, username]);
 
   //################# handle Functions ######################################################
@@ -231,7 +238,21 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     setTask(tasksArray[newTaskIndex]);
     setTaskNumber(newTaskNumber);
 
-    getDataFromDB(newTaskNumber);
+    setFormData({
+      partialSolution:
+        localStorage.getItem(
+          `${title.toLowerCase()}partialSolution_${username}_${newTaskNumber}`
+        ) || "",
+      isCorrect:
+        localStorage.getItem(
+          `${title.toLowerCase()}isCorrect_${username}_${newTaskNumber}`
+        ) || "0",
+      difficulty:
+        localStorage.getItem(
+          `${title.toLowerCase()}difficulty_${username}_${newTaskNumber}`
+        ) || "0",
+    });
+
     setIsRunning(false);
     setHasStarted(false);
     saveAnswersToLocalStorage();
@@ -274,10 +295,6 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     sendDataToDb();
     const dataToSend = { title: title };
     navigate(`/download?title=${dataToSend.title}`);
-  };
-
-  const handleTimeFromChild = (time) => {
-    setReceivedTime(time);
   };
   //################# Arrays for select options of radio groups ######################################################
   const isCorrectOptions = ["I don't know", "Yes", "No"];
@@ -427,8 +444,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                         taskNumber={taskNumber}
                         title={title}
                         username={username}
-                        taskarea={taskAreaId}
-                        onDataFromChild={handleTimeFromChild}
+                        /* onDataFromChild={handleTimeFromChild} */
                       />
                       {taskNumber !== 1 && (
                         <Button sx={muiButtonStyle} onClick={handlePrevTask}>
@@ -448,8 +464,6 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                         taskNumber={taskNumber}
                         title={title}
                         username={username}
-                        taskarea={taskAreaId}
-                        onDataFromChild={handleTimeFromChild}
                       />
                       {taskNumber !== 1 && (
                         <Button sx={muiButtonStyle} onClick={handlePrevTask}>

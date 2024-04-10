@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { neo4jTasksOnSite, pgTasks, pgTasksOnSite } from "../data/tasks";
+import { pgTasks } from "../data/tasks";
 import { cassandraTasks } from "../data/tasks";
 import { neo4jTasks } from "../data/tasks";
 import { mongodbTasks } from "../data/tasks";
-import axios from "axios";
 
 const ProgressCircle = ({ title, size = "50" }) => {
   //################# Style Settings ######################################################
@@ -13,61 +12,40 @@ const ProgressCircle = ({ title, size = "50" }) => {
   const colors = tokens(theme.palette.mode);
   //################# State Variables ######################################################
   const [username, setUsername] = useState(localStorage.getItem("token"));
-  const [data, setData] = useState({
-    taskNumber: 0,
-    query: "",
-    resultSize: 0,
-    isExecutable: "No",
-    partialSolution: "",
-    isCorrect: "No",
-    difficulty: "No answer",
-    time: 0,
-  });
-
 
   //################# Main Functionality ######################################################
   let progress = "0";
   let progressCounter = 0;
   let taskarray = [""];
-  let taskarea = 0;
 
   if (title === "PostgreSQL") {
     taskarray = pgTasks;
-    taskarea = 1;
   }
   if (title === "Neo4J") {
     taskarray = neo4jTasks;
-    taskarea = 3;
   }
   if (title === "Cassandra") {
     taskarray = cassandraTasks;
-    taskarea = 2;
   }
   if (title === "MongoDB") {
     taskarray = mongodbTasks;
-    taskarea = 4;
   }
-  if (title === "Lab Assignment 1") {
-    taskarray = pgTasksOnSite;
-    taskarea = 5;
-  }
-  if (title === "Lab Assignment 2") {
-    taskarray = neo4jTasksOnSite;
-    taskarea = 6;
-  }
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 1; i <= taskarray.length; i++) {
     const answer1 =
-     data[i].query_text || "";
+      localStorage.getItem(`${title.toLowerCase()}query_${username}_${i}`) ||
+      "";
     const answer4 =
-     data[i].partial_solution || "";
- /*    const answer5 =
+      localStorage.getItem(
+        `${title.toLowerCase()}partialSolution_${username}_${i}`
+      ) || "";
+    const answer5 =
       localStorage.getItem(
         `${title.toLowerCase()}isCorrect_${username}_${i}`
       ) || "0";
     const answer6 =
       localStorage.getItem(
         `${title.toLowerCase()}difficulty_${username}_${i}`
-      ) || "0"; */
+      ) || "0";
 
     if (answer1 !== "") {
       progressCounter += 1;
@@ -75,38 +53,21 @@ const ProgressCircle = ({ title, size = "50" }) => {
     if (answer4 !== "") {
       progressCounter += 1;
     }
-   /*  if (answer5 !== "0") {
+    if (answer5 !== "0") {
       progressCounter += 1;
     }
     if (answer6 !== "0") {
       progressCounter += 1;
-    } */
+    }
 
-    
-  }
-let numberOfInputs = 2 * taskarray.length;
+    let numberOfInputs = 4 * taskarray.length;
     if (numberOfInputs !== 0) {
       progress = progressCounter / numberOfInputs;
     }
+  }
+
   const angle = progress * 360;
 
-    //################# Functions  ######################################################
-    const getDataFromDB = () => {
-   
-      let modifiedUser = username.replace(/"/g, "");
-      axios
-        .post("/getDownloadDataFromDB", { taskarea, modifiedUser })
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((error) => {
-          console.error("Failed to get data from db");
-        });
-    };
-  //#################  useEffect Function ######################################################
-  useEffect(() => {
-    getDataFromDB();
-  }, []);
   //################# Frontend ######################################################
   return (
     <Box>

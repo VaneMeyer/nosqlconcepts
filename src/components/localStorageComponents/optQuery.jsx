@@ -39,9 +39,18 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   const [username, setUsername] = useState(localStorage.getItem("token"));
   const [taskAreaId, setTaskAreaId] = useState(0);
   const [queryFormData, setQueryFormData] = useState({
-    query: "",
-    resultSize:0,
-    isExecutable: "No",
+    query:
+      localStorage.getItem(
+        `${title.toLowerCase()}query_${username}_${taskNumber}`
+      ) || "",
+    resultSize:
+      localStorage.getItem(
+        `${title.toLowerCase()}resultSize_${username}_${taskNumber}`
+      ) || 0,
+    isExecutable:
+      localStorage.getItem(
+        `${title.toLowerCase()}isExecutable_${username}_${taskNumber}`
+      ) || "No",
   });
 
   //################# handle Functions ######################################################
@@ -54,37 +63,6 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
     setNumEdges(edges);
   };
   //################# Functions ######################################################
-  const getDataFromDB = (tasknumber) => {
-    let modifiedUser = username.replace(/"/g, "");
-    axios
-      .post("/getQueryDataFromDB", { taskarea, modifiedUser, tasknumber })
-      .then((response) => {
-        let formDataObj = {};
-        if (response.data.length !== 0) {
-            formDataObj = {
-            query: response.data[0].query_text || "",
-            resultSize: response.data[0].result_size || "0",
-            isExecutable: response.data[0].is_executable || "0",
-          }}
-          else {
-            formDataObj = {
-              query: "",
-              resultSize: 0,
-              isExecutable:  "No",
-            }
-          }
-          setQueryFormData(formDataObj);
-          console.log(formDataObj);
-         
-        
-        
-       
-      })
-      .catch((error) => {
-        console.error("Failed to get data from db");
-      });
-  };
-
   const saveToLocalStorage = () => {
     localStorage.setItem(
       `${title.toLowerCase()}query_${username}_${taskNumber}`,
@@ -210,7 +188,20 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   //################# useEffect Function ######################################################
   useEffect(() => {
     setTaskAreaId(taskarea);
-    getDataFromDB(taskNumber);
+    setQueryFormData({
+      query:
+        localStorage.getItem(
+          `${title.toLowerCase()}query_${username}_${taskNumber}`
+        ) || "",
+      resultSize:
+        localStorage.getItem(
+          `${title.toLowerCase()}resultSize_${username}_${taskNumber}`
+        ) || 0,
+      isExecutable:
+        localStorage.getItem(
+          `${title.toLowerCase()}isExecutable_${username}_${taskNumber}`
+        ) || "No",
+    });
   }, [taskNumber]);
   //################# Frontend ######################################################
   return (

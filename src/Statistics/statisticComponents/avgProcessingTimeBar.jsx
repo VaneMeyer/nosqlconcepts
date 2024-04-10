@@ -64,7 +64,7 @@ const AvgProcessingTimeChart = ({ isUser }) => {
   //################# Frontend ######################################################
   return (
     <div style={{ height: "250px", width:"800px"}}>
-      <ResponsiveBar
+      {data && <ResponsiveBar
         data={transformData()}
         keys={["avg_processing_time_minutes"]}
         indexBy="task_area_id"
@@ -155,7 +155,7 @@ const AvgProcessingTimeChart = ({ isUser }) => {
             </div>
           );
         }}
-      />
+      />}
     </div>
   );
 };

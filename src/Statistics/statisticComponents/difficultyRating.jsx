@@ -63,12 +63,12 @@ function DifficultyRating() {
         <Typography>
           <MoodIcon />
           Most easy rated task:{" "}
-          {`Task ${easyTask.task_id} (${easyTask.task_area})`}
+         { easyTask && `Task ${easyTask.task_id} (${easyTask.task_area})`}
         </Typography>
         <Typography>
           <MoodBadIcon />
           Most difficult rated task:{" "}
-          {`Task ${difficultTask.task_id} (${difficultTask.task_area})`}
+          { difficultTask && `Task ${difficultTask.task_id} (${difficultTask.task_area})`}
         </Typography>
       </Box>
     </div>
