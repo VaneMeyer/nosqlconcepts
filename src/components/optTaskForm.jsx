@@ -519,7 +519,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                   <ImportantMsg
                     message="Note: A timer will start, when you start the task. You can stop
                 and continue the timer if needed. Also make sure to save your
-                data at the end of the page to update your statistics."
+                data."
                     type="info"
                   />
                 </div>

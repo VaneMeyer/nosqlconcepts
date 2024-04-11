@@ -186,7 +186,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
           setFeedbackType("info");
         } */
           setFeedback(
-            "Not correct (does not match the expected output)! Please try again, if you think that this task is solvable with a query. You can also write a comment in the partial solution textfield, explaining why your solution is correct. In some cases this message occurs because there is no (or no clear) solution query  (use the textfield for your solution then)."
+            "Your output does not match the expected output (if there is an expected output). Please try again, if you think that this task is solvable with a query. You can also write a comment in the partial solution textfield, explaining why your solution is correct. In some cases this message occurs because there is no expected output."
           );
         
           setFeedbackType("error");
