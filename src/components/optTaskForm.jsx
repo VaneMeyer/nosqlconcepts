@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import SaveIcon from "@mui/icons-material/Save";
+import CheckIcon from "@mui/icons-material/Check";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { tokens } from "../theme";
@@ -67,6 +68,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
 
   const [dbTable, setDbTable] = useState(null);
   const [showDbStructure, setShowDbStructure] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   //################# Functions for Data Storage and other ######################################################
 
@@ -145,9 +147,9 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
             `${title.toLowerCase()}difficulty_${username}_${taskNumber}`
           ) || "0",
         processingTime: parseInt(
-           localStorage.getItem(
+          localStorage.getItem(
             `${title.toLowerCase()}time_${username}_${taskNumber}`
-          ) || 0 
+          ) || 0
         ), // receivedTime
       };
 
@@ -202,7 +204,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   const startTimer = () => {
     setIsRunning(true);
     setHasStarted(true);
-
+    setIsSaved(false);
     localStorage.setItem(`${title.toLowerCase()}Status_${username}`, "STARTED");
   };
 
@@ -222,6 +224,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
 
     saveAnswersToLocalStorage();
+    setIsSaved(false);
   };
 
   // Function to handle navigation to the next task
@@ -254,14 +257,14 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
 
   const handleTaskChange = (event) => {
     const { value } = event.target;
-
+    setIsSaved(false);
     updateTaskAndFormData(value);
   };
 
   const handleFinish = () => {
     saveAnswersToLocalStorage();
     sendDataToDb();
-
+    setIsSaved(false);
     localStorage.setItem(
       `${title.toLowerCase()}Status_${username}`,
       "FINISHED"
@@ -272,8 +275,15 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   const handleDownload = () => {
     saveAnswersToLocalStorage();
     sendDataToDb();
+    setIsSaved(false);
     const dataToSend = { title: title };
     navigate(`/download?title=${dataToSend.title}`);
+  };
+
+  const handleSave = () => {
+    saveAnswersToLocalStorage();
+    sendDataToDb();
+    setIsSaved(true);
   };
 
   const handleTimeFromChild = (time) => {
@@ -294,6 +304,18 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ width: "70%" }}>
         <Button onClick={handleDownload}>Go to download section</Button>
+        <div>
+          {" "}
+          <p>Don't forget to save before leaving</p>
+          <Button
+            sx={{ backgroundColor: isSaved && `${colors.greenAccent[700]}` }}
+            onClick={handleSave}
+          >
+            Save {isSaved && <CheckIcon style={{ marginLeft: "5px" }} />}{" "}
+            <SaveIcon></SaveIcon>
+          </Button>
+        </div>
+
         <hr></hr>
         <Box>
           <Box>
@@ -451,6 +473,23 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                         taskarea={taskAreaId}
                         onDataFromChild={handleTimeFromChild}
                       />
+                         <div>
+                        {" "}
+                        <p>Don't forget to save before leaving</p>
+                        <Button
+                          sx={{
+                            backgroundColor:
+                              isSaved && `${colors.greenAccent[700]}`,
+                          }}
+                          onClick={handleSave}
+                        >
+                          Save{" "}
+                          {isSaved && (
+                            <CheckIcon style={{ marginLeft: "5px" }} />
+                          )}{" "}
+                          <SaveIcon></SaveIcon>
+                        </Button>
+                      </div>
                       {taskNumber !== 1 && (
                         <Button sx={muiButtonStyle} onClick={handlePrevTask}>
                           <SaveIcon></SaveIcon> Save & Previous Task{" "}
@@ -465,6 +504,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                       <Button onClick={handleDownload}>
                         Go to download section
                       </Button>
+                   
                     </div>
                   )}{" "}
                 </form>

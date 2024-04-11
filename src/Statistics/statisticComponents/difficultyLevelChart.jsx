@@ -41,7 +41,7 @@ const DifficultyLevelChart = () => {
   //################# Frontend ######################################################
   return (
     <div>
-      { data && <Grid container spacing={3}>
+      { data && <Grid /* container spacing={3} */>
       {uniqueTaskAreas.map((taskAreaId) => {
         const filteredData = data.filter(
           (item) => item.task_area_id === taskAreaId

@@ -141,8 +141,7 @@ const BackupC = () => {
       }}
     >
       <p style={{ fontSize: "16px" }}>
-        Have your entries been lost? This can happen if the localStorage is
-        cleared. But don't worry, we've saved your entries in the database.
+      
         Click the button below to retrieve your data, which was last saved in
         the database. 
       </p>

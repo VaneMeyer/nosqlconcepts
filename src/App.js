@@ -43,7 +43,7 @@ function App() {
                 <Route path="/download" element={<OptDownload />} />
                 <Route path="/statistics" element={<StatisticsMain />} />
                 <Route path="/history" element={<History />} />
-                {/* <Route path="/backup" element={<BackupC />} /> */}
+                 <Route path="/backup" element={<BackupC />} /> 
                 {localStorage.getItem("role") === "admin" && (
                   <Route path="/admin" element={<AdminC />} />
                 )}
