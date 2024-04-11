@@ -27,7 +27,7 @@ const StatisticsMain = () => {
           <Grid item xs={12} md={6}>
            {/*  <Paper style={{ padding: "20px" }}> */}
               <Typography variant="h5" gutterBottom>
-                Average processing time for one task of each area
+                Average processing time for a task of each area
               </Typography>
               <AvgProcessingTimeChart isUser={false} />
            {/*  </Paper> */}

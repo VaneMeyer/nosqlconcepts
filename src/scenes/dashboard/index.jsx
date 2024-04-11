@@ -202,7 +202,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Your average processing time for one task of each area
+                Your average processing time for a task of each area
               </Typography>
               <Box height="250px" width="600px" mt="-20px">
                 <AvgProcessingTimeChart isUser={true} />
