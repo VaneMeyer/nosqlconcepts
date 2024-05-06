@@ -129,7 +129,7 @@ const TopBar = () => {
               {isAdmin && (
                 <MenuItem
                   component={Link}
-                  to="/admin"
+                  to="/adminoptions"
                   onClick={handleCloseNavMenu}
                 >
                   <Typography textAlign="center">Admin</Typography>
@@ -170,7 +170,7 @@ const TopBar = () => {
               </IconButton>
             </Link> 
             {isAdmin && (
-              <Link to="/admin">
+              <Link to="/adminoptions">
                 <IconButton
                   sx={{
                     color: colors.grey[100],
