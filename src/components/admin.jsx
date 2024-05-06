@@ -59,7 +59,7 @@ const AdminC = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ width: "70%" }}>
-      <h1>Admin</h1>
+      <h1>Inspect user data</h1>
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Select user</InputLabel>
