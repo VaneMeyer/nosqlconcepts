@@ -34,12 +34,12 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link, logo }) => {
         {/* //Testphase DBMS Link and Button attributes */}
         <Link
           to={
-             (title === "PostgreSQL") && link
+             (title === "Cassandra") && link
           }
         >
           <Button
               disabled={
-              title === "Cassandra" ||
+              title === "PostgreSQL" ||
                title === "MongoDB" || 
               title === "Neo4J" ||
               title === "Lab Assignment 1" ||

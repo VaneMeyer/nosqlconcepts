@@ -17,6 +17,8 @@ import History from "./components/History";
 import AdminC from "./components/admin";
 import { Lab1C, Lab2C } from "./scenes/assignments/lab";
 import BackupC from "./components/backup";
+import AdminOptions from "./components/adminOptions";
+import ExerciseManager from "./components/adminTasks";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -34,18 +36,24 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />}>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/postgresql" element={<PostgreSQL />} />
-              {/*    <Route path="/cassandra" element={<Cassandra />} />
-                <Route path="/neo4j" element={<Neo4J />} />
-                <Route path="/mongodb" element={<MongoDB />} />
-                <Route path="/lab1" element={<Lab1C />} />
-                <Route path="/lab2" element={<Lab2C />} />  */} 
+                {/*     <Route path="/postgresql" element={<PostgreSQL />} /> */}
+                <Route path="/cassandra" element={<Cassandra />} />
+                {/* <Route path="/neo4j" element={<Neo4J />} /> */}
+                {/* <Route path="/mongodb" element={<MongoDB />} /> */}
+                {/* <Route path="/lab1" element={<Lab1C />} /> */}
+                {/* <Route path="/lab2" element={<Lab2C />} />  */}
                 <Route path="/download" element={<OptDownload />} />
                 <Route path="/statistics" element={<StatisticsMain />} />
                 <Route path="/history" element={<History />} />
-                 <Route path="/backup" element={<BackupC />} /> 
+                <Route path="/backup" element={<BackupC />} />
                 {localStorage.getItem("role") === "admin" && (
-                  <Route path="/admin" element={<AdminC />} />
+                  <Route path="/adminoptions/admin" element={<AdminC />} />
+                )}
+                {localStorage.getItem("role") === "admin" && (
+                  <Route path="/adminoptions" element={<AdminOptions />} />
+                )}
+                {localStorage.getItem("role") === "admin" && (
+                  <Route path="/adminoptions/updatetasks" element={<ExerciseManager />} />
                 )}
               </Route>
 
