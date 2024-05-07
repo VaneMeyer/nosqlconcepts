@@ -71,7 +71,7 @@ const AdminC = () => {
             onChange={handleChange}
           >
             {userArray.map((item) => (
-               <MenuItem key={item.user_name} value={item.user_name}>{item.user_name}</MenuItem>
+               <MenuItem key={item.username} value={item.username}>{item.username}</MenuItem>
             ))}
           </Select>
         </FormControl>
