@@ -14,7 +14,7 @@ export default function DbStructureTablePostgres(list_of_nodes, list_of_rels, li
   for (let i = 0; i < list_of_nodes.length; i++) {
     list_of_tables_graphics.push(
       <Grid sx={{ width: '50%' }}>
-        <Accordion sx={{width: '600px'}}>
+        <Accordion sx={{width: '500px'}}>
           <AccordionSummary
             expandIcon={<ArrowDropDownCircle />}
             aria-controls="panel2-content"
@@ -42,10 +42,10 @@ export default function DbStructureTablePostgres(list_of_nodes, list_of_rels, li
                     style={{ fontWeight: 'bold', fontSize: 16 }}
                     align="right">
                     Datatype</TableCell>
-                  <TableCell
+                 {/*  <TableCell
                     style={{ fontWeight: 'bold', fontSize: 16 }}
                     align="right">
-                    Mandatory</TableCell>
+                    Mandatory</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -57,7 +57,7 @@ export default function DbStructureTablePostgres(list_of_nodes, list_of_rels, li
                     <TableCell align="right">{row.label}</TableCell>
                     <TableCell align="right">{row.property}</TableCell>
                     <TableCell align="right">{row.datatype}</TableCell>
-                    <TableCell align="right">{row.mandatory}</TableCell>
+                    {/* <TableCell align="right">{row.mandatory}</TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>
@@ -71,7 +71,7 @@ export default function DbStructureTablePostgres(list_of_nodes, list_of_rels, li
   for (let i = 0; i < list_of_rels.length; i++) {
     list_of_tables_graphics.push(
       <Grid sx={{ width: '50%' }}>
-        <Accordion sx={{width: '600px'}}>
+        <Accordion sx={{width: '500px'}}>
           <AccordionSummary
             expandIcon={<ArrowDropDownCircle />}
             aria-controls="panel2-content"
@@ -95,10 +95,10 @@ export default function DbStructureTablePostgres(list_of_nodes, list_of_rels, li
                     style={{ fontWeight: 'bold', fontSize: 16 }}
                     align="right">
                     Datatype</TableCell>
-                  <TableCell
+                  {/* <TableCell
                     style={{ fontWeight: 'bold', fontSize: 16 }}
                     align="right">
-                    Mandatory</TableCell>
+                    Mandatory</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -109,7 +109,7 @@ export default function DbStructureTablePostgres(list_of_nodes, list_of_rels, li
                     </TableCell>
                     <TableCell align="right">{row.property}</TableCell>
                     <TableCell align="right">{row.datatype}</TableCell>
-                    <TableCell align="right">{row.mandatory}</TableCell>
+                    {/* <TableCell align="right">{row.mandatory}</TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

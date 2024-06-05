@@ -19,6 +19,7 @@ import DifficultyRating from "../../Statistics/statisticComponents/difficultyRat
 import AvgProcessingTimeChart from "../../Statistics/statisticComponents/avgProcessingTimeBar";
 import QueryHistoryChart from "../../Statistics/statisticComponents/historyLineChart";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import WarningIcon from "@mui/icons-material/Warning";
 import Footer from "../global/footer";
 
 const Dashboard = () => {
@@ -63,9 +64,31 @@ const Dashboard = () => {
         />
       </Box>
       <Box>
-      <ImportantMsg
-          message="
-Note: This tool is still in the development phase. Please make sure to have a backup of your solutions and inform us about unexpected behavior of the tool. Do not clear your localStorage and stick to the same browser when working on your tasks (DB data storage is still in progress)."
+        <ImportantMsg
+          message={
+            <>
+              <WarningIcon />
+              Note: This tool is still in the development phase. Please make
+              sure to have a backup of your solutions and inform us about
+              unexpected behavior of the tool. Do not clear your localStorage
+              and stick to the same browser when working on your tasks (DB data
+              storage is still in progress).
+            </>
+          }
+          type="info"
+        />
+
+        <ImportantMsg
+          message={
+            <>
+             <WarningIcon />
+              Work in progress: Timer (currently reset to 0 when a different
+              browser is used), Status display on dashboard cards, progress
+              circle on dashboard cards (currently based on query and partial
+              solution inputs), feedback functionality, Neo4J graph
+              visualization, Syntax Highlighting
+            </>
+          }
           type="info"
         />
       </Box>
@@ -99,8 +122,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
             icon={<TableRowsIcon></TableRowsIcon>}
           />
         </Box>
-         <Box
-          
+        <Box
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -117,7 +139,6 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           />
         </Box>
         <Box
-         
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -134,7 +155,6 @@ Note: This tool is still in the development phase. Please make sure to have a ba
           />
         </Box>
         <Box
-          
           gridColumn={{ xs: "span 20", md: "span 3" }}
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -172,7 +192,7 @@ Note: This tool is still in the development phase. Please make sure to have a ba
         >
           <StatBox title="Lab Assignment 2" link="/lab2" logo="" icon="" />
         </Box>
- 
+
         {/* ROW 2 */}
         <Box
           gridColumn={{ xs: "span 20", md: "span 8" }}

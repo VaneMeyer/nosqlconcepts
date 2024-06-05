@@ -15,8 +15,11 @@ import {
   DialogTitle,
 } from "@mui/material";
 import ResultTable from "./ResultTable";
+import WarningIcon from "@mui/icons-material/Warning";
+import ImportantMsg from "./importantMsg";
 
 const ExerciseManager = () => {
+  //################# State Variables ######################################################
   const [exercises, setExercises] = useState("");
   const [newExercise, setNewExercise] = useState({
     statement_id: 0,
@@ -31,11 +34,16 @@ const ExerciseManager = () => {
   });
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
   const [actionType, setActionType] = useState("");
+  const [statementsArray, setStatementsArray] = useState([]);
+  const [areaSelected, setAreaSelected] = useState(false);
 
+  //################# useEffect function  ######################################################
   useEffect(() => {
     loadExercises();
+   /* loadStatementsforSelect(); */ 
   }, []);
 
+  //################# Functions  ######################################################
   const loadExercises = async () => {
     try {
       const response = await axios.get("/api/getexercises");
@@ -44,10 +52,40 @@ const ExerciseManager = () => {
       console.error("Error:", error);
     }
   };
+  const loadStatementsforSelect = async () => {
+    const areaId = newExercise.area_id;
+    axios
+      .post("/api/getstatements", { areaId })
+      .then((response) => {
+        setStatementsArray(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
 
+  //################# handle functions  ######################################################
+
+/*    const handleShowContent = () => {
+setAreaSelected(true);
+loadStatementsforSelect();
+
+   } */
   const handleInputChange = (event) => {
+    
     const { name, value } = event.target;
-    setNewExercise({ ...newExercise, [name]: value });
+    
+    if (name !== "statement_id"){
+    setNewExercise({ ...newExercise, [name]: value });}
+    else {
+      if (value === '' || /^\d+$/.test(value)) {
+        setNewExercise({ ...newExercise, [name]: value });
+      }
+    }
+    /* if (name === "area_id") {
+    setAreaSelected(false);
+      loadStatementsforSelect();
+    } */
   };
 
   const handleSubmit = async (event) => {
@@ -125,23 +163,25 @@ const ExerciseManager = () => {
     }
     setConfirmationDialogOpen(false);
   };
+
+  //################# Frontend  ######################################################
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <Typography variant="h4" gutterBottom>
         Manage Exercises
       </Typography>
-      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          label="statement_id (tasknumber, should be a positive integer)"
-          name="statement_id"
-          value={newExercise.statement_id}
-          onChange={handleInputChange}
-          style={{ marginBottom: "10px" }}
+      <ImportantMsg
+          message={
+            <>
+             <WarningIcon />
+              Work in progress
+            </>
+          }
+          type="info"
         />
+      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
         <InputLabel id="area-id-label">
-          area_id (1 = PostgreSQL, 2 = Cassandra, 3 = Neo4J, 4 = MongoDB, 5 =
+          Select an area_id (1 = PostgreSQL, 2 = Cassandra, 3 = Neo4J, 4 = MongoDB, 5 =
           Lab1, 6 = Lab2)
         </InputLabel>
         <Select
@@ -159,6 +199,31 @@ const ExerciseManager = () => {
             </MenuItem>
           ))}
         </Select>
+       {/*  <Button onClick={handleShowContent}>Manage Exercises</Button> */}
+
+        {/* areaSelected && */ (<div>{/* <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={newExercise.statement_id}
+          label="Select existing statement_id, if you want to update or delete exercise"
+          onChange={handleInputChange}
+        >
+          {statementsArray.map((item) => (
+            <MenuItem key={item.statement_id} value={item.statement_id}>
+              {item.statement_id}
+            </MenuItem>
+          ))}
+        </Select> */}
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="statement_id (tasknumber, should be a positive integer)"
+          name="statement_id"
+          value={newExercise.statement_id}
+          onChange={handleInputChange}
+          style={{ marginBottom: "10px" }}
+        />
+        
         <TextField
           fullWidth
           variant="outlined"
@@ -256,7 +321,8 @@ const ExerciseManager = () => {
           onClick={handleDelete}
         >
           Delete Exercise
-        </Button>
+        </Button></div>)}
+        
       </form>
       <Dialog
         open={confirmationDialogOpen}

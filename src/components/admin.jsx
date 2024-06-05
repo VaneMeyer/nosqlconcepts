@@ -9,6 +9,8 @@ import {
   Select,
 } from "@mui/material";
 import ResultTable from "./ResultTable";
+import ImportantMsg from "./importantMsg";
+import WarningIcon from "@mui/icons-material/Warning";
 
 const AdminC = () => {
   
@@ -60,6 +62,15 @@ const AdminC = () => {
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ width: "70%" }}>
       <h1>Inspect user data</h1>
+      <ImportantMsg
+          message={
+            <>
+             <WarningIcon />
+              Work in progress
+            </>
+          }
+          type="info"
+        />
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Select user</InputLabel>

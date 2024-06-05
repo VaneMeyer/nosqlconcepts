@@ -59,7 +59,7 @@ const MongoDB = () => {
         <OptTaskForm title="MongoDB" taskarray={mongoTasks}
           taskarea={4}
           datamodel={mongoDataModel}
-          endpoint="/getMongoDBStructure" />
+          endpoint="/getMongoStructure" />
       </Box>
     </Box>
   );

@@ -11,13 +11,16 @@ import {
   FormControlLabel,
   Radio,
   useTheme,
-  Grid,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Unstable_Grid2";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import SaveIcon from "@mui/icons-material/Save";
 import CheckIcon from "@mui/icons-material/Check";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import DownloadIcon from "@mui/icons-material/Download";
 import { tokens } from "../theme";
 import OptQuery from "./optQuery";
 import OptTimer from "./optTimer";
@@ -25,6 +28,15 @@ import DbStructureTable from "./DbStructureTable";
 import DbStructureTablePostgres from "../scenes/db_structures/postgres_structure";
 import DbStructureTableNeo4j from "../scenes/db_structures/neo4j_structure";
 import ImportantMsg from "./importantMsg";
+import MongoDbStructureTable from "./mongoStructure";
+import WarningIcon from "@mui/icons-material/Warning";
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   //################# Style Settings ######################################################
@@ -166,7 +178,8 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     }
   };
   const fetchData = async () => {
-    try {
+    /*  if (taskAreaId !== 4){  */
+     try {
       let response = await axios.get(endpoint);
       response = response.data;
       let newDbTable;
@@ -194,11 +207,15 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
           );
           break;
       }
+      setDbTable(newDbTable); 
+      setShowDbStructure((prevShowDbStructure) => !prevShowDbStructure);
+     } catch (error) {
+      console.error("Error fetching data:", error);
+    }  /* } else {
+      let newDbTable = MongoDbStructureTable();
       setDbTable(newDbTable);
       setShowDbStructure((prevShowDbStructure) => !prevShowDbStructure);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    }  */
   };
 
   const startTimer = () => {
@@ -301,27 +318,30 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   ];
   //################# Frontend ######################################################
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div style={{ width: "70%" }}>
-        <Button onClick={handleDownload}>Go to download section</Button>
-        <div>
-          {" "}
-          <p>Don't forget to save before leaving</p>
-          <Button
-            sx={{ backgroundColor: isSaved && `${colors.greenAccent[700]}` }}
-            onClick={handleSave}
-          >
-            Save {isSaved && <CheckIcon style={{ marginLeft: "5px" }} />}{" "}
-            <SaveIcon></SaveIcon>
-          </Button>
-        </div>
-
-        <hr></hr>
-        <Box>
-          <Box>
+    <div>
+      <Grid container spacing={2}>
+        <Grid xs={7}>
+          <Item>
+            {" "}
+            <Button onClick={handleDownload}>
+              Go to download section <DownloadIcon></DownloadIcon>
+            </Button>{" "}
+            <p>Don't forget to save before leaving</p>
+            <Button
+              sx={{ backgroundColor: isSaved && `${colors.greenAccent[700]}` }}
+              onClick={handleSave}
+            >
+              Save {isSaved && <CheckIcon style={{ marginLeft: "5px" }} />}{" "}
+              <SaveIcon></SaveIcon>
+            </Button>
+          </Item>
+        </Grid>
+        <Grid xs={5}>
+          <Item>
+            {" "}
             <Box>
               <InputLabel id="task-number-label" style={labelStyle}>
-                Jump to task page (your current entries will be saved):
+                Jump to task (your current entries will be saved):
               </InputLabel>
 
               <TextField
@@ -334,34 +354,17 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
               >
                 {tasksArray.map((task, index) => (
                   <MenuItem key={index} value={index + 1}>
-                    Page {index + 1}
+                    {task.subtasknumber}
                   </MenuItem>
                 ))}
               </TextField>
             </Box>
-            <hr></hr>
+          </Item>
+        </Grid>
+       
+        <Grid xs={7}>
+          <Item>
             <Box>
-              <Button sx={muiButtonStyle} onClick={fetchData}>
-                Inspect Database Structure
-              </Button>
-
-              {showDbStructure && (
-                <Grid container spacing={2}>
-                  {dbTable.map((table, index) => (
-                    <div key={index}>{table}</div>
-                  ))}
-                  <img
-                    src={dataModel}
-                    alt="Data model of enron database"
-                    width="60%"
-                    height="auto"
-                  />
-                </Grid>
-              )}
-            </Box>
-            <hr></hr>
-            <Box>
-              <h1>{task.tasknumber}</h1>
               <h2>{task.topic}</h2>
               <h3>{task.subtasknumber}</h3>
               <h4 style={{ border: "1px solid black", borderRadius: 5 }}>
@@ -402,7 +405,287 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                     name="isCorrect"
                     row
                     id="isCorrect-radiogroup"
-                    /* defaultValue={"I don't know"} */
+                    value={formData.isCorrect}
+                    onChange={handleChange}
+                  >
+                    {isCorrectOptions.map((item, index) => (
+                      <FormControlLabel
+                        key={index}
+                        value={item}
+                        control={<Radio sx={muiRadioStyle} />}
+                        label={item}
+                      />
+                    ))}
+                  </RadioGroup>
+                  <hr></hr>
+                  <InputLabel
+                    id="difficulty-level-radiogroup"
+                    style={labelStyle}
+                  >
+                    How difficult was this task for you?
+                  </InputLabel>
+                  <RadioGroup
+                    name="difficulty"
+                    row
+                    id="difficulty-level-radiogroup"
+                    defaultValue={"No answer"}
+                    value={formData.difficulty}
+                    onChange={handleChange}
+                  >
+                    {difficultyOptions.map((item, index) => (
+                      <FormControlLabel
+                        key={index}
+                        value={item}
+                        control={<Radio sx={muiRadioStyle} />}
+                        label={item}
+                      />
+                    ))}
+                  </RadioGroup>
+                  <br />
+                  <br />
+                  <hr></hr>
+                  {taskNumber === tasksArray.length ? (
+                    <div>
+                      {" "}
+                      <OptTimer
+                        run={isRunning}
+                        taskNumber={taskNumber}
+                        title={title}
+                        username={username}
+                        taskarea={taskAreaId}
+                        onDataFromChild={handleTimeFromChild}
+                      />
+                         <div>
+                        <hr></hr>
+                        {" "}
+                        <p>Don't forget to save before leaving</p>
+                        <Button
+                          sx={{
+                            backgroundColor:
+                              isSaved && `${colors.greenAccent[700]}`,
+                          }}
+                          onClick={handleSave}
+                        >
+                          Save{" "}
+                          {isSaved && (
+                            <CheckIcon style={{ marginLeft: "5px" }} />
+                          )}{" "}
+                          <SaveIcon></SaveIcon>
+                        </Button>
+                      </div>
+                      
+                      <hr></hr>
+                      {taskNumber !== 1 && (
+                        <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+                          <SaveIcon></SaveIcon> Save & Previous Task{" "}
+                          <NavigateBeforeIcon></NavigateBeforeIcon>
+                        </Button>
+                      )}{" "}
+                      <Button sx={muiButtonStyle} onClick={handleFinish}>
+                        <SaveIcon></SaveIcon> save & finish{" "}
+                        <NavigateNextIcon></NavigateNextIcon>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div>
+                      <hr></hr>
+                      <OptTimer
+                        run={isRunning}
+                        taskNumber={taskNumber}
+                        title={title}
+                        username={username}
+                        taskarea={taskAreaId}
+                        onDataFromChild={handleTimeFromChild}
+                      />
+                      <div>
+                        <hr></hr>
+                        {" "}
+                        <p>Don't forget to save before leaving</p>
+                        <Button
+                          sx={{
+                            backgroundColor:
+                              isSaved && `${colors.greenAccent[700]}`,
+                          }}
+                          onClick={handleSave}
+                        >
+                          Save{" "}
+                          {isSaved && (
+                            <CheckIcon style={{ marginLeft: "5px" }} />
+                          )}{" "}
+                          <SaveIcon></SaveIcon>
+                        </Button>
+                      </div>
+                      <hr></hr>
+                      {taskNumber !== 1 && (
+                        <Button sx={muiButtonStyle} onClick={handlePrevTask}>
+                          <SaveIcon></SaveIcon> Save & Previous Task{" "}
+                          <NavigateBeforeIcon></NavigateBeforeIcon>
+                        </Button>
+                      )}
+
+                      <Button sx={muiButtonStyle} onClick={handleNextTask}>
+                        <SaveIcon></SaveIcon> Save & Next Task{" "}
+                        <NavigateNextIcon></NavigateNextIcon>
+                      </Button>
+                      <Button onClick={handleDownload}>
+                        Go to download section <DownloadIcon></DownloadIcon>
+                      </Button>
+                    </div>
+                  )}{" "}
+                </form>
+              ) : (
+                <div>
+                  <Button sx={muiButtonStyle} onClick={startTimer}>
+                    Start task
+                    <HourglassEmptyIcon></HourglassEmptyIcon>
+                  </Button>
+                  <p>{""}</p>
+
+                  <ImportantMsg
+                    message="Note: A timer will start, when you start the task. You can stop
+                and continue the timer if needed. Also make sure to save your
+                data."
+                    type="info"
+                  />
+                </div>
+              )}
+            </Box>
+          </Item>
+        </Grid>
+        <Grid xs={5}>
+          <Item>
+            {" "}
+            <Box sx={{marginTop:"200px"}}>
+             
+              <Button sx={muiButtonStyle} onClick={fetchData}>
+                Inspect Database Structure
+              </Button>
+
+              {showDbStructure && (
+                <Grid container spacing={2}>
+                    {dbTable.map((table, index) => (
+                    <div key={index}>{table}</div>
+                  ))}  
+                  <img
+                    src={dataModel}
+                    alt="Data model of enron database"
+                    width="100%" /* 60% */ 
+                    height="auto"
+                  />
+                </Grid>
+              )}
+            </Box>
+          </Item>
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
+
+export default OptTaskForm;
+{
+  /* <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ width: "70%" }}>
+        <Button onClick={handleDownload}>Go to download section</Button>
+        <div>
+          {" "}
+          <p>Don't forget to save before leaving</p>
+          <Button
+            sx={{ backgroundColor: isSaved && `${colors.greenAccent[700]}` }}
+            onClick={handleSave}
+          >
+            Save {isSaved && <CheckIcon style={{ marginLeft: "5px" }} />}{" "}
+            <SaveIcon></SaveIcon>
+          </Button>
+        </div>
+
+        <hr></hr>
+        <Box>
+          <Box>
+            <Box>
+              <InputLabel id="task-number-label" style={labelStyle}>
+                Jump to task (your current entries will be saved):
+              </InputLabel>
+
+              <TextField
+                select
+                name="taskNumber"
+                id="task-number-label"
+                fullWidth
+                value={taskNumber}
+                onChange={handleTaskChange}
+              >
+                {tasksArray.map((task, index) => (
+                  <MenuItem key={index} value={index + 1}>
+                    {task.subtasknumber}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+
+            <hr></hr>
+            <Box>
+              <Button sx={muiButtonStyle} onClick={fetchData}>
+                Inspect Database Structure
+              </Button>
+
+              {showDbStructure && (
+                <Grid container spacing={2}>
+                  {dbTable.map((table, index) => (
+                    <div key={index}>{table}</div>
+                  ))}
+                  <img
+                    src={dataModel}
+                    alt="Data model of enron database"
+                    width="60%"
+                    height="auto"
+                  />
+                </Grid>
+              )}
+            </Box>
+
+            <hr></hr>
+            <Box>
+              <h2>{task.topic}</h2>
+              <h3>{task.subtasknumber}</h3>
+              <h4 style={{ border: "1px solid black", borderRadius: 5 }}>
+                {task.maxtime}
+              </h4>
+              <p style={{ maxWidth: "1500px", fontSize: "26px" }}>
+                {task.description}
+              </p>
+              <hr></hr>
+              <p>{task.hint}</p>
+            </Box>
+            <Box p={7}>
+              {hasStarted ? (
+                <form>
+                  <OptQuery
+                    taskNumber={taskNumber}
+                    title={title}
+                    taskarea={taskarea}
+                  />
+                  <hr></hr>
+                  <InputLabel id="partial-solution-label" style={labelStyle}>
+                    Your partial solution/further comments:
+                  </InputLabel>
+                  <TextField
+                    name="partialSolution"
+                    id="partial-solution-label"
+                    fullWidth
+                    multiline
+                    rows={6}
+                    value={formData.partialSolution}
+                    onChange={handleChange}
+                  />
+                  <hr></hr>
+                  <InputLabel id="isCorrect-radiogroup" style={labelStyle}>
+                    Does your query return correct results?
+                  </InputLabel>
+                  <RadioGroup
+                    name="isCorrect"
+                    row
+                    id="isCorrect-radiogroup"
                     value={formData.isCorrect}
                     onChange={handleChange}
                   >
@@ -473,7 +756,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                         taskarea={taskAreaId}
                         onDataFromChild={handleTimeFromChild}
                       />
-                         <div>
+                      <div>
                         {" "}
                         <p>Don't forget to save before leaving</p>
                         <Button
@@ -504,7 +787,6 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                       <Button onClick={handleDownload}>
                         Go to download section
                       </Button>
-                   
                     </div>
                   )}{" "}
                 </form>
@@ -531,8 +813,5 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
           </Box>
         </Box>
       </div>
-    </div>
-  );
-};
-
-export default OptTaskForm;
+    </div> */
+}

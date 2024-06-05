@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 
 const AdminOptions = () => {
     const options = [{name: "Inspect user data", link: "/adminoptions/admin"}, {name: "Manage Exercises", link: "/adminoptions/updatetasks"}];
+
+    //################# Frontend  ######################################################
   return (
     
        <div style={{ display: "flex", justifyContent: "center" }}>

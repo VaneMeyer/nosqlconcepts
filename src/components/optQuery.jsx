@@ -9,6 +9,10 @@ import "ace-builds/src-noconflict/mode-sql"; // SQL-Syntax-Highlighting
 import ResultGraph from "./ResultGraph";
 import ImportantMsg from "./importantMsg";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+//student works on syntax highlighting
+//import "../public/ace/src-noconflict/mode-mongodb";
+//import "../public/ace/src-noconflict/mode-cql";
+//import "../public/ace/src-noconflict/mode-cypher";
 
 const OptQuery = ({ taskNumber, title, taskarea }) => {
   //################# Style Settings ######################################################
@@ -30,6 +34,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   };
   //################# State Variables ######################################################
   const [queryResult, setQueryResult] = useState("");
+  const [syntaxMode, setSyntaxMode] = useState("");
   const [numNodes, setNumNodes] = useState(0);
   const [numEdges, setNumEdges] = useState(0);
   const [solutionResult, setSolutionResult] = useState("");
@@ -74,7 +79,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
             }
           }
           setQueryFormData(formDataObj);
-          console.log(formDataObj);
+          
          
         
         
@@ -127,7 +132,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
     try {
       const response = await axios.post("/api/store-history-data", dataToSend);
       if (response.data.success) {
-        console.log("Data stored successfully!");
+        //console.log("Data stored successfully!");
       } else {
         console.error("Error occured:", response.data.error);
       }
@@ -211,6 +216,21 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   useEffect(() => {
     setTaskAreaId(taskarea);
     getDataFromDB(taskNumber);
+    if(title === "PostgreSQL" || title === "Lab Assignment 1"){
+      setSyntaxMode("sql");
+    }
+    if(title === "Neo4J" || title === "Lab Assignment 2"){
+      setSyntaxMode("sql");
+      /* setSyntaxMode("cypher"); */
+    }
+    if(title === "MongoDB"){
+      setSyntaxMode("sql");
+      /* setSyntaxMode("mongodb"); */
+    }
+    if(title === "Cassandra"){
+      setSyntaxMode("sql");
+      /* setSyntaxMode("cql"); */
+    }
   }, [taskNumber]);
   //################# Frontend ######################################################
   return (
@@ -219,13 +239,14 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
         <Box>
           <InputLabel id="query-input-label" style={labelStyle}>
             Type and run your query if you think this task is solvable with a
-            query. Otherwise use the partial solution textfield below.
+            query.
           </InputLabel>
           <p>{""}</p>
           <AceEditor
             id="query-input-label"
             name="query"
-            mode="sql"
+            mode={syntaxMode} /* sql,cql,cypher */
+            /* theme="monokai" */
             onChange={handleEditorChange}
             value={queryFormData.query}
             editorProps={{ $blockScrolling: true }}
@@ -238,6 +259,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
             <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
           </Button>
           <p>{""}</p>
+          <ImportantMsg message="Note that the feedback functionality is a work in progress. It is possible that a message will appear stating that your result does not match the expected result. Your solution may still be correct. We are working on improving this functionality in the future so that your individual solution is evaluated with regard to the task description." type="info"/>
           {queryResult && (
             <ImportantMsg
               message="Query was executed successfully!"

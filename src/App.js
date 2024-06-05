@@ -19,6 +19,7 @@ import { Lab1C, Lab2C } from "./scenes/assignments/lab";
 import BackupC from "./components/backup";
 import AdminOptions from "./components/adminOptions";
 import ExerciseManager from "./components/adminTasks";
+import ChatWindow from "./components/geminiAi";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -36,12 +37,12 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />}>
                 <Route path="/" element={<Dashboard />} />
-                {/*     <Route path="/postgresql" element={<PostgreSQL />} /> */}
-                <Route path="/cassandra" element={<Cassandra />} />
-                {/* <Route path="/neo4j" element={<Neo4J />} /> */}
-                {/* <Route path="/mongodb" element={<MongoDB />} /> */}
-                {/* <Route path="/lab1" element={<Lab1C />} /> */}
-                {/* <Route path="/lab2" element={<Lab2C />} />  */}
+                   {/* <Route path="/postgresql" element={<PostgreSQL />} />   */}
+                 {/* <Route path="/cassandra" element={<Cassandra />} />  */}
+                    <Route path="/neo4j" element={<Neo4J />} />   
+                 <Route path="/mongodb" element={<MongoDB />} /> 
+                  {/* <Route path="/lab1" element={<Lab1C />} />  */}
+                 {/* <Route path="/lab2" element={<Lab2C />} />  */} 
                 <Route path="/download" element={<OptDownload />} />
                 <Route path="/statistics" element={<StatisticsMain />} />
                 <Route path="/history" element={<History />} />
@@ -58,7 +59,7 @@ function App() {
               </Route>
 
               <Route path="/signin" element={<PgLogin />} />
-              <Route path="/example" element={<Navigation />} />
+              <Route path="/example" element={<ChatWindow />} />
             </Routes>{" "}
           </main>
         </div>

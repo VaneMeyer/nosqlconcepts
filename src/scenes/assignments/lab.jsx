@@ -39,9 +39,9 @@ export const Lab1C = () => {
   return (
     <Box m="20px">
       <Header title="Lab Assignment 1" subtitle="PostgreSQL" />
-      <ImportantMsg message="" type="info" />
+      <ImportantMsg message="Please submit your solutions (Excel file) in the moodle section PostgreSQL (Lab Assignment Submission) until 13:00. " type="info" />
       <ImportantMsg
-        message="Note: Please make sure to have a backup of your solutions! You can download your solutions in the Download section."
+        message="You can download your solutions in the Download section."
         type="info"
       />
 
