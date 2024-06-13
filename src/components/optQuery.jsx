@@ -67,7 +67,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
         let formDataObj = {};
         if (response.data.length !== 0) {
             formDataObj = {
-            query: response.data[0].query_text || "",
+            query: response.data[0].query_text.replace(/''/g, "'") || "",
             resultSize: response.data[0].result_size || "0",
             isExecutable: response.data[0].is_executable || "0",
           }}
@@ -231,6 +231,19 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
       setSyntaxMode("sql");
       /* setSyntaxMode("cql"); */
     }
+
+    /* const handleKeyDown = (event) => {
+      if (event.key === 'F5') {
+        event.preventDefault();  
+       executeQuery();      
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown); // Cleanup
+    }; */
   }, [taskNumber]);
   //################# Frontend ######################################################
   return (
@@ -250,7 +263,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
             onChange={handleEditorChange}
             value={queryFormData.query}
             editorProps={{ $blockScrolling: true }}
-            style={{ width: "100%", height: "200px" }}
+            style={{ width: "100%", height: "400px" }}
             setOptions={{ fontSize: "16px" }}
           />
           <p>{""}</p>

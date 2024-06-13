@@ -53,6 +53,10 @@ const MongoDB = () => {
         message="Note: Please make sure to have a backup of your solutions! You can download your solutions in the Download section."
         type="info"
       />
+      <ImportantMsg
+        message="The MongoDB driver (mongoose) we are using may sometimes have different syntax or may not support the execution of certain queries (e.g. update, drop, count). We are working to find a suitable solution for this. In such cases, please use NoSQLBooster (see new assignment sheet on Moodle). Sorry :("
+        type="error"
+      />
 
       <hr></hr>
       <Box height="75vh">

@@ -30,7 +30,7 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-
+<ErrorBoundary>
         <div className="app">
           <main className="content">
             <TopBar />
@@ -39,7 +39,7 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
                    {/* <Route path="/postgresql" element={<PostgreSQL />} />   */}
                  {/* <Route path="/cassandra" element={<Cassandra />} />  */}
-                    <Route path="/neo4j" element={<Neo4J />} />   
+                    {/* <Route path="/neo4j" element={<Neo4J />} />  */}  
                  <Route path="/mongodb" element={<MongoDB />} /> 
                   {/* <Route path="/lab1" element={<Lab1C />} />  */}
                  {/* <Route path="/lab2" element={<Lab2C />} />  */} 
@@ -63,9 +63,33 @@ function App() {
             </Routes>{" "}
           </main>
         </div>
+        </ErrorBoundary>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
 }
 
 export default App;
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+   
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong. Please refresh the page.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}

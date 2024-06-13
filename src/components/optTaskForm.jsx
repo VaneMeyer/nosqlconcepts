@@ -62,6 +62,8 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
     color: colors.grey[100],
     fontSize: "16px",
   };
+
+ 
   //################# State Variables ######################################################
   const [task, setTask] = useState("");
   const [isRunning, setIsRunning] = useState(false);
@@ -179,7 +181,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
   };
   const fetchData = async () => {
     /*  if (taskAreaId !== 4){  */
-     try {
+    try {
       let response = await axios.get(endpoint);
       response = response.data;
       let newDbTable;
@@ -207,11 +209,11 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
           );
           break;
       }
-      setDbTable(newDbTable); 
+      setDbTable(newDbTable);
       setShowDbStructure((prevShowDbStructure) => !prevShowDbStructure);
-     } catch (error) {
+    } catch (error) {
       console.error("Error fetching data:", error);
-    }  /* } else {
+    } /* } else {
       let newDbTable = MongoDbStructureTable();
       setDbTable(newDbTable);
       setShowDbStructure((prevShowDbStructure) => !prevShowDbStructure);
@@ -361,7 +363,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
             </Box>
           </Item>
         </Grid>
-       
+
         <Grid xs={7}>
           <Item>
             <Box>
@@ -455,10 +457,8 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                         taskarea={taskAreaId}
                         onDataFromChild={handleTimeFromChild}
                       />
-                         <div>
-                        <hr></hr>
-                        {" "}
-                        <p>Don't forget to save before leaving</p>
+                      <div>
+                        <hr></hr> <p>Don't forget to save before leaving</p>
                         <Button
                           sx={{
                             backgroundColor:
@@ -473,7 +473,6 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                           <SaveIcon></SaveIcon>
                         </Button>
                       </div>
-                      
                       <hr></hr>
                       {taskNumber !== 1 && (
                         <Button sx={muiButtonStyle} onClick={handlePrevTask}>
@@ -498,9 +497,7 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
                         onDataFromChild={handleTimeFromChild}
                       />
                       <div>
-                        <hr></hr>
-                        {" "}
-                        <p>Don't forget to save before leaving</p>
+                        <hr></hr> <p>Don't forget to save before leaving</p>
                         <Button
                           sx={{
                             backgroundColor:
@@ -555,25 +552,23 @@ const OptTaskForm = ({ title, taskarray, taskarea, datamodel, endpoint }) => {
         <Grid xs={5}>
           <Item>
             {" "}
-            <Box sx={{marginTop:"200px"}}>
-             
+            <Box /* sx={{marginTop:"100px"}} */>
               <Button sx={muiButtonStyle} onClick={fetchData}>
-                Inspect Database Structure
+                Inspect and Update Database Structure
               </Button>
-
               {showDbStructure && (
                 <Grid container spacing={2}>
-                    {dbTable.map((table, index) => (
+                  {dbTable.map((table, index) => (
                     <div key={index}>{table}</div>
-                  ))}  
+                  ))}
                   <img
                     src={dataModel}
                     alt="Data model of enron database"
-                    width="100%" /* 60% */ 
+                    width="100%" /* 60% */
                     height="auto"
                   />
                 </Grid>
-              )}
+              )}{" "}
             </Box>
           </Item>
         </Grid>
