@@ -51,14 +51,18 @@ const ResultTable = ({ queryResult, resultSize, title }) => {
       }
     });
   }
-
-  if (queryResult) {
+try {
+   if (queryResult) {
     rows = queryResult;
   }
   rowsWithUniqueId = rows.map((row) => ({
     id: uuidv4(),
     ...row,
   }));
+} catch (error) {
+  console.log("error:", error);
+}
+ 
 
   let minTableRows = resultSize < 5 ? resultSize : 5;
   let maxTableRows = resultSize > 100 ? 100 : resultSize;

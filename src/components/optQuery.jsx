@@ -45,7 +45,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   const [taskAreaId, setTaskAreaId] = useState(0);
   const [queryFormData, setQueryFormData] = useState({
     query: "",
-    resultSize:0,
+    resultSize: 0,
     isExecutable: "No",
   });
 
@@ -66,24 +66,19 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
       .then((response) => {
         let formDataObj = {};
         if (response.data.length !== 0) {
-            formDataObj = {
+          formDataObj = {
             query: response.data[0].query_text.replace(/''/g, "'") || "",
             resultSize: response.data[0].result_size || "0",
             isExecutable: response.data[0].is_executable || "0",
-          }}
-          else {
-            formDataObj = {
-              query: "",
-              resultSize: 0,
-              isExecutable:  "No",
-            }
-          }
-          setQueryFormData(formDataObj);
-          
-         
-        
-        
-       
+          };
+        } else {
+          formDataObj = {
+            query: "",
+            resultSize: 0,
+            isExecutable: "No",
+          };
+        }
+        setQueryFormData(formDataObj);
       })
       .catch((error) => {
         console.error("Failed to get data from db");
@@ -142,7 +137,6 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   };
 
   const executeQuery = () => {
-  
     sendDataToDb();
 
     setQueryResult("");
@@ -164,9 +158,24 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
     axios
       .post(apiRoute, { execQuery, taskNumber, taskAreaId })
       .then((response) => {
-        setQueryResult(response.data.userQueryResult);
+        if (typeof response.data.userQueryResult === 'string') {
+          setQueryResult([{ output: response.data.userQueryResult }]);
+         
+        } else {
+          setQueryResult(response.data.userQueryResult);
+        }
         setSolutionResult(response.data.expectedResult);
         //console.log(response.data.userQueryResult);
+        if (typeof response.data.userQueryResult === 'string'){
+          setQueryFormData(
+            (prev) =>
+              (prev = {
+                query: execQuery,
+                resultSize: 1,
+                isExecutable: "Yes",
+              })
+          );
+        } else{
         setQueryFormData(
           (prev) =>
             (prev = {
@@ -174,7 +183,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
               resultSize: response.data.userQueryResult.length,
               isExecutable: "Yes",
             })
-        );
+        );}
 
         if (
           JSON.stringify(response.data.userQueryResult) ===
@@ -183,7 +192,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
           setFeedback(
             "Correct! Your query output is equal to the expected output."
           );
-          
+
           setFeedbackType("success");
         } else {
           /* else if(response.data.expectedResult === "no solution"){
@@ -193,7 +202,7 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
           setFeedback(
             "Your output does not match the expected output (if there is an expected output). Please try again, if you think that this task is solvable with a query. You can also write a comment in the partial solution textfield, explaining why your solution is correct. In some cases this message occurs because there is no expected output."
           );
-        
+
           setFeedbackType("error");
         }
         setError("");
@@ -216,18 +225,18 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
   useEffect(() => {
     setTaskAreaId(taskarea);
     getDataFromDB(taskNumber);
-    if(title === "PostgreSQL" || title === "Lab Assignment 1"){
+    if (title === "PostgreSQL" || title === "Lab Assignment 1") {
       setSyntaxMode("sql");
     }
-    if(title === "Neo4J" || title === "Lab Assignment 2"){
+    if (title === "Neo4J" || title === "Lab Assignment 2") {
       setSyntaxMode("sql");
       /* setSyntaxMode("cypher"); */
     }
-    if(title === "MongoDB"){
+    if (title === "MongoDB") {
       setSyntaxMode("sql");
       /* setSyntaxMode("mongodb"); */
     }
-    if(title === "Cassandra"){
+    if (title === "Cassandra") {
       setSyntaxMode("sql");
       /* setSyntaxMode("cql"); */
     }
@@ -272,7 +281,10 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
             <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
           </Button>
           <p>{""}</p>
-          <ImportantMsg message="Note that the feedback functionality is a work in progress. It is possible that a message will appear stating that your result does not match the expected result. Your solution may still be correct. We are working on improving this functionality in the future so that your individual solution is evaluated with regard to the task description." type="info"/>
+          <ImportantMsg
+            message="Note that the feedback functionality is a work in progress. It is possible that a message will appear stating that your result does not match the expected result. Your solution may still be correct. We are working on improving this functionality in the future so that your individual solution is evaluated with regard to the task description."
+            type="info"
+          />
           {queryResult && (
             <ImportantMsg
               message="Query was executed successfully!"
@@ -296,6 +308,12 @@ const OptQuery = ({ taskNumber, title, taskarea }) => {
               title={title}
             />
           )}
+          {/* {title === "MongoDB" && (
+  <div>
+    
+    <p>{JSON.stringify(queryResult)}</p>
+  </div>
+)} */}
 
           {error && <ImportantMsg message={error} type="error" />}
 

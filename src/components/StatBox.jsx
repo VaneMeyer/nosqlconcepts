@@ -31,10 +31,10 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link, logo }) => {
       </Box>
 
       <Box display="flex" justifyContent="space-between">
-        {/* //Testphase DBMS Link and Button attributes */}
+        
         <Link
           to={
-             ( title === "MongoDB" || title === "Neo4J") && link
+             ( title === "MongoDB" ) && link
           }
         >
           <Button
@@ -43,8 +43,8 @@ const StatBox = ({ title, subtitle, icon, progress, increase, link, logo }) => {
               /*  title === "MongoDB" || */ 
               title === "Cassandra" ||
                title === "Lab Assignment 1"  ||
-              title === "Lab Assignment 2"   /*  ||
-              title === "Neo4J"   */
+              title === "Lab Assignment 2"    ||
+              title === "Neo4J"   
             } 
             sx={{
               backgroundColor: colors.custom01[100],
