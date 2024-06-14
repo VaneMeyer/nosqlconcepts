@@ -116,7 +116,8 @@ const History = () => {
         window.alert("No history data available for the selected database.");
         return;
       }
-      setHistoryData(data);
+      setHistoryData(data.slice(0, 50));
+      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
