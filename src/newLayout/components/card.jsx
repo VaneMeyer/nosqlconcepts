@@ -71,10 +71,12 @@ export default function MediaCard() {
     try {
       const response = await fetchAssignments();
       setAssignments(response);
-      let idArray = response.map((item) => item.area_id);
-      let maxId = Math.max(...idArray) + 1;
+      if (response.length > 0) {
+        let idArray = response.map((item) => item.area_id);
+        let maxId = Math.max(...idArray) + 1;
 
-      setMaxId(maxId);
+        setMaxId(maxId);
+      } else setMaxId(1);
     } catch (error) {
       console.error("Error:", error);
     }
