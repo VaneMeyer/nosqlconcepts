@@ -7,13 +7,13 @@ export const handleLogin = async (username, password, setIsLoggedIn, setUser, se
     const response = await axios.post(`${API_URL}/login`, {
       username,
       password,
-    }, { withCredentials: true }); // Cookies mit Anfragen senden
+    }, { withCredentials: true }); 
 
     setIsLoggedIn(true);
     setUser(response.data.user_name);
     setRole(response.data.role);
 
-    navigate("/"); // Navigate to the dashboard
+    navigate("/"); 
     window.location.reload();
   } catch (error) {
     console.log(error);
@@ -39,12 +39,12 @@ export const handleLogout = async () => {
   }
 };
 
-// Hinzufügen eines Authentifizierungschecks für geschützte Routen
+
 export const checkAuth = async () => {
   try {
     const response = await axios.get(`${API_URL}/check-auth`, { withCredentials: true }); // Cookies mit Anfragen senden
     if (response.status === 200) {
-      console.log(response.data);
+     
       return response.data;
     } else {
       return null;

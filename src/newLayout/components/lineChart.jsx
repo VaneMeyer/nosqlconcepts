@@ -30,7 +30,7 @@ export default function LineChartC() {
             year: "numeric",
           })
         );
-        console.log(onlyDate); // Output: 11/06/2024
+        
 
         const xAxis = data.map((d) => new Date(d.x));
         const series = data.map((d) => d.y);

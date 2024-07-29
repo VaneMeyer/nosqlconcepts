@@ -27,7 +27,8 @@ import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-sql"; // SQL-Syntax-Highlighting
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import ImportantMsg from "../old_components/importantMsg";
-import OptTimer from "../old_components/optTimer";
+/* import OptTimer from "../old_components/optTimer"; */
+import OptTimer from "../components/timer";
 import ResultGraph from "../old_components/ResultGraph";
 import ResultTable from "../old_components/ResultTable";
 import {
@@ -155,11 +156,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
         isCorrect: formData.isCorrect || "0",
         partialSolution: formData.partialSolution || "",
         difficultyLevel: formData.difficulty || "0",
-        processingTime: parseInt(
-          localStorage.getItem(
-            `${area_name.toLowerCase()}time_${username}_${taskNumber}`
-          ) || 0
-        ),
+        processingTime: receivedTime 
       };
       setButtonState("loading");
       try {
@@ -370,6 +367,9 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
   const handleTimeFromChild = (time) => {
     setReceivedTime(time);
   };
+  const handleTimerUpdate = (time) => {
+    setReceivedTime(time);
+  };
 
   const handleEditorChange = (newContent) => {
     setFormData({ ...formData, query_text: newContent });
@@ -449,6 +449,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                   Go to download section <DownloadIcon></DownloadIcon>
                 </Button>{" "}
                 {/*  <DownloadButton formData={formData} taskNumber={taskNumber} areaId={area_id} area_name={area_name}/> */}
+              
               </Box>
             </Item>
           </Grid>
@@ -626,14 +627,15 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                     {taskNumber === tasksArray.length ? (
                       <div>
                         {" "}
-                        <OptTimer
+                      {/*   <OptTimer
                           run={isRunning}
                           taskNumber={taskNumber}
                           title={area_name}
                           username={username}
                           taskarea={area_id}
                           onDataFromChild={handleTimeFromChild}
-                        />
+                        /> */}
+                        <OptTimer run={isRunning} taskNumber={taskNumber} area_id={area_id} username={username} onTimeUpdate={handleTimerUpdate} />
                         <hr></hr>
                         {taskNumber !== 1 && (
                           <Button
@@ -654,14 +656,15 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                     ) : (
                       <div>
                         <hr></hr>
-                        <OptTimer
+                      {/*   <OptTimer
                           run={isRunning}
                           taskNumber={taskNumber}
                           title={area_name}
                           username={username}
                           taskarea={area_id}
                           onDataFromChild={handleTimeFromChild}
-                        />
+                        /> */}
+                        <OptTimer run={isRunning} taskNumber={taskNumber} area_id={area_id} username={username} onTimeUpdate={handleTimerUpdate} />
 
                         <hr></hr>
                         {taskNumber !== 1 && (
