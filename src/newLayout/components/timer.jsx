@@ -14,7 +14,7 @@ const OptTimer = ({ taskNumber, area_id, username, onTimeUpdate, run }) => {
         const savedTime = await getTimerData(username, area_id, taskNumber);
         if (savedTime) {
           setTime(savedTime[0].processing_time);
-          console.log(savedTime[0].processing_time)
+          
         }
       } catch (error) {
         console.error("Error fetching saved time:", error);
