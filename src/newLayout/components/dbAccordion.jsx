@@ -8,6 +8,7 @@ import mongoDataModel from "../images/datamodel4-transp.png";
 import neoDataModel from "../images/datamodel3-transp.png";
 import pgdataModel from "../images/datamodel1-transp.png";
 import { fetchDbStructure } from "../api/mainApi";
+import PgDatabaseSchema from "./pgSchema";
 
 function DbAccordion({ endpoint }) {
   const [dataModel, setDataModel] = useState("");
@@ -80,12 +81,13 @@ function DbAccordion({ endpoint }) {
           {dbTable.map((table, index) => (
             <div key={index}>{table}</div>
           ))}
-          <img
+         {/*  <img
             src={dataModel}
             alt="An overview of the data model of enron database which can be inspected by clicking the above accordion elements"
             width="100%"
             height="auto"
-          />
+          /> */}
+          {/* <PgDatabaseSchema /> */}
         </Grid>
       )}{" "}
     </Box>
