@@ -17,6 +17,8 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  FormGroup,
+  Checkbox,
 } from "@mui/material";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -41,6 +43,7 @@ import DbAccordion from "../components/dbAccordion";
 import { sendToExecute } from "../api/queryApi";
 import DownloadButton from "../components/downloadButton";
 import { checkAuth } from "../api/loginApi";
+import { CheckBox } from "@mui/icons-material";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundCoor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -65,6 +68,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
     partialSolution: "test state variable",
     isCorrect: "0",
     difficulty: "0",
+    isFinished: false,
   });
 
   const [isSaved, setIsSaved] = useState(false);
@@ -104,13 +108,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
         throw new Error("Task number is required");
       }
 
-      
-
-      const response = await fetchTaskFormData(
-        area_id,
-        username,
-        tasknumber
-      );
+      const response = await fetchTaskFormData(area_id, username, tasknumber);
 
       let formDataObj = {};
 
@@ -122,6 +120,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
           partialSolution: response[0].partial_solution || "",
           isCorrect: response[0].is_correct || "0",
           difficulty: response[0].difficulty_level || "0",
+          isFinished: response[0].is_finished || false,
         };
       } else {
         formDataObj = {
@@ -131,6 +130,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
           partialSolution: "",
           isCorrect: "I don't know",
           difficulty: "No answer",
+          isFinished: false,
         };
       }
 
@@ -156,7 +156,8 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
         isCorrect: formData.isCorrect || "0",
         partialSolution: formData.partialSolution || "",
         difficultyLevel: formData.difficulty || "0",
-        processingTime: receivedTime 
+        processingTime: receivedTime,
+        isFinished: formData.isFinished || false,
       };
       setButtonState("loading");
       try {
@@ -286,14 +287,14 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
     const fetchUser = async () => {
       const user = await checkAuth();
       if (user) {
-        setUsername(user.username); 
+        setUsername(user.username);
         getTasks(area_id);
-    getDataFromDB(taskNumber, user.username);
+        getDataFromDB(taskNumber, user.username);
       }
     };
 
     fetchUser();
-    
+
     window.addEventListener("keydown", handleF5);
     return () => {
       window.removeEventListener("keydown", handleF5);
@@ -313,6 +314,9 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
     setIsSaved(false);
     setButtonState("Idle");
+    if (name === "is-finished-checkbox") {
+      setFormData((prev) => ({ ...prev, isFinished: event.target.checked }));
+    }
   };
   const updateTaskAndFormData = (newTaskNumber) => {
     let newTaskIndex = newTaskNumber - 1;
@@ -449,7 +453,6 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                   Go to download section <DownloadIcon></DownloadIcon>
                 </Button>{" "}
                 {/*  <DownloadButton formData={formData} taskNumber={taskNumber} areaId={area_id} area_name={area_name}/> */}
-              
               </Box>
             </Item>
           </Grid>
@@ -578,7 +581,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                     />
                     <hr></hr>
                     <InputLabel id="isCorrect-radiogroup">
-                      Does your query return correct results?
+                      Do you think that your answer is correct?
                     </InputLabel>
                     <RadioGroup
                       name="isCorrect"
@@ -622,12 +625,25 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                       ))}
                     </RadioGroup>
                     <br />
+                    <hr></hr>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            name="is-finished-checkbox"
+                            checked={formData.isFinished}
+                            onChange={handleChange}
+                          />
+                        }
+                        label="Check if you finished this exercise to see your progress on the dashboard assignment card"
+                      />
+                    </FormGroup>
                     <br />
                     <hr></hr>
                     {taskNumber === tasksArray.length ? (
                       <div>
                         {" "}
-                      {/*   <OptTimer
+                        {/*   <OptTimer
                           run={isRunning}
                           taskNumber={taskNumber}
                           title={area_name}
@@ -635,7 +651,13 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                           taskarea={area_id}
                           onDataFromChild={handleTimeFromChild}
                         /> */}
-                        <OptTimer run={isRunning} taskNumber={taskNumber} area_id={area_id} username={username} onTimeUpdate={handleTimerUpdate} />
+                        <OptTimer
+                          run={isRunning}
+                          taskNumber={taskNumber}
+                          area_id={area_id}
+                          username={username}
+                          onTimeUpdate={handleTimerUpdate}
+                        />
                         <hr></hr>
                         {taskNumber !== 1 && (
                           <Button
@@ -656,7 +678,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                     ) : (
                       <div>
                         <hr></hr>
-                      {/*   <OptTimer
+                        {/*   <OptTimer
                           run={isRunning}
                           taskNumber={taskNumber}
                           title={area_name}
@@ -664,7 +686,13 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                           taskarea={area_id}
                           onDataFromChild={handleTimeFromChild}
                         /> */}
-                        <OptTimer run={isRunning} taskNumber={taskNumber} area_id={area_id} username={username} onTimeUpdate={handleTimerUpdate} />
+                        <OptTimer
+                          run={isRunning}
+                          taskNumber={taskNumber}
+                          area_id={area_id}
+                          username={username}
+                          onTimeUpdate={handleTimerUpdate}
+                        />
 
                         <hr></hr>
                         {taskNumber !== 1 && (
