@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import pgdataModel from "../images/datamodel1-transp.png";
+import neo4jImage from "../images/neo4j.png";
+import mongodbImage from "../images/mongodb.png"
+import postgresImage from "../images/postgres.png"
+import cassandraImage from "../images/cassandra.png"
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -58,12 +61,12 @@ export default function MediaCard() {
       const authData = await checkAuth();
       setIsAuthenticated(authData !== null);
       if (authData) {
-        setIsAdmin(authData.role === 'admin');
+        setIsAdmin(authData.role === "admin");
       }
     };
 
     verifyAuth();
-   
+
     loadAssignments();
   }, []);
 
@@ -135,7 +138,7 @@ export default function MediaCard() {
           formValues.endpoint
         ) {
           await addAssignment(formValues);
-          window.location.reload()
+          window.location.reload();
         } else {
           alert("Please fill all required fields!");
         }
@@ -147,7 +150,7 @@ export default function MediaCard() {
           formValues.endpoint
         ) {
           await updateAssignment(formValues);
-          window.location.reload()
+          window.location.reload();
         } else {
           alert("Please fill all required fields!");
         }
@@ -191,11 +194,34 @@ export default function MediaCard() {
     >
       {assignments.map((assignment) => (
         <Card sx={{ width: 345 }}>
-          {/*    <CardMedia
-        sx={{ height: 150 }}
-        image={pgdataModel}
-        title="green iguana"
-      />  */}
+          {assignment.endpoint === "Neo4J" && (
+            <CardMedia
+              sx={{ height: 150 }}
+              image={neo4jImage}
+              title="Image with a little sketch to represent the database of this assignment"
+            />
+          )}
+          {assignment.endpoint === "MongoDB" && (
+            <CardMedia
+              sx={{ height: 150 }}
+              image={mongodbImage}
+              title="Image with a little sketch to represent the database of this assignment"
+            />
+          )}
+          {assignment.endpoint === "PostgreSQL" && (
+            <CardMedia
+              sx={{ height: 150 }}
+              image={postgresImage}
+              title="Image with a little sketch to represent the database of this assignment"
+            />
+          )}
+          {assignment.endpoint === "Cassandra" && (
+            <CardMedia
+              sx={{ height: 150 }}
+              image={cassandraImage}
+              title="Image with a little sketch to represent the database of this assignment"
+            />
+          )}
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {assignment.area_name}
@@ -204,7 +230,7 @@ export default function MediaCard() {
               {assignment.descr}
             </Typography>
           </CardContent>
-          <CardActions sx={{marginLeft:"50px"}}>
+          <CardActions sx={{ marginLeft: "50px" }}>
             <Button
               disabled={!assignment.is_active}
               component={Link}
