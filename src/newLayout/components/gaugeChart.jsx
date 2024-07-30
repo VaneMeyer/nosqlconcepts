@@ -17,26 +17,25 @@ export default function GaugeChartC({ areaId }) {
     isCorrect: "No",
     difficulty: "No answer",
     time: 0,
+    is_finished: false
   });
 
   let progress = "0";
   let progressCounter = 0;
 
   for (let i = 0; i < data.length; i++) {
-    const answer1 = data[i].query_text || "";
-    const answer4 = data[i].partial_solution || "";
+    const isFinished = data[i].is_finished || false;
+   
 
-    if (answer1 !== "") {
+    if (isFinished) {
       progressCounter += 1;
     }
-    if (answer4 !== "") {
-      progressCounter += 1;
-    }
+   
   }
 
-  let numberOfInputs = 2 * tasksArray.length;
-  if (numberOfInputs !== 0) {
-    progress = progressCounter / numberOfInputs;
+  
+  if (tasksArray.length !== 0) {
+    progress = progressCounter / tasksArray.length;
   }
 
   const percentValue = (progress * 100).toFixed(0); // Nur eine Nachkommastelle
