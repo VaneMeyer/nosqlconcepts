@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -44,6 +44,9 @@ import { sendToExecute } from "../api/queryApi";
 import DownloadButton from "../components/downloadButton";
 import { checkAuth } from "../api/loginApi";
 import { CheckBox } from "@mui/icons-material";
+import PgDatabaseSchema from "../components/pgSchema";
+import CasDataModelTable from "../components/cassandraSchema";
+import NeoGraphC from "../components/graph";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundCoor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -501,7 +504,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                 <hr></hr>
                 <p>{task.hint}</p>
               </Box>
-              <Box p={7} aria-labelledby="Input Elements to solve the task">
+              <Box p={0} aria-labelledby="Input Elements to solve the task">
                 {hasStarted ? (
                   <form>
                     <Box>
@@ -643,14 +646,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                     {taskNumber === tasksArray.length ? (
                       <div>
                         {" "}
-                        {/*   <OptTimer
-                          run={isRunning}
-                          taskNumber={taskNumber}
-                          title={area_name}
-                          username={username}
-                          taskarea={area_id}
-                          onDataFromChild={handleTimeFromChild}
-                        /> */}
+                     
                         <OptTimer
                           run={isRunning}
                           taskNumber={taskNumber}
@@ -767,6 +763,9 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
             <Item>
               {" "}
               <DbAccordion endpoint={endpoint} />
+              {endpoint === "PostgreSQL" &&<PgDatabaseSchema />}
+              {endpoint === "Cassandra" &&<CasDataModelTable />}
+              {endpoint === "Neo4J" && <NeoGraphC />}
             </Item>
           </Grid>
         </Grid>

@@ -21,7 +21,7 @@ const OptTimer = ({ taskNumber, area_id, username, onTimeUpdate, run }) => {
       }
     };
 
-    fetchTime();
+    fetchTime();  
 
     return () => {
       if (intervalRef.current) {

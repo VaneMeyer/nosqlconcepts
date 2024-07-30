@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Graph from "react-graph-vis";
-
+import { Divider, List, ListItem, Paper, Typography } from "@mui/material";
 
 const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
   queryResult = queryResult.slice(0, 25);
-  //################# Style Settings ######################################################
 
   //################# State Variables ######################################################
   const [stateNodes, setNodes] = useState([]);
   const [stateEdges, setEdges] = useState([]);
-  //################# Initial Variables ######################################################
+  const [state, setState] = useState({
+    counter: 5,
+    graph: {
+      nodes: [],
+      edges: [],
+    },
+    selectedNodeFields: []
+  });
+
+  //################# Main Functionality to get nodes and edges ######################################################
   const nodesarr = [];
   const edgesarr = [];
   const nodes = [];
@@ -20,13 +28,11 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
   let nodeId = "";
   let edgeId = "";
 
-  //################# Main Functionality to get nodes and edges ######################################################
   try {
     if (queryResult) {
       queryResult.forEach((pathItem) => {
         const pathKeys = Object.keys(pathItem);
         if (pathKeys.length === 1) {
-          // for example match p = ()-[]-() return p
           const path = pathItem[pathKeys[0]];
           if (path && path.segments) {
             path.segments.forEach((segment) => {
@@ -44,7 +50,7 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
                 nodes.push({
                   id: startNodeId,
                   label: startNodeLabel,
-                  ...startNode.properties,
+                  properties: startNode.properties
                 });
               }
 
@@ -52,7 +58,7 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
                 nodes.push({
                   id: endNodeId,
                   label: endNodeLabel,
-                  ...endNode.properties,
+                  properties: endNode.properties
                 });
               }
 
@@ -80,7 +86,7 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
                     nodes.push({
                       id: nodeId,
                       label: Object.values(node.properties)[0],
-                      ...node.properties,
+                      properties: node.properties
                     });
                     nodeIdArray.push(nodeId);
                   }
@@ -101,7 +107,6 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
             });
           }
         } else {
-          //if we have > 1 object keys: for example match (p:Person)-[r:EMAIL_TO]-(p2:Person) return p, r, p2
           queryResult.forEach((resultItem) => {
             if (resultItem) {
               Object.values(resultItem).forEach((obj) => {
@@ -118,7 +123,7 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
                   nodes.push({
                     id: nodeId,
                     label: Object.values(node.properties)[0],
-                    ...node.properties,
+                    properties: node.properties
                   });
                   nodeIdArray.push(nodeId);
                 }
@@ -141,9 +146,22 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
       });
     }
   } catch (error) {
-    //console.log(error);
+    // Handle error
   }
+
   //################# handle Functions and other ######################################################
+  const handleSelect = ({ nodes }) => {
+    if (nodes.length > 0) {
+      const selectedNode = graphData.nodes.find(node => node.id === nodes[0]);
+      if (selectedNode) {
+        setState(prevState => ({
+          ...prevState,
+          selectedNodeFields: Object.entries(selectedNode.properties).map(([key, value]) => `${key}: ${value}`)
+        }));
+      }
+    }
+  };
+
   const handleViewportChange = (event) => {
     setTimeout(() => {
       const additionalData = loadMoreData();
@@ -179,15 +197,19 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
       color: "#000000",
     },
     physics: {
-      enabled: true,
+      enabled: false,
     },
   };
-   //################# useEffect Function ######################################################
-   useEffect(() => {
+
+  //################# useEffect Function ######################################################
+  useEffect(() => {
     if (onGetNodeAndEdgeCount) {
       onGetNodeAndEdgeCount(numNodes, numEdges);
     }
   }, [numNodes, numEdges, onGetNodeAndEdgeCount]);
+
+  const { selectedNodeFields } = state;
+
   //################# Frontend ######################################################
   return (
     <div
@@ -206,7 +228,7 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
       </div>
       {numNodes !== 0 && (
         <div style={{ height: "600px", width: "100%" }}>
-          <Graph key={uuidv4()} graph={graphData} options={graphOptions} />
+          <Graph events={{ select: handleSelect }} key={uuidv4()} graph={graphData} options={graphOptions} />
         </div>
       )}
       <div>
@@ -214,6 +236,23 @@ const ResultGraph = ({ queryResult, onGetNodeAndEdgeCount }) => {
           Nodes: {numNodes}, Edges: {numEdges}
         </p>
       </div>
+      <Paper elevation={3} style={{ padding: 16 }}>
+        <Typography variant="h6" gutterBottom>
+          Selected Node Properties:
+        </Typography>
+        <List>
+          {selectedNodeFields.length > 0 ? (
+            selectedNodeFields.map((field, index) => (
+              <React.Fragment key={index}>
+                <ListItem>{field}</ListItem>
+                {index < selectedNodeFields.length - 1 && <Divider />}
+              </React.Fragment>
+            ))
+          ) : (
+            <ListItem>No node selected</ListItem>
+          )}
+        </List>
+      </Paper>
     </div>
   );
 };
