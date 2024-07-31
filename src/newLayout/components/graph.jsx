@@ -97,7 +97,7 @@ const NeoGraphC = () => {
           graph={graph}
           options={options}
           events={{ select: handleSelect }}
-          style={{ height: "640px", width: "100%" }}
+          style={{ height: "300px", width: "100%" }}
         />
       </Paper>
       <Paper elevation={3} style={{ padding: 16 }}>

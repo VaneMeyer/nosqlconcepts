@@ -17,6 +17,7 @@ function DbAccordion({ endpoint }) {
 
   const [showDbStructure, setShowDbStructure] = useState(false);
   useEffect(() => {
+    
     if (endpoint === "PostgreSQL") {
       setDbEndpoint("/getPostgreSQLStructure");
       setDataModel(pgdataModel);
