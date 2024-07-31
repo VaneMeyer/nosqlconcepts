@@ -47,6 +47,7 @@ import { CheckBox } from "@mui/icons-material";
 import PgDatabaseSchema from "../components/pgSchema";
 import CasDataModelTable from "../components/cassandraSchema";
 import NeoGraphC from "../components/graph";
+import MongoSchema from "../components/mongoSchema";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundCoor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -287,6 +288,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
   };
   //###########
   useEffect(() => {
+    
     const fetchUser = async () => {
       const user = await checkAuth();
       if (user) {
@@ -366,14 +368,6 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
     navigate(`/download?title=${dataToSend.title}&areaId=${dataToSend.areaId}`);
   };
 
-  const handleSave = () => {
-    sendDataToDb();
-    setIsSaved(true);
-  };
-
-  const handleTimeFromChild = (time) => {
-    setReceivedTime(time);
-  };
   const handleTimerUpdate = (time) => {
     setReceivedTime(time);
   };
@@ -408,6 +402,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
     }
     return <SaveIcon />;
   };
+ 
   return (
     <Container>
       <h1>Exercise Sheet</h1>
@@ -542,7 +537,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                       {endpoint === "Neo4J" && queryResult && (
                         <ResultGraph
                           queryResult={queryResult}
-                          onGetNodeAndEdgeCount={handleGetNodeAndEdgeCount}
+                           onGetNodeAndEdgeCount={handleGetNodeAndEdgeCount} 
                         />
                       )}{" "}
                       {numNodes === 0 && numEdges === 0 && queryResult && (
@@ -646,7 +641,6 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                     {taskNumber === tasksArray.length ? (
                       <div>
                         {" "}
-                     
                         <OptTimer
                           run={isRunning}
                           taskNumber={taskNumber}
@@ -674,14 +668,7 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                     ) : (
                       <div>
                         <hr></hr>
-                        {/*   <OptTimer
-                          run={isRunning}
-                          taskNumber={taskNumber}
-                          title={area_name}
-                          username={username}
-                          taskarea={area_id}
-                          onDataFromChild={handleTimeFromChild}
-                        /> */}
+                       
                         <OptTimer
                           run={isRunning}
                           taskNumber={taskNumber}
@@ -760,13 +747,19 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
             </Item>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Item>
-              {" "}
-              <DbAccordion endpoint={endpoint} />
-              {endpoint === "PostgreSQL" &&<PgDatabaseSchema />}
-              {endpoint === "Cassandra" &&<CasDataModelTable />}
+            <DbAccordion endpoint={endpoint} />
+            <hr></hr>
+            <Box
+              sx={{
+                maxHeight: "800px",
+                overflowY: "auto",
+              }}
+            >
+              {endpoint === "PostgreSQL" && <PgDatabaseSchema />}
+              {endpoint === "Cassandra" && <CasDataModelTable />}
               {endpoint === "Neo4J" && <NeoGraphC />}
-            </Item>
+              {endpoint === "MongoDB" && <MongoSchema />}
+            </Box>
           </Grid>
         </Grid>
       </Box>
