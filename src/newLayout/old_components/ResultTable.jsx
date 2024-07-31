@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography, CircularProgress } from "@mui/material";
@@ -7,6 +7,10 @@ const ResultTable = ({ queryResult, resultSize, title }) => {
   let columns = [];
   let rows = [];
   let rowsWithUniqueId = [];
+
+  useEffect(()=>{
+   
+  },[])
 
   // Build the columns array based on queryResult
   if (queryResult && queryResult.length > 0) {
