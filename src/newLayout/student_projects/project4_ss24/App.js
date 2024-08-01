@@ -21,6 +21,7 @@ import {
   TableCell,
   TableBody,
   Paper,
+  Alert,
 } from "@mui/material";
 import { fetchData, fetchTaskData, fetchUserData, fetchAreaData } from "./api";
 import { BarChart } from "@mui/x-charts/BarChart";
@@ -69,7 +70,7 @@ function AppProject() {
       const authData = await checkAuth();
       setIsAuthenticated(authData !== null);
       if (authData) {
-        setIsAdmin(authData.role === 'admin');
+        setIsAdmin(authData.role === "admin");
       }
     };
 
@@ -77,7 +78,7 @@ function AppProject() {
     const fetchUser = async () => {
       const user = await checkAuth();
       if (user) {
-        setUsername(user.username); 
+        setUsername(user.username);
       }
     };
 
@@ -167,7 +168,7 @@ function AppProject() {
     filteredData.length > 0 //Gets mean processing time
       ? (
           filteredData.reduce(
-            (acc, item) => acc + (item.processing_time / 60),
+            (acc, item) => acc + item.processing_time / 60,
             0
           ) / filteredData.length
         ).toFixed(0)
@@ -178,7 +179,7 @@ function AppProject() {
     (item) => item.task_area_id === selectedAreaId
   ); //Same as for the statement tasks but with the area filter now
   const processingAreaTimes = filteredAreaData.map(
-    (item) => (item.processing_time / 60)
+    (item) => item.processing_time / 60
   );
   const area_dif_data = filteredAreaData.map((item) => item.difficulty_level);
   const areatimedata = generateDataSeries(processingAreaTimes);
@@ -188,7 +189,7 @@ function AppProject() {
     filteredAreaData.length > 0
       ? (
           filteredAreaData.reduce(
-            (acc, item) => acc + (item.processing_time / 60),
+            (acc, item) => acc + item.processing_time / 60,
             0
           ) / filteredAreaData.length
         ).toFixed(0)
@@ -220,7 +221,7 @@ function AppProject() {
     filteredUserAreaData.length > 0
       ? (
           filteredUserAreaData.reduce(
-            (acc, item) => acc + (item.processing_time / 60),
+            (acc, item) => acc + item.processing_time / 60,
             0
           ) / filteredUserAreaData.length
         ).toFixed(0)
@@ -499,123 +500,173 @@ function AppProject() {
               onChange={handleUserIdChange}
               style={{ width: "100%" }}
             >
-              <MenuItem
-                key={username}
-                value={username}
-              >
+              <MenuItem key={username} value={username}>
                 {username}
               </MenuItem>
             </Select>
           </FormControl>
         </Grid>
       )}
-     <Grid item xs={12} md={6}>
-  <Box sx={{ ...cardStyle, padding: 3, borderRadius: 2, boxShadow: 3 }}>
-    <Typography variant="h5" fontWeight="600" gutterBottom>
-      User performance by task
-    </Typography>
-    {(selectedStatementId == 0 || selectedUserId == 0) && (
-      <Typography variant="body1" color="textSecondary">
-        Please select a task and a user to see these statistics
-      </Typography>
-    )}
-    {selectedStatementId != 0 && selectedUserId != 0 && filteredUserTaskData.length > 0 && (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Metric</TableCell>
-              <TableCell>Your Data</TableCell>
-              <TableCell>All Users Data</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>Time for this task</TableCell>
-              <TableCell style={{ color: "blue" }}>{UserTaskprocessingTimes} minutes</TableCell>
-              <TableCell style={{ color: "purple" }}>{meanProcessingTime} minutes</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Difficulty ranking for this task</TableCell>
-              <TableCell style={{ color: "blue" }}>{UserTaskdifdata}</TableCell>
-              <TableCell style={{ color: "purple" }}>
-                {avgdiffi}/5 - {get_dif_ranking(avgdiffi)}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell colSpan={3} align="center">
-                <Typography variant="h4" color="primary" style={{ marginTop: "1rem" }}>
-                  Your Rank: {get_rank(UserTaskprocessingTimes, meanProcessingTime, UserTaskdifdata, avgdiffi)}
-                </Typography>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    )}
-    {selectedStatementId != 0 && selectedUserId != 0 && filteredUserTaskData.length == 0 && (
-      <Typography variant="body1" color="textSecondary">
-        No statistics for this user and task available
-      </Typography>
-    )}
-  </Box>
-</Grid>
+      <Grid item xs={12} md={12}>
+        <Box component="section">
+          {" "}
+          <Alert severity="info" sx={{ marginBottom: 2 }}>
+            Note: The ranking is intended only as gamification and not as a
+            rating for passing or failing the course.
+          </Alert>
+        </Box>
+      </Grid>
 
-{/* 5. User performance by area */}
-<Grid item xs={12} md={6}>
-  <Box sx={{ ...cardStyle, padding: 3, borderRadius: 2, boxShadow: 3 }}>
-    <Typography variant="h5" fontWeight="600" gutterBottom>
-      User performance by area
-    </Typography>
-    {(selectedAreaId == 0 || selectedUserId == 0) && (
-      <Typography variant="body1" color="textSecondary">
-        Please select an area and a user to see these statistics
-      </Typography>
-    )}
-    {selectedAreaId != 0 && selectedUserId != 0 && filteredUserAreaData.length > 0 && (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Metric</TableCell>
-              <TableCell>Your Data</TableCell>
-              <TableCell>All Users Data</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>Mean time for exercises in this area</TableCell>
-              <TableCell style={{ color: "blue" }}>{AreameanProcessingTimeUser} minutes</TableCell>
-              <TableCell style={{ color: "purple" }}>{AreameanProcessingTime} minutes</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Difficulty ranking for tasks in this area</TableCell>
-              <TableCell style={{ color: "blue" }}>
-                {userareaavgdiffi}/5 - {get_dif_ranking(userareaavgdiffi)}
-              </TableCell>
-              <TableCell style={{ color: "purple" }}>
-                {areaavgdiffi}/5 - {get_dif_ranking(areaavgdiffi)}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell colSpan={3} align="center">
-                <Typography variant="h4" color="primary" style={{ marginTop: "1rem" }}>
-                  Your Rank: {get_rank(AreameanProcessingTimeUser, AreameanProcessingTime, get_dif_ranking(userareaavgdiffi), areaavgdiffi)}
-                </Typography>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    )}
-    {selectedAreaId != 0 && selectedUserId != 0 && filteredUserAreaData.length == 0 && (
-      <Typography variant="body1" color="textSecondary">
-        No statistics for this user and area available
-      </Typography>
-    )}
-  </Box>
-</Grid>
+      <Grid item xs={12} md={6}>
+        <Box sx={{ ...cardStyle, padding: 3, borderRadius: 2, boxShadow: 3 }}>
+          <Typography variant="h5" fontWeight="600" gutterBottom>
+            User performance by task
+          </Typography>
 
+          {(selectedStatementId == 0 || selectedUserId == 0) && (
+            <Typography variant="body1" color="textSecondary">
+              Please select a task and a user to see these statistics
+            </Typography>
+          )}
+          {selectedStatementId != 0 &&
+            selectedUserId != 0 &&
+            filteredUserTaskData.length > 0 && (
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Metric</TableCell>
+                      <TableCell>User Data</TableCell>
+                      <TableCell>All Users Data</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>Time for this task</TableCell>
+                      <TableCell style={{ color: "blue" }}>
+                        {UserTaskprocessingTimes} minutes
+                      </TableCell>
+                      <TableCell style={{ color: "purple" }}>
+                        {meanProcessingTime} minutes
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Difficulty ranking for this task</TableCell>
+                      <TableCell style={{ color: "blue" }}>
+                        {UserTaskdifdata}
+                      </TableCell>
+                      <TableCell style={{ color: "purple" }}>
+                        {avgdiffi}/5 - {get_dif_ranking(avgdiffi)}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan={3} align="center">
+                        <Typography
+                          variant="h4"
+                          color="primary"
+                          style={{ marginTop: "1rem" }}
+                        >
+                          User Rank:{" "}
+                          {get_rank(
+                            UserTaskprocessingTimes,
+                            meanProcessingTime,
+                            UserTaskdifdata,
+                            avgdiffi
+                          )}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          {selectedStatementId != 0 &&
+            selectedUserId != 0 &&
+            filteredUserTaskData.length == 0 && (
+              <Typography variant="body1" color="textSecondary">
+                No statistics for this user and task available
+              </Typography>
+            )}
+        </Box>
+      </Grid>
+
+      {/* 5. User performance by area */}
+      <Grid item xs={12} md={6}>
+        <Box sx={{ ...cardStyle, padding: 3, borderRadius: 2, boxShadow: 3 }}>
+          <Typography variant="h5" fontWeight="600" gutterBottom>
+            User performance by area
+          </Typography>
+          {(selectedAreaId == 0 || selectedUserId == 0) && (
+            <Typography variant="body1" color="textSecondary">
+              Please select an area and a user to see these statistics
+            </Typography>
+          )}
+          {selectedAreaId != 0 &&
+            selectedUserId != 0 &&
+            filteredUserAreaData.length > 0 && (
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Metric</TableCell>
+                      <TableCell>User Data</TableCell>
+                      <TableCell>All Users Data</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        Mean time for exercises in this area
+                      </TableCell>
+                      <TableCell style={{ color: "blue" }}>
+                        {AreameanProcessingTimeUser} minutes
+                      </TableCell>
+                      <TableCell style={{ color: "purple" }}>
+                        {AreameanProcessingTime} minutes
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        Difficulty ranking for tasks in this area
+                      </TableCell>
+                      <TableCell style={{ color: "blue" }}>
+                        {userareaavgdiffi}/5 -{" "}
+                        {get_dif_ranking(userareaavgdiffi)}
+                      </TableCell>
+                      <TableCell style={{ color: "purple" }}>
+                        {areaavgdiffi}/5 - {get_dif_ranking(areaavgdiffi)}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan={3} align="center">
+                        <Typography
+                          variant="h4"
+                          color="primary"
+                          style={{ marginTop: "1rem" }}
+                        >
+                          User Rank:{" "}
+                          {get_rank(
+                            AreameanProcessingTimeUser,
+                            AreameanProcessingTime,
+                            get_dif_ranking(userareaavgdiffi),
+                            areaavgdiffi
+                          )}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          {selectedAreaId != 0 &&
+            selectedUserId != 0 &&
+            filteredUserAreaData.length == 0 && (
+              <Typography variant="body1" color="textSecondary">
+                No statistics for this user and area available
+              </Typography>
+            )}
+        </Box>
+      </Grid>
     </Grid>
   );
 }
