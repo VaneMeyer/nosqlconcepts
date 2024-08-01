@@ -408,7 +408,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
     <Container>
       <h1>Exercise Sheet</h1>
       <h2>{area_name}</h2>
-      <Box sx={{ flexGrow: 1 }}>
+      {task && <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={12}>
             <Item>
@@ -763,7 +763,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
             </Box>
           </Grid>
         </Grid>
-      </Box>
+      </Box>}
     </Container>
   );
 }
