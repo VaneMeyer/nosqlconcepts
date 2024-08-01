@@ -124,6 +124,7 @@ const AppRoutes = ({ assignments }) => {
                 area_id={assignment.area_id}
                 area_name={assignment.area_name}
                 endpoint={assignment.endpoint}
+                feedback_on={assignment.feedback_on}
               />
             }
           />

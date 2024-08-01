@@ -56,7 +56,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   overflow: "auto",
 }));
-function ExerciseSheet({ area_id, area_name, endpoint }) {
+function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
   const navigate = useNavigate();
   const [task, setTask] = useState("");
   const [isRunning, setIsRunning] = useState(false);
@@ -90,7 +90,8 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
   const handleF5 = (event) => {
     if (event.key === "F5") {
       event.preventDefault();
-      executeQuery();
+      
+      alert("F5 is not used as a shortcut to execute queries.")
     }
   };
 
@@ -521,17 +522,17 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                         Run query
                         <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
                       </Button>
-                      <ImportantMsg
+                      {feedback_on && <ImportantMsg
                         message="Note that the feedback functionality is a work in progress. It is possible that a message will appear stating that your result does not match the expected result. Your solution may still be correct. We are working on improving this functionality in the future so that your individual solution is evaluated with regard to the task description."
                         type="info"
-                      />
+                      />}
                       {queryResult && (
                         <ImportantMsg
                           message="Query was executed successfully!"
                           type="success"
                         />
                       )}
-                      {queryResult && (
+                      {queryResult && feedback_on &&(
                         <ImportantMsg message={feedback} type={feedbackType} />
                       )}
                       {endpoint === "Neo4J" && queryResult && (
@@ -556,11 +557,11 @@ function ExerciseSheet({ area_id, area_name, endpoint }) {
                         }}
                       >
                         {<p>Result Size: {formData.resultSize}</p>}
-                        {
+                      {/*   {
                           <p>
                             Is the query executable?: {formData.isExecutable}
                           </p>
-                        }
+                        } */}
                       </Box>
                     </Box>
                     <hr></hr>

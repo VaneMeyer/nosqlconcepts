@@ -53,6 +53,7 @@ export default function MediaCard() {
     link: "",
     endpoint: "",
     is_active: false,
+    feedback_on:false,
   });
   const [openFormDialog, setOpenFormDialog] = useState(false);
 
@@ -74,6 +75,7 @@ export default function MediaCard() {
     try {
       const response = await fetchAssignments();
       setAssignments(response);
+      console.log(response);
       if (response.length > 0) {
         let idArray = response.map((item) => item.area_id);
         let maxId = Math.max(...idArray) + 1;
@@ -94,6 +96,7 @@ export default function MediaCard() {
       link: "",
       endpoint: "",
       is_active: false,
+      feedback_on:false,
     });
     setOpenFormDialog(true);
   };
@@ -124,6 +127,7 @@ export default function MediaCard() {
       link: "",
       endpoint: "",
       is_active: false,
+      feedback_on:false,
     });
   };
   const handleConfirmation = async () => {
@@ -135,7 +139,7 @@ export default function MediaCard() {
           formValues.area_id &&
           formValues.area_name &&
           formValues.link &&
-          formValues.endpoint
+          formValues.endpoint 
         ) {
           await addAssignment(formValues);
           window.location.reload();
@@ -389,6 +393,25 @@ export default function MediaCard() {
                 value={formValues.is_active}
                 onChange={handleFormInputChange}
                 label="Activate area"
+              >
+                <MenuItem value={true}>Yes, activate</MenuItem>
+                <MenuItem value={false}>No, deactivate</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              fullWidth
+              variant="outlined"
+              required
+              style={{ marginBottom: "10px" }}
+            >
+              <InputLabel id="feedback-label">Query feedback on?</InputLabel>
+              <Select
+                labelId="feedback-label"
+                id="feedback-on"
+                name="feedback_on"
+                value={formValues.feedback_on}
+                onChange={handleFormInputChange}
+                label="Query feedback on?"
               >
                 <MenuItem value={true}>Yes, activate</MenuItem>
                 <MenuItem value={false}>No, deactivate</MenuItem>
