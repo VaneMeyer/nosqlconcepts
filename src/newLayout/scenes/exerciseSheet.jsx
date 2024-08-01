@@ -535,7 +535,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
                       {queryResult && feedback_on &&(
                         <ImportantMsg message={feedback} type={feedbackType} />
                       )}
-                      {endpoint === "Neo4J" && queryResult && (
+                      {endpoint === "Neo4J" && queryResult &&   (
                         <ResultGraph
                           queryResult={queryResult}
                            onGetNodeAndEdgeCount={handleGetNodeAndEdgeCount} 
