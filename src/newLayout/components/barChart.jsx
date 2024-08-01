@@ -58,14 +58,14 @@ export default function BarChartC({ isUser, isTimeChart }) {
   const transformUserTimeChartData = (data) => {
     return data.map((item) => ({
       task_area_id: item.task_area_id,
-      avg_value: parseInt(item.avg_processing_time % 60),
+      avg_value: parseInt(item.avg_processing_time / 60),
     }));
   };
 
   const transformTimeChartData = (data) => {
     return data.map((item) => ({
       task_area_id: item.task_area_id,
-      avg_value: parseInt(item.avg_processing_time % 60),
+      avg_value: parseInt(item.avg_processing_time / 60),
     }));
   };
 
