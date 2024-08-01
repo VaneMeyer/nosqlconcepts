@@ -5,7 +5,7 @@ const InputBox = ({ sendMessage, loading, solution }) => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && input.trim() !== "") {
       e.preventDefault()
-      sendMessage(input + " " + solution)
+      sendMessage(solution + " " + input)
       setInput("")
     }
   }

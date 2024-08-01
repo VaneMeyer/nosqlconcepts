@@ -7,7 +7,7 @@ import "../assets/ChatWindow.css" // For custom styles
 
 /* const API_KEY = process?.env?.GEMINI_API_KEY
 console.log(process.env.GEMINI_API_KEY) */
-//const API_KEY = "AIzaSyA6zkmYXpjDNlXR1zcGgwTd5ZQbo0JT9kI"
+const API_KEY = "AIzaSyA6zkmYXpjDNlXR1zcGgwTd5ZQbo0JT9kI"
 const genAI = new GoogleGenerativeAI(API_KEY)
 const model = genAI.getGenerativeModel({ model: "gemini-pro" })
 
@@ -37,7 +37,7 @@ const ChatWindow = ({ task, partialSolution }) => {
     setMessages((prevMessages) => [
       ...prevMessages,
       {
-        text: `This is the question of ${task}.of this partial solution${partialSolution}`,
+        text: `This is the question of ${task}.this is the answer of this query ${partialSolution}.`,
         sender: `user`,
         timestamp: new Date(),
       },
@@ -46,7 +46,6 @@ const ChatWindow = ({ task, partialSolution }) => {
     try {
       const result = await model.generateContent(partialSolution)
       const text = result.response.text()
-      console.log(100, text)
       // Check if the response is code before updating messages
       const isCode = text.includes("```")
       // Update messages with the AI response

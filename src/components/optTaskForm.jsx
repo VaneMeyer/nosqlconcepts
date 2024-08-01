@@ -21,6 +21,7 @@ import {
   useTheme,
   Grid,
 } from "@mui/material"
+import ChatWindow from "./ChatWindow"
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty"
 import SaveIcon from "@mui/icons-material/Save"
 import NavigateNextIcon from "@mui/icons-material/NavigateNext"
@@ -339,6 +340,10 @@ const OptTaskForm = ({ title }) => {
                 rows={6}
                 value={formData.partialSolution}
                 onChange={handleChange}
+              />
+              <ChatWindow
+                task={task}
+                partialSolution={formData.partialSolution}
               />
               <hr></hr>
               <InputLabel id="isCorrect-radiogroup" style={labelStyle}>

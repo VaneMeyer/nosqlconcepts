@@ -1,0 +1,139 @@
+:root {
+  --primary_color: #0d0033;
+  --primary_lite: #c0bec5;
+  --sec_color: #4eab5c;
+  --bg_color: #f2f2f3;
+}
+
+.custom-input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  color: var(--primary_color);
+  font-size: 20px;
+  flex-grow: 1;
+  padding: 1.2rem 0;
+  background-color: rgb(248, 248, 255);
+}
+
+.label {
+  font-size: 16px;
+  font-family: fangsong;
+  font-size: larger;
+}
+
+.custom-input::placeholder {
+  font-weight: lighter;
+  color: var(--primary_lite);
+}
+
+.input_wrapp {
+  display: flex;
+  width: 100%;
+}
+
+.input_container:has(input:focus) {
+  border: 1px solid var(--sec_color);
+}
+
+.input_container {
+  border: 1px solid var(--primary_color);
+  display: flex;
+  align-items: center;
+  background-color: rgb(248, 248, 255);
+  margin: 0.5rem 0;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.input_container .input_icon {
+  font-size: 20px;
+  color: var(--primary_color);
+  height: 20px;
+  padding-right: 5px;
+}
+
+.input_wrapper {
+  padding: 1rem 0;
+}
+
+.form_btn {
+  background-color: var(--sec_color);
+  flex-grow: 1;
+  position: relative;
+  padding: 1.2rem 2rem;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+}
+
+.form_btn button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* .form_btn::after,
+.form_btn::before {
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+} */
+
+/* .form_btn::after {
+  right: -10px;
+} */
+
+/* .form_btn::before {
+  left: -10px;
+} */
+
+.error-message {
+  color: red;
+  font-size: 20px;
+}
+
+.captcha {
+  font-size: 20px;
+  color: var(--primary_color);
+  width: 80%;
+  height: 50px;
+  border: none;
+  outline: none;
+}
+
+button {
+  position: absolute;
+  top: 0;
+  border-radius: 5px;
+  right: 0px;
+  z-index: 2;
+  border: none;
+  top: 2px;
+  height: 35px;
+  width: 20%;
+  cursor: pointer;
+  color: white;
+  background-color: #1e90ff;
+  transform: translateX(2px);
+}
+
+.buttonIn {
+  width: 390px;
+  position: relative;
+  margin-left: 20px;
+}
+.wrapper {
+  margin-left: 20%;
+}
+.recaptcha {
+  width: 450px;
+  margin: 10px 30px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

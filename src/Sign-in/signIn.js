@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material";
-import { tokens } from "../theme";
-import { useNavigate } from "react-router-dom";
-import OAuth2SignIn from "./oauth2-signin";
+import React, { useState } from "react"
+import axios from "axios"
+import { toast } from "react-toastify"
+import { Box, Button, TextField, InputLabel, useTheme } from "@mui/material"
+import { tokens } from "../theme"
+import { useNavigate } from "react-router-dom"
+import OAuth2SignIn from "./oauth2-signin"
 //import "./signin.css";
 
 const SignIn = () => {
-  const navigate = useNavigate();
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate()
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
 
   /* Styles for mui components */
   let muiButtonStyle = {
@@ -19,51 +19,51 @@ const SignIn = () => {
     fontSize: "14px",
     fontWeight: "bold",
     padding: "10px 20px",
-  };
+  }
 
   const handleLogin = () => {
     // open Authorization-URL from OAuth2-Provider
-    window.location.href = "AUTHORIZATION_URL";
+    window.location.href = "AUTHORIZATION_URL"
     //example: const authorizationUrl = `AUTHORIZATION_ENDPOINT?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${SCOPE}`;
-  };
+  }
   const [values, setValues] = useState({
     email: "",
     password: "",
-  });
+  })
 
-  const { email, password } = values;
+  const { email, password } = values
 
   const handleChange = (name) => (e) => {
     // console.log(e.target.value);
-    setValues({ ...values, [name]: e.target.value });
-  };
+    setValues({ ...values, [name]: e.target.value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       const { data } = await axios.post("/api/signin", {
         email,
         password,
-      });
+      })
 
       //console.log(data);
 
       if (data.success === true) {
-        setValues({ email: "", password: "" });
-        toast.success("Log In successfully");
-        localStorage.setItem("token", JSON.stringify(data));
+        setValues({ email: "", password: "" })
+        toast.success("Log In successfully")
+        localStorage.setItem("token", JSON.stringify(data))
         if (typeof window !== "undefined") {
           //setTimeout(() => {
-          navigate("/");
-          window.location.reload(); // other solution
+          navigate("/")
+          window.location.reload() // other solution
           //}, 2000);
         }
       }
     } catch (err) {
-      console.log(err.response.data.error);
-      toast.error(err.response.data.error);
+      console.log(err.response.data.error)
+      toast.error(err.response.data.error)
     }
-  };
+  }
   return (
     <Box m="20px">
       <div>
@@ -100,17 +100,17 @@ const SignIn = () => {
           <p>OR</p>
         </div>
         <div>
-        {/*   <Button sx={muiButtonStyle} onClick={handleLogin}>
+          {/*   <Button sx={muiButtonStyle} onClick={handleLogin}>
             Log in with HRZ account
           </Button> */}
           <OAuth2SignIn />
         </div>
       </div>
     </Box>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn
 
 /*
 <div>
