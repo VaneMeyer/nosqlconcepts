@@ -421,7 +421,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
         explanation containing the following information: Whether you think that
         the task is solvable with the current system at all, and why? If you
         think that is solvable with more time: which approach, would you try out
-        next?"
+        next? - Please also have a look at known issues regarding query execution (open menu -> Information)."
               />
             </Item>
           </Grid>
