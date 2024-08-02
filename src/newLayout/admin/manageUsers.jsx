@@ -14,10 +14,25 @@ import {
   Select,
   MenuItem,
   Button,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
+import {
+  Add as AddIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+} from "@mui/icons-material";
 import { fetchUserData, fetchAreaNames } from "../api/mainApi";
 import { Grid } from "@mui/material";
-import { fetchUserNames } from "../api/adminApi";
+import {
+  deleteAllUserData,
+  deleteUserData,
+  fetchUserNames,
+} from "../api/adminApi";
 import AdminUserInterface from "../student_projects/project5_ss24/AdminUserInterface";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -36,9 +51,12 @@ function ManageUsers() {
   const [selectedOption, setSelectedOption] = useState("");
   const [username, setUsername] = useState("");
   const [userArray, setUserArray] = useState([]);
+  const [actionType, setActionType] = useState("");
+  const [openFormDialog, setOpenFormDialog] = useState(false);
+  const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+  const [selectedUserData, setSelectedUserData] = useState(null);
 
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
         const data = await fetchUserNames();
@@ -89,6 +107,40 @@ function ManageUsers() {
     }
   };
 
+  const handleConfirmationDialogClose = () => {
+    setConfirmationDialogOpen(false);
+  };
+
+  const handleDelete = (userdata) => {
+    setActionType("delete");
+    setSelectedUserData(userdata);
+    setConfirmationDialogOpen(true);
+  };
+  const handleDeleteAll = (username) => {
+    setActionType("deleteAll");
+    setSelectedUserData(username);
+    setConfirmationDialogOpen(true);
+  };
+  const handleConfirmation = async () => {
+    try {
+      if (actionType === "delete") {
+        await deleteUserData(selectedUserData);
+      } else if (actionType === "deleteAll") {
+        await deleteAllUserData(username);
+      }
+      handleClick();
+    } catch (error) {
+      console.error("Error:", error);
+      if (actionType === "delete") {
+        alert("Failed to delete user data. ");
+      } else if (actionType === "deleteAll") {
+        alert("Failed to delete user data. ");
+      }
+    }
+    setConfirmationDialogOpen(false);
+    /* setOpenFormDialog(false); */
+  };
+
   if (loading) {
     return <Typography>Loading...</Typography>;
   }
@@ -101,15 +153,20 @@ function ManageUsers() {
     <Container>
       {/*  <h1>Manage Users</h1> */}
       <Typography
-                variant="h4"
-                style={{ textAlign: "center", marginBottom: "20px" }}
-              >
-              Admin User Management Interface
-              </Typography>
+        variant="h4"
+        style={{ textAlign: "center", marginBottom: "20px" }}
+      >
+        Admin User Management Interface
+      </Typography>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <Item>
+          <Grid item xs={12} md={12}>
+            <Item
+              sx={{
+                maxHeight: "400px",
+                overflowY: "auto",
+              }}
+            >
               {" "}
               <AdminUserInterface />{" "}
             </Item>
@@ -117,8 +174,13 @@ function ManageUsers() {
           {/*  <Grid item xs={12} md={6}>
             <Item>Add New User</Item>
           </Grid> */}
-          <Grid item xs={12} md={6}>
-            <Item>
+          <Grid item xs={12} md={12}>
+            <Item
+              sx={{
+                maxHeight: "500px",
+                overflowY: "auto",
+              }}
+            >
               <Typography
                 variant="h4"
                 style={{ textAlign: "center", marginBottom: "20px" }}
@@ -172,8 +234,11 @@ function ManageUsers() {
                 </Select>
               </Box>
               {username && selectedOption && (
-                <Button onClick={handleClick}>Get Data</Button>
+                <Box>
+                  <Button onClick={handleClick}>Get Data</Button>
+                </Box>
               )}
+
               {userData && (
                 <TableContainer component={Paper}>
                   <Table aria-label="My Data Table">
@@ -187,6 +252,7 @@ function ManageUsers() {
                         <TableCell align="center">Partial Solution</TableCell>
                         <TableCell align="center">Difficulty Level</TableCell>
                         <TableCell align="center">Processing Time</TableCell>
+                        <TableCell align="center">Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -210,13 +276,52 @@ function ManageUsers() {
                           <TableCell align="center">
                             {(row.processing_time / 60).toFixed(0)} minutes
                           </TableCell>
+                          <TableCell>
+                            <IconButton
+                              color="secondary"
+                              onClick={() => handleDelete(row)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </TableContainer>
               )}
+              {username && (
+                <Box>
+                  <hr></hr>
+                  <Typography variant="h3">Delete User Data</Typography>
+                    <IconButton
+                  color="secondary"
+                  onClick={() => handleDeleteAll(username)}
+                >
+                  <DeleteIcon />
+                  Delete ALL data of this user - All Areas and History
+                </IconButton>
+                </Box>
+              
+              )}
             </Item>
+            <Dialog
+              open={confirmationDialogOpen}
+              onClose={handleConfirmationDialogClose}
+            >
+              <DialogTitle>Confirmation</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to {actionType} this user data?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleConfirmationDialogClose}>Cancel</Button>
+                <Button onClick={handleConfirmation} color="error">
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
         </Grid>
       </Box>
