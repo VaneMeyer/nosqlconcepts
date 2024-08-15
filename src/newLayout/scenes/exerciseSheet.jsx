@@ -25,8 +25,11 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import DownloadIcon from "@mui/icons-material/Download";
 import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-noconflict/mode-sql"; // SQL-Syntax-Highlighting
+import "../../public/custom_ace_files/mode-cql";
+import "../../public/custom_ace_files/mode-cypher";
+import "../../public/custom_ace_files/mode-mongodb";
+import "../../public/custom_ace_files/mode-pgsql";
+import "../../public/custom_ace_files/theme-goethe";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import ImportantMsg from "../old_components/importantMsg";
 /* import OptTimer from "../old_components/optTimer"; */
@@ -403,6 +406,19 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
     }
     return <SaveIcon />;
   };
+
+  const getSyntaxHighlightingMode = () => {
+    if (endpoint === "Cassandra") {
+      return "cql";
+    }
+    if (endpoint === "Neo4J") {
+      return "cypher";
+    }
+    if (endpoint === "MongoDB") {
+      return "mongodb";
+    }
+    return "pgsql"
+  }
  
   return (
     <Container>
@@ -511,7 +527,8 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
                       <AceEditor
                         id="query-input-label"
                         name="query"
-                        mode="sql"
+                        theme="goethe"
+                        mode={getSyntaxHighlightingMode()}
                         onChange={handleEditorChange}
                         value={formData.query_text}
                         editorProps={{ $blockScrolling: true }}
