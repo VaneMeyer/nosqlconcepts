@@ -27,6 +27,11 @@ import DownloadIcon from "@mui/icons-material/Download";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-sql"; // SQL-Syntax-Highlighting
+//import "../../custom_ace_files/mode-cql";
+import "../../custom_ace_files/mode-cypher";
+import "../../custom_ace_files/mode-mongodb";
+import "../../custom_ace_files/mode-pgsql";
+import "../../custom_ace_files/theme-goethe";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import ImportantMsg from "../old_components/importantMsg";
 /* import OptTimer from "../old_components/optTimer"; */
@@ -289,6 +294,22 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
   };
   //###########
   useEffect(() => {
+    if (endpoint === "Cassandra") {
+      setSyntaxMode("pgsql"); //Todo error handling cql-mode
+      
+    }
+    if (endpoint === "Neo4J") {
+      setSyntaxMode("cypher");
+     
+    }
+    if (endpoint === "MongoDB") {
+      setSyntaxMode("mongodb");
+      
+    }
+    if (endpoint === "PostgreSQL") {
+      setSyntaxMode("pgsql");
+      
+    }
     
     const fetchUser = async () => {
       const user = await checkAuth();
@@ -511,7 +532,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
                       <AceEditor
                         id="query-input-label"
                         name="query"
-                        mode="sql"
+                        mode={syntaxMode}
                         onChange={handleEditorChange}
                         value={formData.query_text}
                         editorProps={{ $blockScrolling: true }}
