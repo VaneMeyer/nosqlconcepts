@@ -32,8 +32,11 @@ import {
   deleteAllUserData,
   deleteUserData,
   fetchUserNames,
+  fetchUserTaskData,
+  fetchHistoryData,
 } from "../api/adminApi";
 import AdminUserInterface from "../student_projects/project5_ss24/AdminUserInterface";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundCoor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -45,6 +48,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 function ManageUsers() {
   const [userData, setUserData] = useState(null);
+  const [allUserTaskData, setAllUserTaskData] = useState(null);
+  const [allHistoryData, setAllHistoryData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [databaseOptions, setDatabaseOptions] = useState([]);
@@ -64,6 +69,10 @@ function ManageUsers() {
         setUserArray(data);
         const names = await fetchAreaNames();
         setDatabaseOptions(names);
+        const alluserdata = await fetchUserTaskData();
+        setAllUserTaskData(alluserdata);
+        const allhistorydata = await fetchHistoryData();
+        setAllHistoryData(allhistorydata);
       } catch (error) {
         console.error("Error fetching user data:", error);
         setError("Error fetching user data. Please try again later.");
@@ -139,6 +148,39 @@ function ManageUsers() {
     }
     setConfirmationDialogOpen(false);
     /* setOpenFormDialog(false); */
+  };
+
+  const convertToCSV = (objArray) => {
+    const array = [Object.keys(objArray[0])].concat(objArray);
+
+    return array.map(row => {
+        return Object.values(row).toString();
+    }).join('\n');
+};
+
+  const handleDownloadUserData = () => {
+    
+    const csv = convertToCSV(allUserTaskData);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.setAttribute('download', 'user_task_data.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+  };
+  const handleDownloadHistoryData = () => {
+    
+    const csv = convertToCSV(allHistoryData);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.setAttribute('download', 'history_data.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
   };
 
   if (loading) {
@@ -294,15 +336,14 @@ function ManageUsers() {
                 <Box>
                   <hr></hr>
                   <Typography variant="h3">Delete User Data</Typography>
-                    <IconButton
-                  color="secondary"
-                  onClick={() => handleDeleteAll(username)}
-                >
-                  <DeleteIcon />
-                  Delete ALL data of this user - All Areas and History
-                </IconButton>
+                  <IconButton
+                    color="secondary"
+                    onClick={() => handleDeleteAll(username)}
+                  >
+                    <DeleteIcon />
+                    Delete ALL data of this user - All Areas and History
+                  </IconButton>
                 </Box>
-              
               )}
             </Item>
             <Dialog
@@ -324,6 +365,20 @@ function ManageUsers() {
             </Dialog>
           </Grid>
         </Grid>
+      </Box>
+      <Box>
+        <Typography>
+          Download all user_task_data as csv for further analysis
+        </Typography>
+        <Button onClick={handleDownloadUserData}>
+          Download <DownloadIcon></DownloadIcon>
+        </Button>
+        <Typography>
+          Download all history data as csv for further analysis
+        </Typography>
+        <Button onClick={handleDownloadHistoryData}>
+          Download <DownloadIcon></DownloadIcon>
+        </Button>
       </Box>
     </Container>
   );

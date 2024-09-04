@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
+import DownloadIcon from "@mui/icons-material/Download";
 import {
   fetchUserTaskChartData,
   fetchUserTimeChartData,
@@ -8,6 +9,7 @@ import {
 } from "../api/chartsApi";
 import { fetchAreaNames } from "../api/mainApi";
 import { checkAuth } from "../api/loginApi";
+import { Button } from "@mui/material";
 
 export default function BarChartC({ isUser, isTimeChart }) {
   const [chartData, setChartData] = useState([]);
@@ -87,6 +89,39 @@ export default function BarChartC({ isUser, isTimeChart }) {
     }));
   };
 
+  const exportToCSV = () => {
+    const csvRows = [];
+
+    // Add headers
+    if (isTimeChart) {
+      csvRows.push("Area Name,Avg Value (minutes)");
+    } else {
+      csvRows.push("Area Name,Started Tasks,Executable Tasks,Correct Tasks");
+    }
+
+    // Add data
+    chartData.forEach((item) => {
+      const areaName = areaIdToName[item.task_area_id];
+      if (isTimeChart) {
+        csvRows.push(`${areaName},${item.avg_value}`);
+      } else {
+        csvRows.push(
+          `${areaName},${item.started_tasks_count},${item.executable_tasks_count},${item.correct_tasks_count}`
+        );
+      }
+    });
+
+    // Create and download the CSV file
+    const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "chart_data.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -134,6 +169,7 @@ export default function BarChartC({ isUser, isTimeChart }) {
         width={500}
         height={300}
       />
+      <Button onClick={exportToCSV}>Download CSV <DownloadIcon></DownloadIcon></Button>
     </div>
   );
 }

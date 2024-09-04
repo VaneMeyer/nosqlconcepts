@@ -4,6 +4,7 @@ ATTENTION: If this code is to be implemented in the main tool, please note the f
 2. Replace the User Selection Bar with the Logged in User delete the header "taskleiste" */
 
 import React, { useState, useEffect } from "react";
+import DownloadIcon from "@mui/icons-material/Download";
 import {
   ThemeProvider,
   FormControl,
@@ -150,6 +151,66 @@ function AppProject() {
     getTaskData(event.target.value);
   };
 
+  // CSV download function
+  const downloadCSV = (data, filename) => {
+    const csvContent =
+      "data:text/csv;charset=utf-8," + data.map((e) => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+  };
+
+  const downloadTaskData = () => {
+    const csvData = [
+      ["Time ranges in minutes", "Frequency"],
+      ["below 30min", timedata[0].data[0]],
+      ["30-60min", timedata[0].data[1]],
+      ["60-90min", timedata[0].data[2]],
+      ["over 90min", timedata[0].data[3]],
+    ];
+    downloadCSV(csvData, "task_data.csv");
+  };
+
+  const downloadAreaData = () => {
+    const csvData = [
+      ["Time ranges in minutes", "Frequency"],
+      ["below 30min", areatimedata[0].data[0]],
+      ["30-60min", areatimedata[0].data[1]],
+      ["60-90min", areatimedata[0].data[2]],
+      ["over 90min", areatimedata[0].data[3]],
+    ];
+    downloadCSV(csvData, "area_data.csv");
+  };
+  // CSV download function for Task Difficulty Data
+  const downloadTaskDifficultyData = () => {
+    const csvData = [
+      ["Difficulty Level", "Frequency"],
+      ["Very Easy", difdata[0].data[0]],
+      ["Easy", difdata[0].data[1]],
+      ["Moderate", difdata[0].data[2]],
+      ["Hard", difdata[0].data[3]],
+      ["Very Hard", difdata[0].data[4]],
+    ];
+    downloadCSV(csvData, "task_difficulty_data.csv");
+  };
+
+  // CSV download function for Area Difficulty Data
+  const downloadAreaDifficultyData = () => {
+    const csvData = [
+      ["Difficulty Level", "Frequency"],
+      ["Very Easy", areadifdata[0].data[0]],
+      ["Easy", areadifdata[0].data[1]],
+      ["Moderate", areadifdata[0].data[2]],
+      ["Hard", areadifdata[0].data[3]],
+      ["Very Hard", areadifdata[0].data[4]],
+    ];
+    downloadCSV(csvData, "area_difficulty_data.csv");
+  };
+
   /*In this part the filtered arrays are defined, all 4 Postgresql tables are available as arrays and are filtered here accordingly,
    e.g. to save only the time values in an array */
 
@@ -292,6 +353,12 @@ function AppProject() {
                 width={500}
                 height={300}
               />
+              <Button
+                onClick={downloadTaskData}
+                
+              >
+                Download  CSV <DownloadIcon></DownloadIcon>
+              </Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -329,6 +396,12 @@ function AppProject() {
                 width={500}
                 height={300}
               />
+              <Button
+                onClick={downloadTaskDifficultyData}
+              
+              >
+                Download CSV <DownloadIcon></DownloadIcon>
+              </Button>
             </Box>
           </Grid>
         </>
@@ -391,6 +464,12 @@ function AppProject() {
                 width={500}
                 height={300}
               />
+              <Button
+                onClick={downloadAreaData}
+            
+              >
+                Download CSV <DownloadIcon></DownloadIcon>
+              </Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -428,6 +507,12 @@ function AppProject() {
                 width={500}
                 height={300}
               />
+              <Button
+                onClick={downloadAreaDifficultyData}
+            
+              >
+                Download CSV <DownloadIcon></DownloadIcon>
+              </Button>
             </Box>
           </Grid>
         </>

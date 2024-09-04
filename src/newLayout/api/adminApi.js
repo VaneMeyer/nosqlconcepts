@@ -147,3 +147,22 @@ export const deleteAllUserData = async (username) => {
     throw error;
   }
 };
+
+export const fetchUserTaskData = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/getUserTaskData`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching area names:", error);
+    throw error;
+  }
+};
+export const fetchHistoryData = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/getHistoryData`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching area names:", error);
+    throw error;
+  }
+};

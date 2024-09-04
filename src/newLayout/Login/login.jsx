@@ -11,8 +11,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useNavigate } from 'react-router-dom';
-import { handleLogin } from '../api/loginApi';
+import { useNavigate } from "react-router-dom";
+import { handleLogin } from "../api/loginApi";
 
 function Copyright(props) {
   return (
@@ -33,14 +33,14 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [role, setRole] = useState('');
-  const [user, setUser] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [role, setRole] = useState("");
+  const [user, setUser] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-
+  const [isChecked, setIsChecked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -66,23 +66,39 @@ export default function SignIn() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'username') {
+    if (name === "username") {
       setUsername(value);
-    } else if (name === 'password') {
+    } else if (name === "password") {
       setPassword(value);
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleLogin(username, password, setIsLoggedIn, setUser, setRole, navigate, setErrorMessage);
-    if (rememberMe) {
-      localStorage.setItem("rememberedUsername", username);
-      localStorage.setItem("rememberedPassword", password);
+    if (isChecked) {
+      handleLogin(
+        username,
+        password,
+        setIsLoggedIn,
+        setUser,
+        setRole,
+        navigate,
+        setErrorMessage
+      );
+      if (rememberMe) {
+        localStorage.setItem("rememberedUsername", username);
+        localStorage.setItem("rememberedPassword", password);
+      } else {
+        localStorage.removeItem("rememberedUsername");
+        localStorage.removeItem("rememberedPassword");
+      }
     } else {
-      localStorage.removeItem("rememberedUsername");
-      localStorage.removeItem("rememberedPassword");
+     // alert("Please accept the terms and conditions before logging in.");
     }
+  };
+
+  const openTermsAndConditions = () => {
+    window.open("/conditions", "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -138,11 +154,35 @@ export default function SignIn() {
                 onChange={handleChangeRememberMe}
               />
             }
-
             label="Remember me"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isChecked}
+                onChange={() => setIsChecked(!isChecked)}
+                color="primary"
+                aria-required="true"
+              />
+            }
+            label={
+              <Typography variant="body2">
+                I agree to the{" "}
+                <Link
+                  component="button"
+                  variant="body2"
+                  onClick={openTermsAndConditions}
+                  underline="hover"
+                >
+                  terms and conditions
+                </Link>{" "}
+                regarding the use of cookies and data collection.
+              </Typography>
+            }
           />
           <Button
             type="submit"
+            disabled={!isChecked}
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}

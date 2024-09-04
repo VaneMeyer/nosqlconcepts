@@ -20,6 +20,7 @@ import { fetchAssignments } from "./api/adminApi";
 import { checkAuth } from "./api/loginApi.js";
 import DownloadButton from "./components/downloadButton";
 import TutorialAndQuiz from "./scenes/tutorial.jsx";
+import Conditions from "./components/conditions.jsx";
 
 const PrivateRoute = ({ element }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -109,6 +110,7 @@ const AppRoutes = ({ assignments }) => {
       element: <PrivateRoute element={<DownloadButton />} />,
     },
     { path: "/sign-in", element: <SignIn /> },
+    { path: "/conditions", element: <Conditions /> },
     { path: "*", element: <Navigate to="/" /> },
     /* { path: "/test", element: <TutorialAndQuiz /> }, */
   ];
