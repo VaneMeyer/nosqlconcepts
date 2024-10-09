@@ -34,6 +34,7 @@ import "../../custom_ace_files/mode-pgsql";
 import "../../custom_ace_files/theme-goethe";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import ImportantMsg from "../old_components/importantMsg";
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 /* import OptTimer from "../old_components/optTimer"; */
 import OptTimer from "../components/timer";
 import ResultGraph from "../old_components/ResultGraph";
@@ -436,13 +437,13 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
               Information{" "}
               <ImportantMsg
                 type="info"
-                message="Please do not work longer than the specified time on a task! If you
+                message={ <div><PriorityHighIcon></PriorityHighIcon>{" "}{`Please do not work longer than the specified time on a task! If you
         think that you will not be able to finish the task in the given maximum
         time, stop working on it 15 minutes before the end, and provide an
         explanation containing the following information: Whether you think that
         the task is solvable with the current system at all, and why? If you
         think that is solvable with more time: which approach, would you try out
-        next? - Please also have a look at known issues regarding query execution (open menu -> Information)."
+        next? - Please also have a look at known issues regarding query execution (open menu -> Information)`}</div>}
               />
             </Item>
           </Grid>
@@ -549,7 +550,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
                       />}
                       {queryResult && (
                         <ImportantMsg
-                          message="Query was executed successfully!"
+                          message={<div><CheckIcon></CheckIcon> {" "} Query was executed successfully!</div>}
                           type="success"
                         />
                       )}
@@ -569,7 +570,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
                           title={area_name}
                         />
                       )}
-                      {error && <ImportantMsg message={error} type="error" />}
+                      {error && <ImportantMsg message={<div><ErrorIcon></ErrorIcon>{" "}{error}</div>} type="error" />}
                       <Box
                         sx={{
                           padding: "10px",

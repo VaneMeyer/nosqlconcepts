@@ -11,7 +11,7 @@ function InformationC() {
         </Typography>
         <Typography variant="body1" paragraph>
           This React application is being developed as part of the DigiTeLL project "NoSQLconcepts". 
-          Currently, this is a work in progress. If you encounter any issues, please feel free to report them to us.
+          Currently, this is a work in progress. If you encounter any issues, please feel free to report them to <b>v.meyer@em.uni-frankfurt.de</b>.
         </Typography>
         <Alert severity="info" sx={{ marginBottom: 2 }}>
           Note: The database drivers used for executing queries include pg for PostgreSQL, cassandra-driver for Cassandra, 

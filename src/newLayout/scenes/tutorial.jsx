@@ -1,4 +1,190 @@
-import React, { useState } from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+import { Box, Tabs, Tab, Typography, Container } from "@mui/material";
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+// Accessibility-friendly a11yProps function
+function a11yProps(index) {
+  return {
+    id: `tab-${index}`,
+    "aria-controls": `tabpanel-${index}`,
+  };
+}
+
+export default function DatabaseTutorials() {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Container>
+      <Box sx={{ width: "100%" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="Database Tutorials Tabs"
+        >
+          <Tab label="PostgreSQL" {...a11yProps(0)} />
+          <Tab label="Cassandra" {...a11yProps(1)} />
+          <Tab label="Neo4J" {...a11yProps(2)} />
+          <Tab label="MongoDB" {...a11yProps(3)} />
+        </Tabs>
+
+        <TabPanel value={value} index={0}>
+          <Typography variant="h5">PostgreSQL Tutorial</Typography>
+          <Typography paragraph>
+            PostgreSQL is a powerful, open-source object-relational database
+            system with a strong reputation for reliability, feature robustness,
+            and performance. Here is a detailed tutorial to get started with
+            PostgreSQL:
+          </Typography>
+          <ul>
+            <li>Installation and Setup</li>
+            <li>Basic SQL Commands</li>
+            <li>Data Types and Constraints</li>
+            <li>Indexes and Performance Optimization</li>
+            <li>Advanced Features (JSON, Full-text Search, etc.)</li>
+            <li>Backup and Restore</li>
+          </ul>
+        </TabPanel>
+
+        <TabPanel value={value} index={1}>
+          <Typography variant="h5">Cassandra Tutorial</Typography>
+          <Typography paragraph>
+            Apache Cassandra is a highly scalable, distributed NoSQL database
+            designed to handle large amounts of data across many commodity
+            servers, providing high availability with no single point of
+            failure. Here's an in-depth tutorial on working with Cassandra:
+          </Typography>
+          {/*  <ul>
+          <li>Understanding Cassandra's Architecture</li>
+          <li>Setting up a Cassandra Cluster</li>
+          <li>Introduction to CQL (Cassandra Query Language)</li>
+          <li>Data Modeling Best Practices</li>
+          <li>Managing Replication and Consistency</li>
+          <li>Troubleshooting and Monitoring</li>
+        </ul> */}
+          <Typography variant="h5">Introduction to CQL</Typography>
+          <Typography paragraph>
+            CQL (Cassandra Query Language) is the primary language for creating
+            and querying data in Apache Cassandra. CQL is similar to SQL, but is
+            tailored to the special requirements of Cassandra as a distributed
+            NoSQL database.
+          </Typography>
+          <Typography variant="h5">Basic Concepts</Typography>
+          <Typography variant="h6">Keyspaces</Typography>
+          <Typography paragraph>
+            A keyspace is the highest logical container object in Cassandra. It
+            corresponds roughly to a database in a relational database
+            management system (RDBMS). A keyspace contains one or more tables.
+          </Typography>
+          <hr></hr>
+          <Typography paragraph>
+            Syntax for creating a keyspace: <br></br>
+            {`CREATE KEYSPACE my_keyspace
+WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};`}
+          </Typography>
+          <hr></hr>
+          <ul>
+            <li>
+              SimpleStrategy: A simple replication strategy that is suitable for
+              single DC setups.
+            </li>
+            <li>
+              replication_factor: Number of replicas that are distributed across
+              the cluster.
+            </li>
+          </ul>
+          <Typography variant="h6">Tables</Typography>
+          <Typography paragraph>
+            A table (also known as a column family) contains rows of data
+            organised in columns. Each table must have a primary key consisting
+            of one or more fields.
+          </Typography>
+          <hr></hr>
+          <Typography paragraph>
+            Syntax for creating a table: <br></br>
+            {`CREATE TABLE users (
+    user_id UUID PRIMARY KEY,
+    name TEXT,
+    age INT,
+    email TEXT
+);
+`}
+          </Typography>
+          <hr></hr>
+          <ul>
+            <li>user_id is the primary key that uniquely identifies the rows in the table.</li>
+          </ul>
+          
+        </TabPanel>
+
+        <TabPanel value={value} index={2}>
+          <Typography variant="h5">Neo4J Tutorial</Typography>
+          <Typography paragraph>
+            Neo4J is a leading graph database management system, optimized for
+            storing and querying graph-like structures efficiently. This
+            tutorial will help you master Neo4J:
+          </Typography>
+          <ul>
+            <li>Introduction to Graph Databases and Neo4J</li>
+            <li>Installing and Configuring Neo4J</li>
+            <li>Basic CRUD Operations with Cypher Query Language</li>
+            <li>Graph Data Modeling Techniques</li>
+            <li>Advanced Cypher Queries</li>
+            <li>Performance Tuning and Scaling Neo4J</li>
+          </ul>
+        </TabPanel>
+
+        <TabPanel value={value} index={3}>
+          <Typography variant="h5">MongoDB Tutorial</Typography>
+          <Typography paragraph>
+            MongoDB is a popular, open-source, NoSQL database known for its high
+            performance, flexibility, and scalability. Here is a comprehensive
+            tutorial on MongoDB:
+          </Typography>
+          <ul>
+            <li>Introduction to MongoDB and NoSQL</li>
+            <li>Installing MongoDB and Setting up a Database</li>
+            <li>CRUD Operations and Data Modeling</li>
+            <li>Indexes and Aggregation Framework</li>
+            <li>Replication and Sharding</li>
+            <li>Backup, Restore, and Security Best Practices</li>
+          </ul>
+        </TabPanel>
+      </Box>
+    </Container>
+  );
+}
+
+/* import React, { useState } from 'react';
 import {
   Container,
   Typography,
@@ -226,3 +412,4 @@ const TutorialAndQuiz = () => {
 };
 
 export default TutorialAndQuiz;
+ */
