@@ -21,6 +21,7 @@ import { checkAuth } from "./api/loginApi.js";
 import DownloadButton from "./components/downloadButton";
 import TutorialAndQuiz from "./scenes/tutorial.jsx";
 import Conditions from "./components/conditions.jsx";
+import DatabaseTutorials from "./scenes/tutorial.jsx";
 
 const PrivateRoute = ({ element }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -111,6 +112,7 @@ const AppRoutes = ({ assignments }) => {
     },
     { path: "/sign-in", element: <SignIn /> },
     { path: "/conditions", element: <Conditions /> },
+    { path: "/tutorial", element: <DatabaseTutorials /> },
     { path: "*", element: <Navigate to="/" /> },
     /* { path: "/test", element: <TutorialAndQuiz /> }, */
   ];
@@ -166,6 +168,8 @@ function AppNewLayout() {
 
     loadAssignments();
     verifyAuth();
+    
+   
   }, []);
 
   return (
