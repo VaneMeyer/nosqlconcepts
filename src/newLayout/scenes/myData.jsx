@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Box, Select, MenuItem } from "@mui/material";
 import { fetchUserData, fetchAreaNames } from "../api/mainApi";
-import { checkAuth } from "../api/loginApi";
+//import { checkAuth } from "../api/loginApi";
+import { useAuth } from '../App';
 
 const MyData = () => {
+  const { username } = useAuth();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [databaseOptions, setDatabaseOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState("");
    
   useEffect(() => {
-    const fetchUser = async () => {
+   /*  const fetchUser = async () => {
       const user = await checkAuth();
       if (user) {
         setUsername(user.username); 
       }
     };
 
-    fetchUser();
+    fetchUser(); */
  const fetchData = async () => {
       try {
      

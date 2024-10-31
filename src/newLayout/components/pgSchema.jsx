@@ -149,7 +149,7 @@ const PgDatabaseSchema = () => {
                 <TableRow>
                   <TableCell>message_from</TableCell>
                   <TableCell>varchar(20)</TableCell>
-                  <TableCell>person(id)</TableCell>
+                  <TableCell>person(email_address)</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>message_subject</TableCell>

@@ -10,14 +10,16 @@ import { Button, Container } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useLocation, Link } from "react-router-dom";
 import ImportantMsg from "../old_components/importantMsg";
-import { checkAuth } from "../api/loginApi";
+//import { checkAuth } from "../api/loginApi";
+import { useAuth } from "../App";
 
 export default function DownloadButton() {
+  const { username } = useAuth();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const title = queryParams.get("title");
   const areaId = queryParams.get("areaId");
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState("");
   const [tasksArray, setTasksArray] = useState([]);
   const [data, setData] = useState({
     taskNumber: 0,
@@ -45,15 +47,15 @@ export default function DownloadButton() {
  
   //#################  useEffect Function ######################################################
   useEffect(() => {
-    const fetchUser = async () => {
-      const user = await checkAuth();
-      if (user) {
-        setUsername(user.username); 
-        getDataFromDB(user.username);
+     const fetchUser = async () => {
+      
+      if (username) {
+        
+        getDataFromDB(username);
       }
     };
 
-    fetchUser();
+    fetchUser(); 
     
   }, []);
 

@@ -7,7 +7,8 @@ import Tooltip from "@mui/material/Tooltip";
 import Container from "@mui/material/Container";
 import { Box, Typography, Select, MenuItem } from "@mui/material";
 import { fetchAreaNames, fetchHistoryData } from "../api/mainApi";
-import { checkAuth } from "../api/loginApi";
+//import { checkAuth } from "../api/loginApi";
+import { useAuth } from '../App';
 
 const HistoryTable = ({ data }) => {
   if (!data || data.length === 0) {
@@ -83,12 +84,13 @@ const HistoryTable = ({ data }) => {
 };
 
 const History = () => {
+  const { username } = useAuth();
   const [selectedOption, setSelectedOption] = useState("");
 
   const [historyData, setHistoryData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [databaseOptions, setDatabaseOptions] = useState([]);
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,14 +101,14 @@ const History = () => {
         console.error("Error fetching database names:", error);
       }
     };
-    const fetchUser = async () => {
+    /* const fetchUser = async () => {
       const user = await checkAuth();
       if (user) {
         setUsername(user.username); 
       }
     };
 
-    fetchUser();
+    fetchUser(); */
 
     fetchData();
   }, []);

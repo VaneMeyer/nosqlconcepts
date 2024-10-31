@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -49,6 +49,7 @@ import DbAccordion from "../components/dbAccordion";
 import { sendToExecute } from "../api/queryApi";
 import DownloadButton from "../components/downloadButton";
 import { checkAuth } from "../api/loginApi";
+import { useAuth } from '../App.js';
 import { CheckBox } from "@mui/icons-material";
 import PgDatabaseSchema from "../components/pgSchema";
 import CasDataModelTable from "../components/cassandraSchema";
@@ -63,6 +64,7 @@ const Item = styled(Paper)(({ theme }) => ({
   overflow: "auto",
 }));
 function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
+  const { username } = useAuth();
   const navigate = useNavigate();
   const [task, setTask] = useState("");
   const [isRunning, setIsRunning] = useState(false);
@@ -70,7 +72,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
   const [taskNumber, setTaskNumber] = useState(1);
   const [tasksArray, setTasksArray] = useState([]);
   const [buttonState, setButtonState] = useState("idle");
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState("");
   const [formData, setFormData] = useState({
     query_text: "",
     isExecutable: "No",
@@ -313,12 +315,17 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
     }
     
     const fetchUser = async () => {
-      const user = await checkAuth();
+     /*  const user = await checkAuth();
       if (user) {
         setUsername(user.username);
         getTasks(area_id);
         getDataFromDB(taskNumber, user.username);
-      }
+      } */
+     if(username) {
+     
+        getTasks(area_id);
+        getDataFromDB(taskNumber, username);
+     }
     };
 
     fetchUser();
@@ -377,13 +384,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
     updateTaskAndFormData(value);
   };
 
-  const handleFinish = () => {
-    sendDataToDb();
-    setIsSaved(false);
 
-    const dataToSend = { title: area_name, areaId: area_id };
-    navigate(`/download?title=${dataToSend.title}`);
-  };
   const handleDownload = () => {
     sendDataToDb();
     setIsSaved(false);
@@ -683,7 +684,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
                         )}{" "}
                         <Button
                           aria-label="Save current entries and navigate to download page"
-                          onClick={handleFinish}
+                          onClick={handleDownload}
                         >
                           finish <NavigateNextIcon></NavigateNextIcon>
                         </Button>

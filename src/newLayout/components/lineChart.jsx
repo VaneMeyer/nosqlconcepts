@@ -7,14 +7,16 @@ import { Box, CircularProgress } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { fetchLineChartData } from "../api/chartsApi";
 import { format } from "date-fns";
-import { checkAuth } from "../api/loginApi";
+//import { checkAuth } from "../api/loginApi";
+import { useAuth } from "../App";
 
 export default function LineChartC() {
+  const { username } = useAuth();
   const [limit, setLimit] = useState(7);
   const [loading, setLoading] = useState(true);
   const [xAxisData, setXAxisData] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState("");
   
 
   const fetchData = async (username) => {
@@ -46,10 +48,10 @@ export default function LineChartC() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const user = await checkAuth();
-      if (user) {
-        setUsername(user.username); 
-         fetchData(user.username);
+      //const user = await checkAuth();
+      if (username) {
+        //setUsername(user.username); 
+         fetchData(username);
       }
     };
 

@@ -8,25 +8,27 @@ import {
   fetchTimeChartData,
 } from "../api/chartsApi";
 import { fetchAreaNames } from "../api/mainApi";
-import { checkAuth } from "../api/loginApi";
+//import { checkAuth } from "../api/loginApi";
+import { useAuth } from '../App';
 import { Button } from "@mui/material";
 
 export default function BarChartC({ isUser, isTimeChart }) {
+  const { username } = useAuth();
   const [chartData, setChartData] = useState([]);
   const [xAxisData, setXAxisData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState("");
 
 
   useEffect(() => {
-    const fetchUser = async () => {
+  /*   const fetchUser = async () => {
       const user = await checkAuth();
       if (user) {
         setUsername(user.username); 
       }
     };
 
-    fetchUser();
+    fetchUser(); */
     const fetchData = async () => {
       try {
         let data;

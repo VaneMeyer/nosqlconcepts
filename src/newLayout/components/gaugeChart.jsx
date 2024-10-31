@@ -3,10 +3,12 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { fetchDownloadData, fetchTasksData } from "../api/mainApi";
-import { checkAuth } from "../api/loginApi";
+//import { checkAuth } from "../api/loginApi";
+import { useAuth } from "../App";
 
 export default function GaugeChartC({ areaId }) {
-  const [username, setUsername] = useState("");
+  const { username } = useAuth();
+  //const [username, setUsername] = useState("");
   const [tasksArray, setTasksArray] = useState([]);
   const [data, setData] = useState({
     taskNumber: 0,
@@ -55,10 +57,10 @@ export default function GaugeChartC({ areaId }) {
   //#################  useEffect Function ######################################################
   useEffect(() => {
     const fetchUser = async () => {
-      const user = await checkAuth();
-      if (user) {
-        setUsername(user.username);
-        getDataFromDB(user.username);
+      //const user = await checkAuth();
+      if (username) {
+        //setUsername(user.username);
+        getDataFromDB(username);
       }
     };
 
