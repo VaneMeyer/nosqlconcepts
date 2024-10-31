@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, memo, createContext, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-// Importiere deine Komponenten hier
 import Dashboard from "./scenes/dashboard";
 import TopBar from "./global/topbar";
 import Footer from "./global/footer";
@@ -18,10 +17,9 @@ import DownloadButton from "./components/downloadButton";
 import Conditions from "./components/conditions.jsx";
 import DatabaseTutorials from "./scenes/tutorial.jsx";
 
-// Erstelle den Authentifizierungskontext
 const AuthContext = createContext();
 
-// AuthProvider-Komponente
+
 const AuthProvider = ({ children }) => {
   const [authStatus, setAuthStatus] = useState({ isAuthenticated: null, isAdmin: false });
 
@@ -31,7 +29,7 @@ const AuthProvider = ({ children }) => {
       setAuthStatus({
         isAuthenticated: authData !== null,
         isAdmin: authData?.role === "admin",
-        username: authData?.username // Füge den Benutzernamen hinzu, falls vorhanden
+        username: authData?.username 
       });
     };
     verifyAuth();
@@ -44,12 +42,12 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom Hook for authentication
+
 const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// PrivateRoute component with role-based access
+
 const ProtectedRoute = ({ element, isAdminRoute }) => {
   const { isAuthenticated, isAdmin } = useAuth();
 
@@ -68,12 +66,12 @@ class ErrorBoundary extends React.Component {
   }
 
   static getDerivedStateFromError(error) {
-    // Aktualisiere den Status, um den Fallback UI anzuzeigen
+    
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    // Du kannst den Fehler an einen Fehlerberichterstattung-Service melden
+    
     console.error("Error caught in ErrorBoundary: ", error, errorInfo);
   }
 
@@ -152,7 +150,7 @@ const AppNewLayout = () => {
   }, []);
 
   return (
-    <AuthProvider> {/* Füge den AuthProvider hier hinzu */}
+    <AuthProvider> 
       <div className="app">
         <main className="content">
           <Router>
@@ -172,7 +170,7 @@ const AppNewLayout = () => {
 const MemoizedTopBar = memo(TopBar);
 const MemoizedFooter = memo(Footer);
 
-// Exportiere den Hook und die Hauptkomponente
+
 export { useAuth };
 export default AppNewLayout;
 
