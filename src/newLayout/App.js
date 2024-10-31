@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo, createContext, useContext } from "react";
+import React, { useState, useEffect, memo, createContext, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Dashboard from "./scenes/dashboard";
 import TopBar from "./global/topbar";
