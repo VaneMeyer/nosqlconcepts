@@ -123,7 +123,7 @@ export const updateNewStatus = async (areaId, checked) => {
 export const deleteUserData = async (username) => {
   try {
     const response = await axios.delete(`${API_URL}/user/${username}`, {
-      userdata,
+      username,
     });
     return response.data;
   } catch (error) {
