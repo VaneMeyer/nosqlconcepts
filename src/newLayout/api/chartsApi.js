@@ -4,14 +4,13 @@ const API_URL = "/api";
 
 export const fetchTaskChartData = async () => {
   try {
-    const response = await axios.get(`${API_URL}/analytics/tasks/solved`);
+    const response = await axios.get(`${API_URL}/analytics/tasks/solved`); // No change needed
     return response.data;
   } catch (error) {
     console.error("Error fetching user chart data:", error);
     throw error;
   }
 };
-
 export const fetchUserTaskChartData = async (username) => {
   try {
     const response = await axios.get(`${API_URL}/tasks`, {
@@ -38,7 +37,6 @@ export const fetchUserTimeChartData = async (username) => {
     const response = await axios.get(`${API_URL}/analytics/user/time/average`, {
       username,
     });
-
     return response.data;
   } catch (error) {
     console.error("Error fetching time chart data:", error);
