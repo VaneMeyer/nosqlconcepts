@@ -1,8 +1,8 @@
 import React, { useState, useEffect, memo, createContext, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Dashboard from "./scenes/dashboard";
-import TopBar from "./global/topbar";
-import Footer from "./global/footer";
+import TopBar from "./components/global/topbar";
+import Footer from "./components/global/footer";
 import ExerciseSheet from "./scenes/exerciseSheet";
 import HistoryC from "./scenes/history";
 import MyData from "./scenes/myData";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import digitellLogo from "../images/DigiTeLL_Logo2023.png";
-import GULogo from "../images/GU-Logo-blau.jpg";
-import StiftungLogo from "../images/Logo_Stiftung_Hochschullehre_pos_klein.jpg";
+import digitellLogo from "../../images/DigiTeLL_Logo2023.png";
+import GULogo from "../../images/GU-Logo-blau.jpg";
+import StiftungLogo from "../../images/Logo_Stiftung_Hochschullehre_pos_klein.jpg";
 import { Container, Grid, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 const FooterContainer = styled(Box)(({ theme }) => ({

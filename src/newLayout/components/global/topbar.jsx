@@ -19,10 +19,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import nosqlconceptsLogo from "../images/nosql-logo-light-trans.png";
+import nosqlconceptsLogo from "../../images/nosql-logo-light-trans.png";
 /* import nosqlconceptsLogo from "../images/nosqlconcepts-logo-transparent.png"; */
-import LogOut from "../Login/logout";
-import { checkAuth } from "../api/loginApi";
+import LogOut from "../../Login/logout";
+import { checkAuth } from "../../api/loginApi";
 
 function TopBar() {
   const [anchorEl, setAnchorEl] = useState(null);
