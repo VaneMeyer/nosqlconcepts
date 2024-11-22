@@ -35,7 +35,7 @@ const dataModel = [
       ],
     },
     {
-      tableName: 'perdep',
+      tableName: 'perdept',
       columns: [
         { name: 'department_id', type: 'TEXT' },
         { name: 'department_location', type: 'TEXT' },

@@ -67,7 +67,7 @@ export const fetchTaskFormData = async (areaId, username, tasknumber) => {
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
-  }
+  } 
 };
 export const postTaskFormData = async (dataToSend) => {
   try {
