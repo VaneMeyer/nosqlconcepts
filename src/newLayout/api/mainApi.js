@@ -4,11 +4,8 @@ const API_URL = "/api";
 
 export const fetchAreaNames = async () => {
   try {
-    const response = await axios.get(`${API_URL}/area-names`);
-    return response.data.map((area) => ({
-      area_id: area.area_id,
-      area_name: area.area_name,
-    }));
+    const response = await axios.get(`${API_URL}/area/names`); 
+    return response.data;
   } catch (error) {
     console.error("Error fetching area names:", error);
     throw error;
@@ -17,11 +14,10 @@ export const fetchAreaNames = async () => {
 
 export const fetchHistoryData = async (username, databasetype) => {
   try {
-    const response = await axios.post(`${API_URL}/gethistory`, {
+    const response = await axios.get(`${API_URL}/user/history`, { 
       username,
       databasetype,
     });
-
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -31,18 +27,15 @@ export const fetchHistoryData = async (username, databasetype) => {
 
 export const fetchUserData = async (username, databasetype) => {
   try {
-    const response = await axios.post(`${API_URL}/get-user-data`, {
-      username,
+    const response = await axios.get(`${API_URL}/user/${username}`, { 
       databasetype,
     });
-
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
   }
 };
-
 export const fetchTasksData = async (areaId) => {
   try {
     const response = await axios.post(`${API_URL}/getTasks`, {
