@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { fetchDownloadData, fetchTasksData } from "../api/mainApi";
 //import { checkAuth } from "../api/loginApi";
-import { useAuth } from "../App";
+import { useAuth } from "../../App";
 
 export default function GaugeChartC({ areaId }) {
   const { username } = useAuth();

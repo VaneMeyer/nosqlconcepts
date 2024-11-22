@@ -11,7 +11,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import { useLocation, Link } from "react-router-dom";
 import ImportantMsg from "../old_components/importantMsg";
 //import { checkAuth } from "../api/loginApi";
-import { useAuth } from "../App";
+import { useAuth } from "../../App";
 
 export default function DownloadButton() {
   const { username } = useAuth();

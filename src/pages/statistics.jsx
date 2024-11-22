@@ -4,11 +4,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import BarChartC from "../components/barChart";
-import PieChartC from "../components/pieChart";
+import BarChartC from "../newLayout/components/barChart";
+import PieChartC from "../newLayout/components/pieChart";
 
-import AppProject from "../student_projects/project4_ss24/App";
-
+import AppProject from "../newLayout/student_projects/project4_ss24/App";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundCoor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,

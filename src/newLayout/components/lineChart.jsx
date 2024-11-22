@@ -8,7 +8,7 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { fetchLineChartData } from "../api/chartsApi";
 import { format } from "date-fns";
 //import { checkAuth } from "../api/loginApi";
-import { useAuth } from "../App";
+import { useAuth } from "../../App";
 
 export default function LineChartC() {
   const { username } = useAuth();

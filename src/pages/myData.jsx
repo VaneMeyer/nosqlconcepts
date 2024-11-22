@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Box, Select, MenuItem } from "@mui/material";
-import { fetchUserData, fetchAreaNames } from "../api/mainApi";
+import { fetchUserData, fetchAreaNames } from "../newLayout/api/mainApi";
 //import { checkAuth } from "../api/loginApi";
 import { useAuth } from '../App';
 

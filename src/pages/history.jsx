@@ -6,9 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Container from "@mui/material/Container";
 import { Box, Typography, Select, MenuItem } from "@mui/material";
-import { fetchAreaNames, fetchHistoryData } from "../api/mainApi";
+import { fetchAreaNames, fetchHistoryData } from "../newLayout/api/mainApi";
 //import { checkAuth } from "../api/loginApi";
-import { useAuth } from '../App';
+import { useAuth } from "../App";
 
 const HistoryTable = ({ data }) => {
   if (!data || data.length === 0) {

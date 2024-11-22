@@ -28,33 +28,34 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-sql"; // SQL-Syntax-Highlighting
 //import "../../custom_ace_files/mode-cql";
-import "../../custom_ace_files/mode-cypher";
-import "../../custom_ace_files/mode-mongodb";
-import "../../custom_ace_files/mode-pgsql";
-import "../../custom_ace_files/theme-goethe";
+import '../custom_ace_files/mode-cypher';
+import "../custom_ace_files/mode-mongodb";
+import "../custom_ace_files/mode-pgsql";
+import "../custom_ace_files/theme-goethe";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
-import ImportantMsg from "../old_components/importantMsg";
+import ImportantMsg from "../newLayout/old_components/importantMsg.jsx";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 /* import OptTimer from "../old_components/optTimer"; */
-import OptTimer from "../components/timer";
-import ResultGraph from "../old_components/ResultGraph";
-import ResultTable from "../old_components/ResultTable";
+import OptTimer from "../newLayout/components/timer.jsx";
+import ResultGraph from "../newLayout/old_components/ResultGraph.jsx";
+import ResultTable from "../newLayout/old_components/ResultTable.jsx";
 import {
   fetchTaskFormData,
   fetchTasksData,
   postHistoryData,
   postTaskFormData,
-} from "../api/mainApi";
-import DbAccordion from "../components/dbAccordion";
-import { sendToExecute } from "../api/queryApi";
-import DownloadButton from "../components/downloadButton";
-import { checkAuth } from "../api/loginApi";
+} from "../newLayout/api/mainApi.js";
+import DbAccordion from "../newLayout/components/dbAccordion.jsx";
+import { sendToExecute } from "../newLayout/api/queryApi.js";
+import DownloadButton from "../newLayout/components/downloadButton.jsx";
+import { checkAuth } from "../newLayout/api/loginApi.js";
 import { useAuth } from '../App.js';
 import { CheckBox } from "@mui/icons-material";
-import PgDatabaseSchema from "../components/pgSchema";
-import CasDataModelTable from "../components/cassandraSchema";
-import NeoGraphC from "../components/graph";
-import MongoSchema from "../components/mongoSchema";
+import PgDatabaseSchema from "../newLayout/components/pgSchema.jsx";
+import CasDataModelTable from "../newLayout/components/cassandraSchema.jsx";
+import NeoGraphC from "../newLayout/components/graph.jsx";
+import MongoSchema from "../newLayout/components/mongoSchema.jsx";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundCoor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,

@@ -9,7 +9,7 @@ import {
 } from "../api/chartsApi";
 import { fetchAreaNames } from "../api/mainApi";
 //import { checkAuth } from "../api/loginApi";
-import { useAuth } from '../App';
+import { useAuth } from '../../App';
 import { Button } from "@mui/material";
 
 export default function BarChartC({ isUser, isTimeChart }) {

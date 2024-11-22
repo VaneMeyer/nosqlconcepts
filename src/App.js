@@ -1,21 +1,21 @@
 import React, { useState, useEffect, memo, createContext, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Dashboard from "./scenes/dashboard";
-import TopBar from "./components/global/topbar";
-import Footer from "./components/global/footer";
-import ExerciseSheet from "./scenes/exerciseSheet";
-import HistoryC from "./scenes/history";
-import MyData from "./scenes/myData";
-import Statistics from "./scenes/statistics";
-import ManageUsers from "./admin/manageUsers";
-import ManageExercises from "./admin/manageExercises";
-import InformationC from "./scenes/information";
-import SignIn from "./Login/login";
-import { fetchAssignments } from "./api/adminApi";
-import { checkAuth } from "./api/loginApi.js";
-import DownloadButton from "./components/downloadButton";
-import Conditions from "./components/conditions.jsx";
-import DatabaseTutorials from "./scenes/tutorial.jsx";
+import Dashboard from "./pages/dashboard.jsx";
+import TopBar from "./newLayout/components/global/topbar.jsx";
+import Footer from "./newLayout/components/global/footer.jsx";
+import ExerciseSheet from "./pages/exerciseSheet.jsx";
+import HistoryC from "./pages/history";
+import MyData from "./pages/myData";
+import Statistics from "./pages/statistics";
+import ManageUsers from "./newLayout/admin/manageUsers.jsx";
+import ManageExercises from "./newLayout/admin/manageExercises.jsx";
+import InformationC from "./pages/information.jsx";
+import SignIn from "./newLayout/Login/login.jsx";
+import { fetchAssignments } from "./newLayout/api/adminApi.js";
+import { checkAuth } from "./newLayout/api/loginApi.js";
+import DownloadButton from "./newLayout/components/downloadButton.jsx";
+import Conditions from "./newLayout/components/conditions.jsx";
+import DatabaseTutorials from "./pages/tutorial.jsx";
 
 const AuthContext = createContext();
 

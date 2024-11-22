@@ -4,12 +4,12 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import MediaCard from "../components/card";
-import BarChartC from "../components/barChart";
-import LineChartC from "../components/lineChart";
-import SurveyLink from "../components/surveyLink";
-import RankingC from "../components/ranking";
-import GreetingHeader from "../components/greetingHeader";
+import MediaCard from "../newLayout/components/card";
+import BarChartC from "../newLayout/components/barChart";
+import LineChartC from "../newLayout/components/lineChart";
+import SurveyLink from "../newLayout/components/surveyLink";
+import RankingC from "../newLayout/components/ranking";
+import GreetingHeader from "../newLayout/components/greetingHeader";
 import { useAuth } from '../App';
 
 // Memoized Item component
