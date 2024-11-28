@@ -2,25 +2,17 @@ import axios from 'axios';
 
 const API_URL = '/api';
 
-export const handleLogin = async (username, password, setIsLoggedIn, setUser, setRole, navigate, setErrorMessage) => {
+export const handleLogin = async (username, password) => {
   try {
     const response = await axios.post(`${API_URL}/login`, {
       username,
       password,
     }, { withCredentials: true }); 
-
-    setIsLoggedIn(true);
-    setUser(response.data.user_name);
-    setRole(response.data.role);
-
-    navigate("/"); 
+ 
     window.location.reload();
   } catch (error) {
     console.log(error);
-    setIsLoggedIn(false);
-    setErrorMessage(
-      "Connection failed. Please check your username and password again or ask your tutors for help."
-    );
+    
   }
 };
 
