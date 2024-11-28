@@ -21,11 +21,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import {
-  Add as AddIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-} from "@mui/icons-material";
+import { Delete as DeleteIcon } from "@mui/icons-material";
 import { fetchUserData, fetchAreaNames } from "../api/mainApi";
 import { Grid } from "@mui/material";
 import {
@@ -57,7 +53,6 @@ function ManageUsers() {
   const [username, setUsername] = useState("");
   const [userArray, setUserArray] = useState([]);
   const [actionType, setActionType] = useState("");
-  const [openFormDialog, setOpenFormDialog] = useState(false);
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
 

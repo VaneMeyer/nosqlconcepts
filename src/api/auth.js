@@ -4,15 +4,13 @@ const API_URL = '/api';
 
 export const handleLogin = async (username, password) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, {
+    await axios.post(`${API_URL}/login`, {
       username,
       password,
-    }, { withCredentials: true }); 
- 
+    }, { withCredentials: true });
     window.location.reload();
   } catch (error) {
     console.log(error);
-    
   }
 };
 

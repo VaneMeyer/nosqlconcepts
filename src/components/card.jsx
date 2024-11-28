@@ -40,7 +40,6 @@ import { checkAuth } from "../api/auth";
 export default function MediaCard() {
   const [assignments, setAssignments] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [maxId, setMaxId] = useState(0);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
@@ -60,7 +59,7 @@ export default function MediaCard() {
   useEffect(() => {
     const verifyAuth = async () => {
       const authData = await checkAuth();
-      setIsAuthenticated(authData !== null);
+      
       if (authData) {
         setIsAdmin(authData.role === "admin");
       }
