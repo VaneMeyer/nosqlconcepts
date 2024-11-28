@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useNavigate } from "react-router-dom";
-import { handleLogin } from "../api/loginApi";
+import { handleLogin } from "../api/auth";
 
 function Copyright(props) {
   return (

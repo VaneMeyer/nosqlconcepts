@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button} from "@mui/material";
 import { Link } from "react-router-dom";
-import { handleLogout } from "../api/loginApi";
+import { handleLogout } from "../api/auth";
 
 const LogOut = () => {
   const [rememberMe, setRememberMe] = useState(false);

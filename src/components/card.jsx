@@ -35,7 +35,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { checkAuth } from "../api/loginApi";
+import { checkAuth } from "../api/auth";
 //to be implemented
 export default function MediaCard() {
   const [assignments, setAssignments] = useState([]);

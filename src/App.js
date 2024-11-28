@@ -1,21 +1,21 @@
 import React, { useState, useEffect, memo, createContext, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Dashboard from "./scenes/dashboard";
+import Dashboard from "./pages/dashboard.jsx";
 import TopBar from "./global/topbar";
 import Footer from "./global/footer";
-import ExerciseSheet from "./scenes/exerciseSheet";
-import HistoryC from "./scenes/history";
-import MyData from "./scenes/myData";
-import Statistics from "./scenes/statistics";
+import ExerciseSheet from "./pages/exerciseSheet.jsx";
+import HistoryC from "./pages/history.jsx";
+import MyData from "./pages/myData.jsx";
+import Statistics from "./pages/statistics.jsx";
 import ManageUsers from "./admin/manageUsers";
 import ManageExercises from "./admin/manageExercises";
-import InformationC from "./scenes/information";
+import InformationC from "./pages/information.jsx";
 import SignIn from "./Login/login";
-import { fetchAssignments } from "./api/adminApi";
-import { checkAuth } from "./api/loginApi.js";
+import { fetchAssignments } from "./api/adminApi.js";
+import { checkAuth } from "./api/auth.js";
 import DownloadButton from "./components/downloadButton";
 import Conditions from "./components/conditions.jsx";
-import DatabaseTutorials from "./scenes/tutorial.jsx";
+import DatabaseTutorials from "./pages/tutorial.jsx";
 
 const AuthContext = createContext();
 

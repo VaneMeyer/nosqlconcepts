@@ -32,7 +32,7 @@ import {
   get_dif_ranking,
   get_rank,
 } from "./statisticsfunctions";
-import { checkAuth } from "../../api/loginApi";
+import { checkAuth } from "../../api/auth";
 
 // Card style for hover effect
 let cardStyle = {
