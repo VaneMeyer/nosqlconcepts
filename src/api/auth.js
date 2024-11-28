@@ -18,15 +18,10 @@ export const handleLogin = async (username, password) => {
 
 export const handleLogout = async () => {
   try {
-    const response = await axios.get(`${API_URL}/logout`, { withCredentials: true }); // Cookies mit Anfragen senden
-    if (response.status === 200) {
-      return true;
-    } else {
-      console.error("Fehler beim Abmelden: Statuscode", response.status);
-      return false;
-    }
+    const response = await axios.get(`${API_URL}/logout`, { withCredentials: true });
+    return response.status === 200;
   } catch (error) {
-    console.error("Fehler beim Abmelden:", error);
+    console.error("Error during logout:", error);
     return false;
   }
 };
