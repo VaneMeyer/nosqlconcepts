@@ -3,38 +3,30 @@ import React, { useState, useEffect } from "react";
 import DbStructureTable from "../old_components/DbStructureTable";
 import DbStructureTablePostgres from "../old_components/db_structures/postgres_structure";
 import DbStructureTableNeo4j from "../old_components/db_structures/neo4j_structure";
-import cassandraDataModel from "../images/datamodel2-transp.png";
-import mongoDataModel from "../images/datamodel4-transp.png";
-import neoDataModel from "../images/datamodel3-transp.png";
-import pgdataModel from "../images/datamodel1-transp.png";
 import { fetchDbStructure } from "../api/mainApi";
-import PgDatabaseSchema from "./pgSchema";
+
 
 function DbAccordion({ endpoint }) {
-  const [dataModel, setDataModel] = useState("");
   const [dbTable, setDbTable] = useState(null);
   const [dbendpoint, setDbEndpoint] = useState(null);
-
   const [showDbStructure, setShowDbStructure] = useState(false);
+
   useEffect(() => {
     
     if (endpoint === "PostgreSQL") {
       setDbEndpoint("/getPostgreSQLStructure");
-      setDataModel(pgdataModel);
     }
     if (endpoint === "Cassandra") {
       setDbEndpoint("/getCassandraStructure");
-      setDataModel(cassandraDataModel);
     }
     if (endpoint === "MongoDB") {
-      setDbEndpoint("/getMongoStructure");
-      setDataModel(mongoDataModel);
+      setDbEndpoint("/getMongoStructure");   
     }
     if (endpoint === "Neo4J") {
       setDbEndpoint("/getNeo4JStructure");
-      setDataModel(neoDataModel);
     }
-  }, []);
+  }, [endpoint]);
+  
   const fetchStructureData = async () => {
     try {
       let response = await fetchDbStructure(dbendpoint);
