@@ -29,8 +29,13 @@ export default function BarChartC({ isUser, isTimeChart }) {
     };
 
     fetchUser(); */
+    
     const fetchData = async () => {
       try {
+
+        const names = await fetchAreaNames();
+        setXAxisData(names);
+        
         let data;
         if (isUser && isTimeChart) {
           const rawData = await fetchUserTimeChartData(username);
@@ -39,7 +44,7 @@ export default function BarChartC({ isUser, isTimeChart }) {
           const rawData = await fetchTimeChartData();
           data = transformTimeChartData(rawData);
         } else if (isUser && !isTimeChart) {
-          const rawData = await fetchUserTaskChartData(username);
+          const rawData = await fetchUserTaskChartData(names.area_id);
           data = transformUserTaskChartData(rawData);
         } else if (!isUser && !isTimeChart) {
           const rawData = await fetchTaskChartData();
@@ -47,8 +52,7 @@ export default function BarChartC({ isUser, isTimeChart }) {
         }
 
         setChartData(data);
-        const names = await fetchAreaNames();
-        setXAxisData(names);
+       
       } catch (error) {
         console.error("Error fetching chart data:", error);
       } finally {

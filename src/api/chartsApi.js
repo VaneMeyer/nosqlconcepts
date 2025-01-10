@@ -11,10 +11,10 @@ export const fetchTaskChartData = async () => {
     throw error;
   }
 };
-export const fetchUserTaskChartData = async (username) => {
+export const fetchUserTaskChartData = async (area_id) => {
   try {
     const response = await axios.get(`${API_URL}/tasks`, {
-      username,
+      area_id,
     });
     return response.data;
   } catch (error) {
