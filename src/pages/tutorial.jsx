@@ -25,10 +25,10 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-sql"; // SQL-Syntax-Highlighting
 //import "../../custom_ace_files/mode-cql";
-import "../../custom_ace_files/mode-cypher";
-import "../../custom_ace_files/mode-mongodb";
-import "../../custom_ace_files/mode-pgsql";
-import "../../custom_ace_files/theme-goethe";
+import "../config/custom_ace_files/mode-cypher";
+import "../config/custom_ace_files/mode-mongodb";
+import "../config/custom_ace_files/mode-pgsql";
+import "../config/custom_ace_files/theme-goethe";
 import { TypeSpecimen } from "@mui/icons-material";
 import Quiz from "../components/sqlQuiz";
 
