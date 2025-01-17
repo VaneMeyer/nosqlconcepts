@@ -16,13 +16,14 @@ import { Link } from "react-router-dom";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MenuIcon from '@mui/icons-material/Menu';
+import SchoolIcon from '@mui/icons-material/School';
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import nosqlconceptsLogo from "../images/nosql-logo-light-trans.png";
 /* import nosqlconceptsLogo from "../images/nosqlconcepts-logo-transparent.png"; */
 import LogOut from "../Login/logout";
-import { checkAuth } from "../api/auth";
+import { checkAuth } from "../api/loginApi";
 
 function TopBar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -69,6 +70,14 @@ function TopBar() {
             alt="NoSQLconcepts Logo"
           />
         </Typography>
+        <Button
+          component={Link}
+          to="/tutorial"
+          color="inherit"
+          startIcon={<SchoolIcon />} 
+        >
+          Tutorial
+        </Button>
         <Button
           component={Link}
           to="/"
