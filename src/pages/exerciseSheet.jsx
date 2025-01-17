@@ -150,10 +150,10 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
       setFormData(formDataObj);
     } catch (error) {
       console.error("Failed to get data from db", error.message);
-      setFormData({
+      /* setFormData({
         query_text: "Error occured",
         partialSolution: "Error occured",
-      });
+      }); */
     }
   };
 
