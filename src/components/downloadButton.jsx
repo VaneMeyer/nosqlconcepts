@@ -60,7 +60,7 @@ export default function DownloadButton() {
   }, []);
 
   const handleDownload = () => {
-  
+    getDataFromDB();
     const header = [
       "taskNumber",
       "query",
