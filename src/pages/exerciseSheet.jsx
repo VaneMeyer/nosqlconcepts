@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import SaveIcon from "@mui/icons-material/Save";
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorIcon from "@mui/icons-material/Error";
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CircularProgress from "@mui/material/CircularProgress";
 import {
   Box,
@@ -19,6 +20,12 @@ import {
   Radio,
   FormGroup,
   Checkbox,
+  DialogActions,
+  Typography,
+  DialogContentText,
+  DialogContent,
+  DialogTitle,
+  Dialog,
 } from "@mui/material";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -94,12 +101,15 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
   const [feedback, setFeedback] = useState("");
   const [feedbackType, setFeedbackType] = useState("error");
   const [error, setError] = useState("");
+  const [fetcherror, setFetchError] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [confirmCallback, setConfirmCallback] = useState(null);
 
   const handleF5 = (event) => {
     if (event.key === "F5") {
       event.preventDefault();
-      
-      alert("F5 is not used as a shortcut to execute queries.")
+
+      alert("F5 is not used as a shortcut to execute queries.");
     }
   };
 
@@ -116,6 +126,7 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
   };
 
   const getDataFromDB = async (tasknumber, username) => {
+    setFetchError("");
     try {
       if (typeof tasknumber === "undefined" || tasknumber === null) {
         throw new Error("Task number is required");
@@ -150,11 +161,29 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
       setFormData(formDataObj);
     } catch (error) {
       console.error("Failed to get data from db", error.message);
+      setFetchError("Error occured, fetching data failed.");
       /* setFormData({
         query_text: "Error occured",
         partialSolution: "Error occured",
       }); */
     }
+  };
+
+  //dialog functions before actually saving data
+  const openConfirmationDialog = (callback) => {
+    setConfirmCallback(() => callback);
+    setIsDialogOpen(true);
+  };
+
+  const confirmAction = () => {
+    if (confirmCallback) {
+      confirmCallback(); // Execute the action
+    }
+    setIsDialogOpen(false); // Close the dialog
+  };
+
+  const cancelAction = () => {
+    setIsDialogOpen(false); // Close the dialog without executing
   };
 
   const sendDataToDb = async () => {
@@ -299,33 +328,28 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
   useEffect(() => {
     if (endpoint === "Cassandra") {
       setSyntaxMode("pgsql"); //Todo error handling cql-mode
-      
     }
     if (endpoint === "Neo4J") {
       setSyntaxMode("cypher");
-     
     }
     if (endpoint === "MongoDB") {
       setSyntaxMode("mongodb");
-      
     }
     if (endpoint === "PostgreSQL") {
       setSyntaxMode("pgsql");
-      
     }
-    
+
     const fetchUser = async () => {
-     /*  const user = await checkAuth();
+      /*  const user = await checkAuth();
       if (user) {
         setUsername(user.username);
         getTasks(area_id);
         getDataFromDB(taskNumber, user.username);
       } */
-     if(username) {
-     
+      if (username) {
         getTasks(area_id);
         getDataFromDB(taskNumber, username);
-     }
+      }
     };
 
     fetchUser();
@@ -353,7 +377,9 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
       setFormData((prev) => ({ ...prev, isFinished: event.target.checked }));
     }
   };
+
   const updateTaskAndFormData = (newTaskNumber) => {
+   
     let newTaskIndex = newTaskNumber - 1;
     setTask(tasksArray[newTaskIndex]);
     setTaskNumber(newTaskNumber);
@@ -363,33 +389,65 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
     setIsRunning(false);
     setHasStarted(false);
     sendDataToDb();
+    
   };
   const handleNextTask = () => {
-    if (taskNumber === tasksArray.length) {
+   
+ /*    if (taskNumber === tasksArray.length) {
       alert("This is the last task");
     } else {
       updateTaskAndFormData(taskNumber + 1);
-    }
+    } */
+      openConfirmationDialog(() => {
+        if (taskNumber === tasksArray.length) {
+          alert("This is the last task");
+        } else {
+          updateTaskAndFormData(taskNumber + 1);
+        }
+      });
   };
 
   const handlePrevTask = () => {
-    if (taskNumber > 1) {
+    
+   /*  if (taskNumber > 1) {
       updateTaskAndFormData(taskNumber - 1);
-    }
+    } */
+      openConfirmationDialog(() => {
+        if (taskNumber > 1) {
+          updateTaskAndFormData(taskNumber - 1);
+        }
+      });
   };
 
   const handleTaskChange = (event) => {
-    const { value } = event.target;
+    
+   /*  const { value } = event.target;
     setIsSaved(false);
-    updateTaskAndFormData(value);
+    updateTaskAndFormData(value); */
+    const { value } = event.target;
+    openConfirmationDialog(() => {
+      setIsSaved(false);
+      updateTaskAndFormData(value);
+    });
   };
-
-
-  const handleDownload = () => {
+const handleSave = () => {
+  openConfirmationDialog(() => {
     sendDataToDb();
+   
+  });
+}
+  const handleDownload = () => {
+   /*  sendDataToDb();
+    
     setIsSaved(false);
     const dataToSend = { title: area_name, areaId: area_id };
-    navigate(`/download?title=${dataToSend.title}&areaId=${dataToSend.areaId}`);
+    navigate(`/download?title=${dataToSend.title}&areaId=${dataToSend.areaId}`); */
+    openConfirmationDialog(() => {
+      sendDataToDb();
+      const dataToSend = { title: area_name, areaId: area_id };
+      setIsSaved(false);
+      navigate(`/download?title=${dataToSend.title}&areaId=${dataToSend.areaId}`);
+    });
   };
 
   const handleTimerUpdate = (time) => {
@@ -426,367 +484,424 @@ function ExerciseSheet({ area_id, area_name, endpoint, feedback_on }) {
     }
     return <SaveIcon />;
   };
- 
+
   return (
     <Container>
       <h1>Exercise Sheet</h1>
       <h2>{area_name}</h2>
-      {task && <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={12}>
-            <Item>
-              Information{" "}
-              <ImportantMsg
-                type="info"
-                message={ <div><PriorityHighIcon></PriorityHighIcon>{" "}{`Please do not work longer than the specified time on a task! If you
+      {task && (
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12}>
+              <Item sx={{bgcolor: "#FDF9F9"}}>
+                Information{" "}
+                <Typography paragraph><WarningAmberIcon></WarningAmberIcon>{`Please do not work longer than the specified time on a task! If you
         think that you will not be able to finish the task in the given maximum
         time, stop working on it 15 minutes before the end, and provide an
         explanation containing the following information: Whether you think that
         the task is solvable with the current system at all, and why? If you
         think that is solvable with more time: which approach, would you try out
-        next? - Please also have a look at known issues regarding query execution (open menu -> Information)`}</div>}
-              />
-            </Item>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Item>
-              {" "}
-              <Box>
+        next? - Please also have a look at known issues regarding query execution (open menu -> Information)`}</Typography>
+               
+              </Item>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              
+              <Item sx={{bgcolor: "#FDF9F9"}} > 
+              <Typography paragraph><WarningAmberIcon></WarningAmberIcon> Always make sure to save the data of the current task before leaving</Typography>
                 {" "}
-                <Button
-                  variant="contained"
-                  color={
-                    buttonState === "success"
-                      ? "success"
-                      : buttonState === "error"
-                      ? "error"
-                      : "primary"
-                  }
-                  onClick={sendDataToDb}
-                  startIcon={renderIcon()}
-                  disabled={buttonState === "loading"}
-                >
-                  {buttonState === "loading" ? "Saving..." : "Save Entries"}
-                </Button>
-                <Button
-                  aria-label="Button to go to download section"
-                  onClick={handleDownload}
-                >
-                  Go to download section <DownloadIcon></DownloadIcon>
-                </Button>{" "}
-                {/*  <DownloadButton formData={formData} taskNumber={taskNumber} areaId={area_id} area_name={area_name}/> */}
-              </Box>
-            </Item>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Item>
-              {" "}
-              <Box>
-                <InputLabel id="task-number-label">
-                  Jump to task (your current entries will be saved):
-                </InputLabel>
+                <Box>
+                  {" "}
+                  <Button
+                    variant="contained"
+                    color={
+                      buttonState === "success"
+                        ? "success"
+                        : buttonState === "error"
+                        ? "error"
+                        : "primary"
+                    }
+                    onClick={handleSave /* sendDataToDb */}
+                    startIcon={renderIcon()}
+                    disabled={buttonState === "loading"}
+                  >
+                    {buttonState === "loading" ? "Saving..." : "Save Entries"}
+                  </Button>
+                  <Button
+                    aria-label="Button to go to download section"
+                    onClick={handleDownload}
+                  >
+                    Go to download section <DownloadIcon></DownloadIcon>
+                  </Button>{" "}
+                  {/*  <DownloadButton formData={formData} taskNumber={taskNumber} areaId={area_id} area_name={area_name}/> */}
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Item sx={{bgcolor: "#FDF9F9"}}>
+                {" "}
+                <Box>
+                  <InputLabel id="task-number-label">
+                    Select another task you want to jump to:
+                  </InputLabel>
 
-                <TextField
-                  select
-                  name="taskNumber"
-                  id="task-number-label"
-                  fullWidth
-                  value={taskNumber}
-                  onChange={handleTaskChange}
-                  aria-labelledby="Jump to task"
-                >
-                  {tasksArray.map((task, index) => (
-                    <MenuItem
-                      key={index}
-                      value={index + 1}
-                      aria-label={task.subtasknumber}
-                    >
-                      {task.subtasknumber}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Box>
-            </Item>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Item>
-              {" "}
-              <Box aria-labelledby="Task topic, description and maximum time to solve the task">
-                <h2>{task.topic}</h2>
-                <h3>{task.subtasknumber}</h3>
-                <h4 style={{ border: "1px solid black", borderRadius: 5 }}>
-                  {task.maxtime}
-                </h4>
-                <p style={{ maxWidth: "1500px", fontSize: "26px" }}>
-                  {task.description}
-                </p>
-                <hr></hr>
-                <p>{task.hint}</p>
-              </Box>
-              <Box p={0} aria-labelledby="Input Elements to solve the task">
-                {hasStarted ? (
-                  <form>
-                    <Box>
-                      <InputLabel id="query-input-label">
-                        Type and run your query if you think this task is
-                        solvable with a query.
-                      </InputLabel>
-                      <AceEditor
-                        id="query-input-label"
-                        name="query"
-                        mode={syntaxMode}
-                        onChange={handleEditorChange}
-                        value={formData.query_text}
-                        editorProps={{ $blockScrolling: true }}
-                        style={{ width: "100%", height: "400px" }}
-                        setOptions={{ fontSize: "16px" }}
-                      />
-                      <Button onClick={executeQuery}>
-                        Run query
-                        <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
-                      </Button>
-                      {feedback_on && <ImportantMsg
-                        message="Note that the feedback functionality is a work in progress. It is possible that a message will appear stating that your result does not match the expected result. Your solution may still be correct. We are working on improving this functionality in the future so that your individual solution is evaluated with regard to the task description."
-                        type="info"
-                      />}
-                      {queryResult && (
-                        <ImportantMsg
-                          message={<div><CheckIcon></CheckIcon> {" "} Query was executed successfully!</div>}
-                          type="success"
-                        />
-                      )}
-                      {queryResult && feedback_on &&(
-                        <ImportantMsg message={feedback} type={feedbackType} />
-                      )}
-                      {endpoint === "Neo4J" && queryResult &&   (
-                        <ResultGraph
-                          queryResult={queryResult}
-                           onGetNodeAndEdgeCount={handleGetNodeAndEdgeCount} 
-                        />
-                      )}{" "}
-                      {numNodes === 0 && numEdges === 0 && queryResult && (
-                        <ResultTable
-                          queryResult={queryResult}
-                          resultSize={formData.resultSize}
-                          title={area_name}
-                        />
-                      )}
-                      {error && <ImportantMsg message={<div><ErrorIcon></ErrorIcon>{" "}{error}</div>} type="error" />}
-                      <Box
-                        sx={{
-                          padding: "10px",
-                          borderRadius: "5px",
-                          border: "black",
-                        }}
+                  <TextField
+                    select
+                    name="taskNumber"
+                    id="task-number-label"
+                    fullWidth
+                    value={taskNumber}
+                    onChange={handleTaskChange}
+                    aria-labelledby="Jump to task"
+                  >
+                    {tasksArray.map((task, index) => (
+                      <MenuItem
+                        key={index}
+                        value={index + 1}
+                        aria-label={task.subtasknumber}
                       >
-                        {<p>Result Size: {formData.resultSize}</p>}
-                      {/*   {
+                        {task.subtasknumber}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Item>
+                {" "}
+                <Box aria-labelledby="Task topic, description and maximum time to solve the task">
+                  <h2>{task.topic}</h2>
+                  <h3>{task.subtasknumber}</h3>
+                  <h4 style={{ border: "1px solid black", borderRadius: 5 }}>
+                    {task.maxtime}
+                  </h4>
+                  <p style={{ maxWidth: "1500px", fontSize: "26px" }}>
+                    {task.description}
+                  </p>
+                  <hr></hr>
+                  <p>{task.hint}</p>
+                </Box>
+                <Box p={0} aria-labelledby="Input Elements to solve the task">
+                  {hasStarted ? (
+                    <form>
+                      <Box>
+                        <InputLabel id="query-input-label">
+                          Type and run your query if you think this task is
+                          solvable with a query.
+                        </InputLabel>
+                        {/*   {(fetcherror !== "") && (
+                          <ImportantMsg message={fetcherror} type="error" />
+                        )} */}
+                        <AceEditor
+                          id="query-input-label"
+                          name="query"
+                          mode={syntaxMode}
+                          onChange={handleEditorChange}
+                          value={formData.query_text}
+                          editorProps={{ $blockScrolling: true }}
+                          style={{ width: "100%", height: "400px" }}
+                          setOptions={{ fontSize: "16px" }}
+                        />
+                        <Button onClick={executeQuery}>
+                          Run query
+                          <PlayCircleFilledWhiteIcon></PlayCircleFilledWhiteIcon>
+                        </Button>
+                        {feedback_on && (
+                          <ImportantMsg
+                            message="Note that the feedback functionality is a work in progress. It is possible that a message will appear stating that your result does not match the expected result. Your solution may still be correct. We are working on improving this functionality in the future so that your individual solution is evaluated with regard to the task description."
+                            type="info"
+                          />
+                        )}
+                        {queryResult && (
+                          <ImportantMsg
+                            message={
+                              <div>
+                                <CheckIcon></CheckIcon> Query was executed
+                                successfully!
+                              </div>
+                            }
+                            type="success"
+                          />
+                        )}
+                        {queryResult && feedback_on && (
+                          <ImportantMsg
+                            message={feedback}
+                            type={feedbackType}
+                          />
+                        )}
+                        {endpoint === "Neo4J" && queryResult && (
+                          <ResultGraph
+                            queryResult={queryResult}
+                            onGetNodeAndEdgeCount={handleGetNodeAndEdgeCount}
+                          />
+                        )}{" "}
+                        {numNodes === 0 && numEdges === 0 && queryResult && (
+                          <ResultTable
+                            queryResult={queryResult}
+                            resultSize={formData.resultSize}
+                            title={area_name}
+                          />
+                        )}
+                        {error && (
+                          <ImportantMsg
+                            message={
+                              <div>
+                                <ErrorIcon></ErrorIcon> {error}
+                              </div>
+                            }
+                            type="error"
+                          />
+                        )}
+                        <Box
+                          sx={{
+                            padding: "10px",
+                            borderRadius: "5px",
+                            border: "black",
+                          }}
+                        >
+                          {<p>Result Size: {formData.resultSize}</p>}
+                          {/*   {
                           <p>
                             Is the query executable?: {formData.isExecutable}
                           </p>
                         } */}
+                        </Box>
                       </Box>
-                    </Box>
-                    <hr></hr>
-                    <InputLabel id="partial-solution-label">
-                      Your partial solution/further comments:
-                    </InputLabel>
-                    <TextField
-                      name="partialSolution"
-                      id="partial-solution-label"
-                      fullWidth
-                      multiline
-                      rows={6}
-                      value={formData.partialSolution}
-                      onChange={handleChange}
-                      aria-labelledby="Textfield for partial solution or comments"
-                    />
-                    <hr></hr>
-                    <InputLabel id="isCorrect-radiogroup">
-                      Do you think that your answer is correct?
-                    </InputLabel>
-                    <RadioGroup
-                      name="isCorrect"
-                      row
-                      id="isCorrect-radiogroup"
-                      value={formData.isCorrect}
-                      onChange={handleChange}
-                      aria-labelledby="Radiogroup to select if the input query returns a correct result"
-                    >
-                      {isCorrectOptions.map((item, index) => (
-                        <FormControlLabel
-                          key={index}
-                          value={item}
-                          control={<Radio />}
-                          label={item}
-                          aria-label={item}
-                        />
-                      ))}
-                    </RadioGroup>
-                    <hr></hr>
-                    <InputLabel id="difficulty-level-radiogroup">
-                      How difficult was this task for you?
-                    </InputLabel>
-                    <RadioGroup
-                      name="difficulty"
-                      row
-                      id="difficulty-level-radiogroup"
-                      defaultValue={"No answer"}
-                      value={formData.difficulty}
-                      onChange={handleChange}
-                      aria-labelledby="Radiogroup to select the perceived difficulty of the task"
-                    >
-                      {difficultyOptions.map((item, index) => (
-                        <FormControlLabel
-                          key={index}
-                          value={item}
-                          control={<Radio />}
-                          label={item}
-                          aria-label={item}
-                        />
-                      ))}
-                    </RadioGroup>
-                    <br />
-                    <hr></hr>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            name="is-finished-checkbox"
-                            checked={formData.isFinished}
-                            onChange={handleChange}
-                          />
-                        }
-                        label="Check if you finished this exercise to see your progress on the dashboard assignment card"
+                      <hr></hr>
+                      <InputLabel id="partial-solution-label">
+                        Your partial solution/further comments:
+                      </InputLabel>
+                      <TextField
+                        name="partialSolution"
+                        id="partial-solution-label"
+                        fullWidth
+                        multiline
+                        rows={6}
+                        value={formData.partialSolution}
+                        onChange={handleChange}
+                        aria-labelledby="Textfield for partial solution or comments"
                       />
-                    </FormGroup>
-                    <br />
-                    <hr></hr>
-                    {taskNumber === tasksArray.length ? (
-                      <div>
-                        {" "}
-                        <OptTimer
-                          run={isRunning}
-                          taskNumber={taskNumber}
-                          area_id={area_id}
-                          username={username}
-                          onTimeUpdate={handleTimerUpdate}
+                      <hr></hr>
+                      <InputLabel id="isCorrect-radiogroup">
+                        Do you think that your answer is correct?
+                      </InputLabel>
+                      <RadioGroup
+                        name="isCorrect"
+                        row
+                        id="isCorrect-radiogroup"
+                        value={formData.isCorrect}
+                        onChange={handleChange}
+                        aria-labelledby="Radiogroup to select if the input query returns a correct result"
+                      >
+                        {isCorrectOptions.map((item, index) => (
+                          <FormControlLabel
+                            key={index}
+                            value={item}
+                            control={<Radio />}
+                            label={item}
+                            aria-label={item}
+                          />
+                        ))}
+                      </RadioGroup>
+                      <hr></hr>
+                      <InputLabel id="difficulty-level-radiogroup">
+                        How difficult was this task for you?
+                      </InputLabel>
+                      <RadioGroup
+                        name="difficulty"
+                        row
+                        id="difficulty-level-radiogroup"
+                        defaultValue={"No answer"}
+                        value={formData.difficulty}
+                        onChange={handleChange}
+                        aria-labelledby="Radiogroup to select the perceived difficulty of the task"
+                      >
+                        {difficultyOptions.map((item, index) => (
+                          <FormControlLabel
+                            key={index}
+                            value={item}
+                            control={<Radio />}
+                            label={item}
+                            aria-label={item}
+                          />
+                        ))}
+                      </RadioGroup>
+                      <br />
+                      <hr></hr>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="is-finished-checkbox"
+                              checked={formData.isFinished}
+                              onChange={handleChange}
+                            />
+                          }
+                          label="Check if you finished this exercise to see your progress on the dashboard assignment card"
                         />
-                        <hr></hr>
-                        {taskNumber !== 1 && (
+                      </FormGroup>
+                      <br />
+                      <hr></hr>
+                      {taskNumber === tasksArray.length ? (
+                        <div>
+                          {" "}
+                          <OptTimer
+                            run={isRunning}
+                            taskNumber={taskNumber}
+                            area_id={area_id}
+                            username={username}
+                            onTimeUpdate={handleTimerUpdate}
+                          />
+                          <hr></hr>
+                          {taskNumber !== 1 && (
+                            <Button
+                              aria-label="Save current entries and navigate to previous task"
+                              onClick={handlePrevTask}
+                            >
+                              Previous Task{" "}
+                              <NavigateBeforeIcon></NavigateBeforeIcon>
+                            </Button>
+                          )}{" "}
                           <Button
-                            aria-label="Save current entries and navigate to previous task"
-                            onClick={handlePrevTask}
-                          >
-                            Previous Task{" "}
-                            <NavigateBeforeIcon></NavigateBeforeIcon>
-                          </Button>
-                        )}{" "}
-                        <Button
-                          aria-label="Save current entries and navigate to download page"
-                          onClick={handleDownload}
-                        >
-                          finish <NavigateNextIcon></NavigateNextIcon>
-                        </Button>
-                      </div>
-                    ) : (
-                      <div>
-                        <hr></hr>
-                       
-                        <OptTimer
-                          run={isRunning}
-                          taskNumber={taskNumber}
-                          area_id={area_id}
-                          username={username}
-                          onTimeUpdate={handleTimerUpdate}
-                        />
-
-                        <hr></hr>
-                        {taskNumber !== 1 && (
-                          <Button
-                            aria-label="Save current entries of the task and navigate to previous task"
-                            onClick={handlePrevTask}
-                          >
-                            Previous Task{" "}
-                            <NavigateBeforeIcon></NavigateBeforeIcon>
-                          </Button>
-                        )}
-
-                        <Button
-                          aria-label="Save current entries of this task and navigate to next task"
-                          onClick={handleNextTask}
-                        >
-                          Next Task <NavigateNextIcon></NavigateNextIcon>
-                        </Button>
-                        <Box>
-                          <Button
-                            variant="contained"
-                            color={
-                              buttonState === "success"
-                                ? "success"
-                                : buttonState === "error"
-                                ? "error"
-                                : "primary"
-                            }
-                            onClick={sendDataToDb}
-                            startIcon={renderIcon()}
-                            disabled={buttonState === "loading"}
-                          >
-                            {buttonState === "loading"
-                              ? "Saving..."
-                              : "Save Entries"}
-                          </Button>
-                          <Button
-                            aria-label="Go to the download section"
+                            aria-label="Save current entries and navigate to download page"
                             onClick={handleDownload}
                           >
-                            Go to download section <DownloadIcon></DownloadIcon>
+                            finish <NavigateNextIcon></NavigateNextIcon>
                           </Button>
-                        </Box>
+                        </div>
+                      ) : (
+                        <div>
+                          <hr></hr>
 
-                        {/*  <DownloadButton formData={formData} taskNumber={taskNumber} areaId={area_id} area_name={area_name}/> */}
-                      </div>
-                    )}{" "}
-                  </form>
-                ) : (
-                  <div>
-                    <Button
-                      aria-label="Start the task to open all task fields"
-                      onClick={startTimer}
-                    >
-                      Start task
-                      <HourglassEmptyIcon></HourglassEmptyIcon>
-                    </Button>
-                    <p>{""}</p>
+                          <OptTimer
+                            run={isRunning}
+                            taskNumber={taskNumber}
+                            area_id={area_id}
+                            username={username}
+                            onTimeUpdate={handleTimerUpdate}
+                          />
 
-                    <ImportantMsg
-                      message="Note: A timer will start, when you start the task. You can stop
+                          <hr></hr>
+                          {taskNumber !== 1 && (
+                            <Button
+                              aria-label="Save current entries of the task and navigate to previous task"
+                              onClick={handlePrevTask}
+                            >
+                              Previous Task{" "}
+                              <NavigateBeforeIcon></NavigateBeforeIcon>
+                            </Button>
+                          )}
+
+                          <Button
+                            aria-label="Save current entries of this task and navigate to next task"
+                            onClick={handleNextTask}
+                          >
+                            Next Task <NavigateNextIcon></NavigateNextIcon>
+                          </Button>
+                          <Box>
+                          <Typography paragraph><WarningAmberIcon></WarningAmberIcon> Always make sure to save the data of the current task before leaving</Typography>
+                            <Button
+                              variant="contained"
+                              color={
+                                buttonState === "success"
+                                  ? "success"
+                                  : buttonState === "error"
+                                  ? "error"
+                                  : "primary"
+                              }
+                              onClick={handleSave /* sendDataToDb */}
+                              startIcon={renderIcon()}
+                              disabled={buttonState === "loading"}
+                            >
+                              {buttonState === "loading"
+                                ? "Saving..."
+                                : "Save Entries"}
+                            </Button>
+                            <Button
+                              aria-label="Go to the download section"
+                              onClick={handleDownload}
+                            >
+                              Go to download section{" "}
+                              <DownloadIcon></DownloadIcon>
+                            </Button>
+                          </Box>
+
+                          {/*  <DownloadButton formData={formData} taskNumber={taskNumber} areaId={area_id} area_name={area_name}/> */}
+                        </div>
+                      )}{" "}
+                    </form>
+                  ) : (
+                    <div>
+                      <Button
+                        aria-label="Start the task to open all task fields"
+                        onClick={startTimer}
+                      >
+                        Start task
+                        <HourglassEmptyIcon></HourglassEmptyIcon>
+                      </Button>
+                      <p>{""}</p>
+
+                      <ImportantMsg
+                        message="Note: A timer will start, when you start the task. You can stop
                 and continue the timer if needed. Also make sure to save your
                 data."
-                      type="info"
-                    />
-                  </div>
-                )}
-              </Box>{" "}
-            </Item>
+                        type="info"
+                      />
+                    </div>
+                  )}
+                </Box>{" "}
+              </Item>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <DbAccordion endpoint={endpoint} />
+              <hr></hr>
+              <Box
+                sx={{
+                  maxHeight: "800px",
+                  overflowY: "auto",
+                }}
+              >
+                {endpoint === "PostgreSQL" && <PgDatabaseSchema />}
+                {endpoint === "Cassandra" && <CasDataModelTable />}
+                {endpoint === "Neo4J" && <NeoGraphC />}
+                {endpoint === "MongoDB" && <MongoSchema />}
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={4}>
-            <DbAccordion endpoint={endpoint} />
-            <hr></hr>
-            <Box
-              sx={{
-                maxHeight: "800px",
-                overflowY: "auto",
-              }}
-            >
-              {endpoint === "PostgreSQL" && <PgDatabaseSchema />}
-              {endpoint === "Cassandra" && <CasDataModelTable />}
-              {endpoint === "Neo4J" && <NeoGraphC />}
-              {endpoint === "MongoDB" && <MongoSchema />}
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>}
+        </Box>
+      )}
+      <Dialog open={isDialogOpen} onClose={cancelAction}>
+        <DialogTitle>Confirm Your Inputs</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please confirm the data of the current task before saving:
+          </DialogContentText>
+          <Typography>
+            <strong>Query Text:</strong> {formData.query_text}
+          </Typography>
+          <Typography>
+            <strong>Executable:</strong> {formData.isExecutable ? "Yes" : "No"}
+          </Typography>
+          <Typography>
+            <strong>Result Size:</strong> {formData.resultSize}
+          </Typography>
+          <Typography>
+            <strong>Difficulty Level:</strong> {formData.difficulty}
+          </Typography>
+          <Typography>
+            <strong>Is Finished:</strong> {formData.isFinished ? "Yes" : "No"}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancelAction} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={confirmAction} color="primary" variant="contained">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }
