@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Container from "@mui/material/Container";
+import React from "react";
 import { Box, Typography, Paper, List, ListItem, ListItemText, Alert } from '@mui/material';
 
 function InformationC() {

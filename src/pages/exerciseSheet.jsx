@@ -47,10 +47,7 @@ import {
 } from "../api/mainApi.js";
 import DbAccordion from "../components/dbAccordion.jsx";
 import { sendToExecute } from "../api/queryApi.js";
-import DownloadButton from "../components/downloadButton.jsx";
-import { checkAuth } from "../api/auth.js";
-import { useAuth } from '../App.js';
-import { CheckBox } from "@mui/icons-material";
+import { useAuth } from '../App';
 import PgDatabaseSchema from "../components/pgSchema.jsx";
 import CasDataModelTable from "../components/cassandraSchema.jsx";
 import NeoGraphC from "../components/graph.jsx";

@@ -24,15 +24,11 @@ import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import DownloadIcon from "@mui/icons-material/Download";
-import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-sql"; // SQL-Syntax-Highlighting
-import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import ImportantMsg from "../old_components/importantMsg";
 /* import OptTimer from "../old_components/optTimer"; */
 import OptTimer from "../components/timer";
-import ResultGraph from "../old_components/ResultGraph";
-import ResultTable from "../old_components/ResultTable";
 import {
   fetchTaskFormData,
   fetchTasksData,
@@ -40,15 +36,11 @@ import {
   postTaskFormData,
 } from "../api/mainApi";
 import DbAccordion from "../components/dbAccordion";
-import { sendToExecute } from "../api/queryApi";
-import DownloadButton from "../components/downloadButton";
 import { checkAuth } from "../api/loginApi";
-import { CheckBox } from "@mui/icons-material";
 import PgDatabaseSchema from "../components/pgSchema";
 import CasDataModelTable from "../components/cassandraSchema";
 import NeoGraphC from "../components/graph";
 import MongoSchema from "../components/mongoSchema";
-import forExport from "neo4j-driver";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundCoor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
