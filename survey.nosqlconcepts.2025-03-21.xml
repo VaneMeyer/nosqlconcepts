@@ -1724,7 +1724,7 @@
 </question>
 </section>
 <layoutTexts>
-<layoutText id="default.imprint"><txt lng="eng"><![CDATA[<a href="mailto:v.meyer@em.uni-frankfurt.de">M.Sc. Vanessa Meyer</a> – 2023]]></txt></layoutText>
+<layoutText id="default.imprint"><txt lng="eng"><![CDATA[<a href="mailto:email_of_responsible_person">Name_of_responsible_Person</a> – 2023]]></txt></layoutText>
 </layoutTexts>
 <questionnaire>
 <title>Fragebogen</title>
