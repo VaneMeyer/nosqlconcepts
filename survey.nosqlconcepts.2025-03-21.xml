@@ -1,0 +1,1957 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE surveyProject SYSTEM "doctype.survey.dtd">
+<surveyProject version="2.4" timestamp="2025-03-21 09:02:57" program="oFb" progversion="3.6.10 1372">
+<title>NoSQLconcepts</title>
+<description>Usability questions for NoSQLconcepts webapplication </description>
+<attributes.specific program="ofb">
+<attr id="language">eng</attr>
+</attributes.specific>
+<section>
+<title>General Questions</title>
+<attributes.specific program="ofb">
+<attr id="id">GQ</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+<question>
+<description>Occupation or Field of Study</description>
+<class>text</class>
+<title>What is your occupation or field of study?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Age</description>
+<class>scale</class>
+<title>How old are you?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1"><![CDATA[<25]]></li>
+<li i="2">25-32</li>
+<li i="3">33-40</li>
+<li i="4">41-48</li>
+<li i="5">49-56</li>
+<li i="6">57-64</li>
+<li i="7"><![CDATA[>64]]></li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>age</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Gender</description>
+<class>scale</class>
+<title>Your Gender?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">female</li>
+<li i="2">male</li>
+<li i="3">diverse</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">3</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>gender</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description> DB Skills</description>
+<class>scale</class>
+<title>Assess your current skills.</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>general computer skills</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>traditional database skills (relational databases and SQL query language)</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>NoSQL database skills</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>NoSQL</description>
+<class>scale</class>
+<title>
+<![CDATA[Have you heard/worked of SQL/NoSQL databases before this course?
+]]>
+</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">Yes</li>
+<li i="2">No</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">2</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>Have you heard of NoSQL databases before this course?</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Have you worked with NoSQL databases before this course?</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Have you heard of SQL databases before this course?</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Have you worked with SQL databases before this course?</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>App Usage Time</description>
+<class>text</class>
+<title>How long have you been using our NoSQLconcepts app?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">6</attr>
+<attr id="pos">6</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>First Impression</title>
+<attributes.specific program="ofb">
+<attr id="id">FI</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+<question>
+<description>Software Structure</description>
+<class>scale</class>
+<title>The NoSQLconcepts tool ...</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>is clearly structured.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>is simple and straightforward to use.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>is easy and quick to learn.</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>is designed to be visually appealing.</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+<item>
+<text>gives a positive first impression.</text>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further Comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Recognizability and Uniqueness</title>
+<attributes.specific program="ofb">
+<attr id="id">RU</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+<question>
+<description>Functionality Overview</description>
+<class>scale</class>
+<title>The software ...</title>
+<explanation>--- stands for does not apply at all, +++ stands for completely applies</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>offers a good overview of the range of functions.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>clearly shows what the individual elements (such as buttons, text fields, etc.) in the application are used for.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>offers situation-specific explanations that provide concrete help.</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Free text </description>
+<class>text</class>
+<title>Which elements (such as buttons, text fields, etc.) were incomprehensible and why?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further Comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Intuitiveness and Clarity</title>
+<attributes.specific program="ofb">
+<attr id="id">IC</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+<question>
+<description>Intuitive Software</description>
+<class>scale</class>
+<title>The software ...</title>
+<explanation>--- stands for does not apply at all, +++ stands for completely applies</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>offers intuitive workflows.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>uses easy-to-understand terms, labels or symbols in the dashboard and task areas, as well as in other components.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>is easy to use and well tailored to the requirements of the course.</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>can be operated consistently according to a uniform principle.</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Free text </description>
+<class>text</class>
+<title>Which icons or labels are difficult to understand and why?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further Comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Learnability</title>
+<attributes.specific program="ofb">
+<attr id="id">LA</attr>
+<attr id="pos">5</attr>
+</attributes.specific>
+<question>
+<description>Learnability Questions</description>
+<class>scale</class>
+<title>The software ...</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>requires little time to learn.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>encourages you to try out new features of the application.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>is designed in such a way that once learned, it is easily memorized.</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>can be easily learned without outside help or a manual.</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further Comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Feedback and Reaction</title>
+<attributes.specific program="ofb">
+<attr id="id">FR</attr>
+<attr id="pos">6</attr>
+</attributes.specific>
+<question>
+<description>Feedback Reaction Questions</description>
+<class>scale</class>
+<title>The software ...</title>
+<explanation>--- stands for does not apply at all, +++ stands for completely applies</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>does not leave you in the dark as to whether an entry was successful or not.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>responds with easily predictable processing times.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>informs you immediately about incorrect entries.</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>displays visualizations of database results instantly.</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+<item>
+<text>does not display visualizations of the database results at all.</text>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further Comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Expected Features</title>
+<attributes.specific program="ofb">
+<attr id="id">EF</attr>
+<attr id="pos">7</attr>
+</attributes.specific>
+<question>
+<description>Expected Features Questions</description>
+<class>scale</class>
+<title>The software ...</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>offers elements and functions that solve their tasks as expected.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>is designed in such a way that small errors do not have major consequences and require little correction effort.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Free text </description>
+<class>text</class>
+<title>Which elements or functions trigger unexpected behavior or do not correspond to the description?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Free text 2</description>
+<class>text</class>
+<title>Which elements or functions were particularly helpful and useful?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Free text 3</description>
+<class>text</class>
+<title>Which elements or functions were less helpful and useful?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Free text 4</description>
+<class>text</class>
+<title>Which elements or functions should be added?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further Comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">6</attr>
+<attr id="pos">6</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>User friendly</title>
+<attributes.specific program="ofb">
+<attr id="id">UF</attr>
+<attr id="pos">8</attr>
+</attributes.specific>
+<question>
+<description>User friendly Querstions</description>
+<class>scale</class>
+<title>The software ...</title>
+<explanation>--- stands for does not apply at all, +++ stands for completely applies</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.display">complete</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>makes it easier to process given database tasks.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>is designed to be visually appealing.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>gives a positive overall impression.</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the first impression was confirmed.</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further Comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Navigation Capability</title>
+<attributes.specific program="ofb">
+<attr id="id">NC</attr>
+<attr id="pos">9</attr>
+</attributes.specific>
+<question>
+<description>Navigation</description>
+<class>mc-matrix</class>
+<title>Overall, how would you rate...</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>the ease of navigation through the app?</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the ease of quickly locating the desired functions or pages?</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Navigation 2</description>
+<class>checkbox</class>
+<title>Overall, did you find the menus and navigation bars (topbar) intuitive?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Yes</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>No</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Clarity of Features</title>
+<attributes.specific program="ofb">
+<attr id="id">CF</attr>
+<attr id="pos">10</attr>
+</attributes.specific>
+<question>
+<description>purpose</description>
+<class>select</class>
+<title>Could you clearly discern the purpose of each function or button in the app?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Yes</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>No</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>unclear features</description>
+<class>text</class>
+<title>Were there any features whose purpose was unclear to you? If yes, which ones?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>actions</description>
+<class>mc-matrix</class>
+<title />
+<explanation />
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">Very Difficult</li>
+<li i="2">Difficult</li>
+<li i="3">Neutral</li>
+<li i="4">Easy</li>
+<li i="5">Very Easy</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>How easy was it to perform the necessary actions to complete a task?</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Efficiency in Task Completion</title>
+<attributes.specific program="ofb">
+<attr id="id">ET</attr>
+<attr id="pos">11</attr>
+</attributes.specific>
+<question>
+<description>delays</description>
+<class>select</class>
+<title>Were you able to accomplish your tasks efficiently and without delays or unnecessary steps?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Yes</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>No</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>fast</description>
+<class>select</class>
+<title>Were all functions fast and responsive?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Yes</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>No</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>slow</description>
+<class>text</class>
+<title>Were there areas of the app that you found slow or cumbersome? If yes, which areas?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Layout and Visual Design</title>
+<attributes.specific program="ofb">
+<attr id="id">LV</attr>
+<attr id="pos">12</attr>
+</attributes.specific>
+<question>
+<description>layout</description>
+<class>mc-matrix</class>
+<title />
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>How would you rate the overall layout and visual design of the app? </text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>buttons</description>
+<class>text</class>
+<title>Were there any issues with the readability of text or visibility of elements (e.g. buttons)? If yes, which ones?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Learning Analytics Dashboard</title>
+<attributes.specific program="ofb">
+<attr id="id">LD</attr>
+<attr id="pos">13</attr>
+</attributes.specific>
+<question>
+<description>tracking</description>
+<class>select</class>
+<title>Did you find the Learning Analytics Dashboard helpful in tracking your progress and performance?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Yes</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>No</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>interpretation</description>
+<class>select</class>
+<title>Were you able to interpret the data presented in the Learning Analytics Dashboard easily?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Yes</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>No</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>dashboard usability</description>
+<class>mc-matrix</class>
+<title>How would you rate...</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>the intuitiveness of navigating between database cards on the dashboard using the "START" button to access exercise areas?</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the clarity and helpfulness of the progress circle in visualizing your current progress status?</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the usability of the charts for providing an overview of the average time required for tasks?</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the effectiveness of the charts in displaying your own count of started, correct, and executable tasks/queries?</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the clarity and usefulness of the line chart displaying the number of executed queries over the last 7, 14, and 21 active days?</text>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the usefulness of the small rating section indicating the easiest and most difficult tasks?</text>
+<attributes.specific program="ofb">
+<attr id="id">6</attr>
+<attr id="pos">6</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the effectiveness of the dashboard in assisting your learning and progress tracking activities related to database exercises?</text>
+<attributes.specific program="ofb">
+<attr id="id">7</attr>
+<attr id="pos">7</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>course statistics</description>
+<class>mc-matrix</class>
+<title>How would you rate...</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>the clarity and usefulness of the bar charts displaying the average time for a task across the entire course?</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the effectiveness of the bar chart in displaying the average count of started, correct, and executable queries for the entire course?</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the clarity and helpfulness of the pie chart displaying the average count of tasks based on a difficulty rating?</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the effectiveness of these charts in providing insights into the course's performance while also considering their impact on your personal motivation?</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Additional Feedback</title>
+<attributes.specific program="ofb">
+<attr id="id">AF</attr>
+<attr id="pos">14</attr>
+</attributes.specific>
+<question>
+<description>comments</description>
+<class>text</class>
+<title>Do you have any additional comments or suggestions for improving the usability of our NoSQLconcepts tool?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>recommend</description>
+<class>select</class>
+<title>Would you recommend our NoSQLconcepts tool to others that want to learn databases?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Yes</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>No</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Web Disability</title>
+<attributes.specific program="ofb">
+<attr id="id">WD</attr>
+<attr id="pos">15</attr>
+</attributes.specific>
+<question>
+<description>web disability</description>
+<class>mc-matrix</class>
+<title>How would you rate ...</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>the readability of elements (fontsizes, sizes of buttons etc.)</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the chosen colors for main components (topbar, main background, dashboard etc.)</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the chosen colors for charts (dashboard and statistics charts)</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the contrasts of the chosen colors (e.g. contrast of background and text)</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Specific Features</title>
+<attributes.specific program="ofb">
+<attr id="id">SF</attr>
+<attr id="pos">16</attr>
+</attributes.specific>
+<question>
+<description>specific task features</description>
+<class>mc-matrix</class>
+<title>How would you rate...</title>
+<explanation>--- is the worst, -/+ is neutral, +++ is the best rating</explanation>
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>the ease of navigation and interaction with the accordion elements (when inspecting the database structure within our app) for selecting database tables and displaying their attributes?</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the ease of inputting and executing database queries using our app?</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the clarity and readability of the query results displayed in our app?</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text>responsiveness of the component in displaying query results promptly?</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+<item>
+<text>the effectiveness of the query execution and result display component in assisting your interaction with the database and understanding query results?</text>
+<attributes.specific program="ofb">
+<attr id="id">6</attr>
+<attr id="pos">5</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Further Comments</description>
+<class>text</class>
+<title>Further comments:</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Syntax Highlighting</title>
+<attributes.specific program="ofb">
+<attr id="id">SH</attr>
+<attr id="pos">17</attr>
+</attributes.specific>
+<question>
+<description>Task Suitability</description>
+<class>mc-matrix</class>
+<title> How would you rate...</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<labels>
+<li i="1">---</li>
+<li i="2">--</li>
+<li i="3">-</li>
+<li i="4">-/+</li>
+<li i="5">+</li>
+<li i="6">++</li>
+<li i="7">+++</li>
+</labels>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="scale.niveau">7</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="composition">default</attr>
+</attributes.specific>
+<item>
+<text>the support provided by the syntax highlighting function ality for completing the tasks?</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text> the support from the syntax highlighting feature to help you un derstand the syntax of the query you are writing?</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text> the support you get from the syntax highlighter to identify syntax errors before processing them?</text>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+</item>
+<item>
+<text> the impact of syntax highlighter on your overall tool experience?</text>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+</item>
+<item>
+<text> the consistency of the syntax highlighting across all four  databases?</text>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+</attributes.specific>
+</item>
+<item>
+<text> the chosen colors for syntax highlighting?</text>
+<attributes.specific program="ofb">
+<attr id="id">6</attr>
+<attr id="pos">6</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Open Text</description>
+<class>text</class>
+<title>
+<![CDATA[ What additional suggestions regarding the syntax highlighting feature do you
+ have?]]>
+</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<layoutTexts>
+<layoutText id="default.imprint"><txt lng="eng"><![CDATA[<a href="mailto:email_of_responsible_person">Name_of_responsible_Person</a> – 2023]]></txt></layoutText>
+</layoutTexts>
+<questionnaire>
+<title>Fragebogen</title>
+<attributes.specific program="ofb">
+<attr id="id">base</attr>
+<attr id="content">
+<![CDATA[<?xml version="1.0"?>
+<questionnaire>
+
+<!-- Seite 1 -->
+<page ident="GQ" intID="1">
+<info>General Questions</info>
+<question id="GQ01" intID="2" />
+<question id="GQ02" intID="3" />
+<question id="GQ03" intID="4" />
+<question id="GQ04" intID="5" />
+<question id="GQ05" intID="6" />
+</page>
+
+
+<!-- Seite 2 -->
+<page ident="FI" intID="7">
+<info>First Impression</info>
+<question id="FI01" intID="8" />
+<question id="FI02" intID="9" />
+</page>
+
+
+<!-- Seite 3 -->
+<page ident="RU" intID="10">
+<info>Recognizability and Uniqueness</info>
+<question id="RU01" intID="11" />
+<question id="RU02" intID="12" />
+<question id="RU03" intID="13" />
+</page>
+
+
+<!-- Seite 4 -->
+<page ident="IC" intID="14">
+<info>Intuitiveness and Clarity</info>
+<question id="IC01" intID="15" />
+<question id="IC02" intID="16" />
+<question id="IC03" intID="17" />
+</page>
+
+
+<!-- Seite 5 -->
+<page ident="LA" intID="18">
+<info>Learnability</info>
+<question id="LA01" intID="19" />
+<question id="LA02" intID="20" />
+</page>
+
+
+<!-- Seite 6 -->
+<page ident="FR" intID="21">
+<info>Feedback and Reaction</info>
+<question id="FR01" intID="22" />
+<question id="FR02" intID="23" />
+</page>
+
+
+<!-- Seite 7 -->
+<page ident="EF" intID="24">
+<info>Expected Features</info>
+<question id="EF01" intID="25" />
+<question id="EF02" intID="26" />
+<question id="EF03" intID="27" />
+<question id="EF04" intID="28" />
+<question id="EF05" intID="29" />
+<question id="EF06" intID="30" />
+</page>
+
+
+<!-- Seite 8 -->
+<page ident="UF" intID="31">
+<info>User friendly</info>
+<question id="UF01" intID="32" />
+<question id="UF02" intID="33" />
+</page>
+
+
+</questionnaire>]]>
+</attr>
+<attr id="goodbye">
+<![CDATA[<h1>Thank you for completing this questionnaire!</h1>
+
+<p>We would like to thank you very much for helping us.</p>
+
+<!-- Insert information on the study or a contact option here -->
+
+<p>Your answers were transmitted, you may close the browser window or tab now.</p>
+
+<!-- Additional spacing (remove or adjust as required)  -->
+<div style="padding-bottom: 120px"></div>]]>
+</attr>
+<attr id="selection">0</attr>
+</attributes.specific>
+</questionnaire>
+<questionnaire>
+<title>Fragebogen</title>
+<attributes.specific program="ofb">
+<attr id="id">qnr2</attr>
+<attr id="content">
+<![CDATA[<?xml version="1.0"?>
+<questionnaire>
+
+<!-- Seite 1 -->
+<page ident="GQ" intID="1">
+<info>General Questions</info>
+<question id="GQ01" intID="2" />
+<question id="GQ02" intID="3" />
+<question id="GQ03" intID="4" />
+<question id="GQ04" intID="5" />
+<question id="GQ05" intID="6" />
+<question id="GQ06" intID="7" />
+</page>
+
+
+<!-- Seite 2 -->
+<page ident="FI" intID="8">
+<info>First Impression</info>
+<question id="FI01" intID="9" />
+<question id="FI02" intID="10" />
+</page>
+
+
+<!-- Seite 3 -->
+<page ident="EF" intID="11">
+<info>Expected Features</info>
+<question id="EF01" intID="12" />
+<question id="EF02" intID="13" />
+<question id="EF03" intID="14" />
+<question id="EF04" intID="15" />
+<question id="EF05" intID="16" />
+<question id="EF06" intID="17" />
+</page>
+
+
+<!-- Seite 4 -->
+<page ident="LA" intID="18">
+<info>Learnability</info>
+<question id="LA01" intID="19" />
+<question id="LA02" intID="20" />
+</page>
+
+
+<!-- Seite 5 -->
+<page ident="NC" intID="21">
+<info>Navigation Capability</info>
+<question id="NC01" intID="22" />
+<question id="NC02" intID="23" />
+<question id="NC03" intID="24" />
+</page>
+
+
+<!-- Seite 6 -->
+<page ident="WD" intID="25">
+<info>Web Disability</info>
+<question id="WD01" intID="26" />
+<question id="LV02" intID="27" />
+<question id="LV03" intID="28" />
+</page>
+
+
+<!-- Seite 7 -->
+<page ident="SF" intID="29">
+<info>Specific Features</info>
+<question id="SF01" intID="30" />
+<question id="SF02" intID="31" />
+</page>
+
+
+<!-- Seite 8 -->
+<page ident="SH" intID="46">
+<info>Syntax Highlighting</info>
+<question id="SH01" intID="47" />
+<question id="SH02" intID="48" />
+</page>
+
+
+<!-- Seite 9 -->
+<page ident="ET" intID="32">
+<info>Efficiency in Task Completion</info>
+<question id="ET01" intID="33" />
+<question id="ET02" intID="34" />
+<question id="ET03" intID="35" />
+<question id="ET04" intID="36" />
+</page>
+
+
+<!-- Seite 10 -->
+<page ident="LD" intID="37">
+<info>Learning Analytics Dashboard</info>
+<question id="LD01" intID="38" />
+<question id="LD02" intID="39" />
+<question id="LD03" intID="40" />
+<question id="LD04" intID="41" />
+<question id="LD05" intID="42" />
+</page>
+
+
+<!-- Seite 11 -->
+<page ident="AF" intID="43">
+<info>Additional Feedback</info>
+<question id="AF01" intID="44" />
+<question id="AF02" intID="45" />
+</page>
+
+
+</questionnaire>]]>
+</attr>
+<attr id="goodbye">
+<![CDATA[<h1>Thank you for completing this questionnaire!</h1>
+
+<p>We would like to thank you very much for helping us.</p>
+
+<!-- Insert information on the study or a contact option here -->
+
+<p>Your answers were transmitted, you may close the browser window or tab now.</p>
+
+<!-- Additional spacing (remove or adjust as required)  -->
+<div style="padding-bottom: 120px"></div>]]>
+</attr>
+<attr id="selection">1</attr>
+</attributes.specific>
+</questionnaire>
+<setting name="DataFilter" key="df" encoding="json">
+{"started.first":"","started.last":"","lastdata.first":"","lastdata.last":"","questionnaire":["3874"],"dfStatus":2}</setting>
+</surveyProject>
