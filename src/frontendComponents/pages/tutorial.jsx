@@ -2,14 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Tabs, Tab, Typography, Container } from "@mui/material";
 import {
-  
   Table,
   TableContainer,
   TableHead,
   TableBody,
   TableRow,
   TableCell,
-  
 } from "@mui/material";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
@@ -369,104 +367,94 @@ export default function DatabaseTutorials() {
   ];
   const mongo_questions = [
     {
-      question: 'What is MongoDB best suited for?',
+      question: "What is MongoDB best suited for?",
       options: [
-        'Relational data modeling',
-        'Handling JSON-like, unstructured data',
-        'Data warehousing',
-        'Graph-based data with complex relationships',
+        "Relational data modeling",
+        "Handling JSON-like, unstructured data",
+        "Data warehousing",
+        "Graph-based data with complex relationships",
       ],
-      correctAnswer: 'Handling JSON-like, unstructured data',
+      correctAnswer: "Handling JSON-like, unstructured data",
     },
     {
-      question: 'How do you perform an Equi Join in MongoDB?',
+      question: "How do you perform an Equi Join in MongoDB?",
       options: [
-        'Using JOIN in the find() method',
-        'Using the $lookup stage in the aggregation pipeline',
-        'Using WHERE with equality conditions',
-        'MongoDB does not support joins',
+        "Using JOIN in the find() method",
+        "Using the $lookup stage in the aggregation pipeline",
+        "Using WHERE with equality conditions",
+        "MongoDB does not support joins",
       ],
-      correctAnswer: 'Using the $lookup stage in the aggregation pipeline',
+      correctAnswer: "Using the $lookup stage in the aggregation pipeline",
     },
     {
-      question: 'What is a Theta Join in MongoDB?',
+      question: "What is a Theta Join in MongoDB?",
       options: [
-        'A join with conditions other than equality',
-        'A MongoDB-native feature for handling complex joins',
-        'A special aggregation pipeline stage',
-        'MongoDB does not support Theta Joins',
+        "A join with conditions other than equality",
+        "A MongoDB-native feature for handling complex joins",
+        "A special aggregation pipeline stage",
+        "MongoDB does not support Theta Joins",
       ],
-      correctAnswer: 'A join with conditions other than equality',
+      correctAnswer: "A join with conditions other than equality",
     },
     {
-      question: 'How can you evolve a schema in MongoDB?',
+      question: "How can you evolve a schema in MongoDB?",
       options: [
-        'By using ALTER TABLE commands',
-        'By dynamically adding or modifying fields in documents',
-        'By recompiling the database schema',
-        'MongoDB does not support schema evolution',
+        "By using ALTER TABLE commands",
+        "By dynamically adding or modifying fields in documents",
+        "By recompiling the database schema",
+        "MongoDB does not support schema evolution",
       ],
-      correctAnswer: 'By dynamically adding or modifying fields in documents',
+      correctAnswer: "By dynamically adding or modifying fields in documents",
     },
     {
-      question: 'How does MongoDB handle missing fields in documents?',
+      question: "How does MongoDB handle missing fields in documents?",
       options: [
-        'By storing NULL explicitly',
-        'By skipping the fields in the document',
-        'By assigning a default value of 0',
-        'Missing fields are not allowed',
+        "By storing NULL explicitly",
+        "By skipping the fields in the document",
+        "By assigning a default value of 0",
+        "Missing fields are not allowed",
       ],
-      correctAnswer: 'By skipping the fields in the document',
+      correctAnswer: "By skipping the fields in the document",
     },
     {
-      question: 'Which MQL operator is used to handle missing values?',
-      options: [
-        '$COALESCE',
-        '$IFNULL',
-        '$ifNull',
-        '$exists',
-      ],
-      correctAnswer: '$ifNull',
+      question: "Which MQL operator is used to handle missing values?",
+      options: ["$COALESCE", "$IFNULL", "$ifNull", "$exists"],
+      correctAnswer: "$ifNull",
     },
     {
-      question: 'How are range queries implemented in MongoDB?',
+      question: "How are range queries implemented in MongoDB?",
       options: [
-        'Using the RANGE() function',
-        'Using comparison operators such as $gte and $lte',
-        'Using the BETWEEN operator',
-        'Range queries are not supported',
+        "Using the RANGE() function",
+        "Using comparison operators such as $gte and $lte",
+        "Using the BETWEEN operator",
+        "Range queries are not supported",
       ],
-      correctAnswer: 'Using comparison operators such as $gte and $lte',
+      correctAnswer: "Using comparison operators such as $gte and $lte",
     },
     {
-      question: 'Which operator is used for network analysis in MongoDB?',
-      options: [
-        '$graphLookup',
-        '$networkSearch',
-        '$traverse',
-        '$shortestPath',
-      ],
-      correctAnswer: '$graphLookup',
+      question: "Which operator is used for network analysis in MongoDB?",
+      options: ["$graphLookup", "$networkSearch", "$traverse", "$shortestPath"],
+      correctAnswer: "$graphLookup",
     },
     {
-      question: 'What does the $lookup stage do in MongoDB?',
+      question: "What does the $lookup stage do in MongoDB?",
       options: [
-        'Performs a join between two collections',
-        'Indexes a collection for faster lookups',
-        'Creates a backup of the database',
-        'Filters documents based on conditions',
+        "Performs a join between two collections",
+        "Indexes a collection for faster lookups",
+        "Creates a backup of the database",
+        "Filters documents based on conditions",
       ],
-      correctAnswer: 'Performs a join between two collections',
+      correctAnswer: "Performs a join between two collections",
     },
     {
-      question: 'How can you create an index in MongoDB?',
+      question: "How can you create an index in MongoDB?",
       options: [
-        'Using the $createIndex command',
-        'Using the createIndex() method',
-        'By defining the schema',
-        'Indexes are not supported in MongoDB',
+        "Using the $createIndex command",
+        "Using the createIndex() method",
+        "By defining the schema",
+        "Indexes are not supported in MongoDB",
       ],
-      correctAnswer: 'Using the createIndex() method',
+      correctAnswer: "Using the createIndex() method",
     },
   ];
   return (
@@ -605,6 +593,48 @@ ON e.department_id < d.id;`}
                 </TableBody>
               </Table>
             </TableContainer>
+            <hr></hr>
+            <Typography variant="h5">Count, Group By and Having</Typography>
+            <Typography paragraph>
+              The <code>COUNT</code> function combined with{" "}
+              <code>GROUP BY</code> is used to group rows sharing a property and
+              count how many rows are in each group. The <code>HAVING</code>{" "}
+              clause allows filtering of these groups based on aggregate values.
+            </Typography>
+            <Typography paragraph>Examples</Typography>
+            <Typography paragraph>
+              Count Employees per Department (Only where count &gt; 10)
+            </Typography>
+            <AceEditor
+              id="query-input-label"
+              name="query"
+              mode="sql"
+              value={`SELECT department_id, COUNT(*) AS employee_count\nFROM employees\nGROUP BY department_id\nHAVING COUNT(*) > 10;`}
+              editorProps={{ $blockScrolling: true }}
+              style={{ width: "100%", height: "90px" }}
+              setOptions={{ fontSize: "16px" }}
+            />
+
+            <hr></hr>
+            <Typography variant="h5">Subqueries</Typography>
+            <Typography paragraph>
+              Subqueries are nested queries used to return data that will be
+              used by the main query.
+            </Typography>
+            <Typography paragraph>Examples</Typography>
+            <Typography paragraph>
+              Employees in the "HR" Department (Using Subquery)
+            </Typography>
+            <AceEditor
+              id="query-input-label"
+              name="query"
+              mode="sql"
+              value={`SELECT name FROM employees\nWHERE department_id = (\n  SELECT id\n  FROM departments\n  WHERE name = 'HR'\n);`}
+              editorProps={{ $blockScrolling: true }}
+              style={{ width: "100%", height: "120px" }}
+              setOptions={{ fontSize: "16px" }}
+            />
+
             <hr></hr>
             <Typography variant="h5">Schema Evolution</Typography>
             <Typography paragraph>
@@ -1450,8 +1480,10 @@ RETURN gds.util.asNode(nodeId).name AS person, communityId;`}
             field.
           </Typography>
           <hr></hr>
-          <Quiz questionData={mongo_questions} onSubmit={(score) => console.log(`Final Score: ${score}`)} />
-
+          <Quiz
+            questionData={mongo_questions}
+            onSubmit={(score) => console.log(`Final Score: ${score}`)}
+          />
         </TabPanel>
       </Box>
     </Container>

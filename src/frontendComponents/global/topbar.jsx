@@ -72,14 +72,14 @@ function TopBar() {
           /> */}
           NoSQLconcepts
         </Typography>
-      {/*   <Button
+         <Button
           component={Link}
           to="/tutorial"
           color="inherit"
           startIcon={<SchoolIcon />} 
         >
           Tutorial
-        </Button> */}
+        </Button> 
         <Button
           component={Link}
           to="/"
