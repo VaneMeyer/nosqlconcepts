@@ -19,6 +19,7 @@ import "../../custom_ace_files/mode-pgsql";
 import "../../custom_ace_files/theme-goethe";
 import Quiz from "../components/tutorialComponents/sqlQuiz";
 
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -479,6 +480,8 @@ export default function DatabaseTutorials() {
             as extended joins, custom data types, functions, and strong
             community support.
           </Typography>
+          <a href="https://www.postgresql.org/docs/current/" target="_blank">Link to the official PostgreSQL Documentation</a>
+          <hr></hr>
           <div>
             <Typography variant="h5">Equi Join</Typography>
             <Typography paragraph>
@@ -869,6 +872,8 @@ SELECT * FROM employee_tree;`}
             (CQL) is its query language, resembling SQL but optimized for
             Cassandra's distributed architecture.
           </Typography>
+           <a href="https://cassandra.apache.org/doc/latest/" target="_blank">Link to the official Cassandra Documentation</a>
+          <hr></hr>
 
           <Typography variant="h5">Equi Join in Cassandra</Typography>
           <Typography paragraph>
@@ -1062,6 +1067,7 @@ CREATE TABLE employee_departments (
             language, designed to efficiently query graph data using an
             intuitive and expressive syntax.
           </Typography>
+           
           <hr></hr>
           <Typography variant="h5">Equi Join</Typography>
           <Typography paragraph>
@@ -1285,6 +1291,8 @@ RETURN gds.util.asNode(nodeId).name AS person, communityId;`}
             and manage data in MongoDB. It provides powerful operators and
             aggregation pipelines to handle complex queries.
           </Typography>
+           <a href="https://www.mongodb.com/docs/manual/" target="_blank">Link to the official MongoDB Documentation</a>
+          
           <hr></hr>
           <Typography variant="h5">Equi Join</Typography>
           <Typography paragraph>
