@@ -42,6 +42,7 @@ const dataModel = [
         { name: 'department_name', type: 'TEXT' },
         { name: 'person_email_address', type: 'TEXT' },
         { name: 'person_firstname', type: 'TEXT' },
+        { name: 'person_id', type: 'TEXT' },
         { name: 'person_lastname', type: 'TEXT' },
         { name: 'person_middlename', type: 'TEXT' },
         { name: 'person_salary', type: 'INT' },

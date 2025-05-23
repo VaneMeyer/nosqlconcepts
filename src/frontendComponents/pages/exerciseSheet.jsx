@@ -694,7 +694,7 @@ function ExerciseSheetC({ area_id, area_name, endpoint, feedback_on }) {
                   <Typography variant="h6" >
                     {task.maxtime}
                   </Typography>
-                  <Typography >
+                  <Typography align="left">
                     {task.description}
                   </Typography>
                   <hr></hr>

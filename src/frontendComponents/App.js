@@ -33,6 +33,8 @@ import NewStatistics from "./pages/statistics.jsx";
 import UserProfile from "./pages/userProfile.jsx";
 import AdminPage from "./pages/adminPage.jsx";
 import NewInformationC from "./pages/information.jsx";
+import TestC from "./pages/test.jsx";
+import TabNav from "./global/tabNav.jsx";
 
 
 const AuthContext = createContext();
@@ -123,7 +125,7 @@ const AppRoutes = ({ assignments }) => {
     },
     {
       path: "/information",
-      element: <ProtectedRoute element={<NewInformationC />} />,
+      element: <NewInformationC />,
     },
     {
       path: "/download",
@@ -154,6 +156,7 @@ const AppRoutes = ({ assignments }) => {
     { path: "/conditions", element: <Conditions /> },
      { path: "/tutorial", element: <DatabaseTutorials /> }, 
     //lokal testen
+    { path: "/test", element: <TestC/> },
   /*   { path: "/test-exercise", element: <ExerciseSheetC/> },
     { path: "/test-dashboard", element: <NewDashboard/> },
     { path: "/test-statistics", element: <NewStatistics/> },
@@ -237,7 +240,8 @@ const AppNewLayout = () => {
       <div className="app">
         <main className="content">
           <Router>
-            <MemoizedTopBar />
+            {/* <MemoizedTopBar /> */}
+            <MemoizedTabNav />
             <ErrorBoundary>
               <AppRoutes assignments={assignments} />
             </ErrorBoundary>
@@ -252,6 +256,7 @@ const AppNewLayout = () => {
 // Memoized components
 const MemoizedTopBar = memo(TopBar);
 const MemoizedFooter = memo(Footer);
+const MemoizedTabNav = memo(TabNav);
 
 export { useAuth };
 export default AppNewLayout;

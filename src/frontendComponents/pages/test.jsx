@@ -1,4 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const question = "You have to find a suitable database query for the following task: For each person you want to know in which department she or he works. Therefore, you have to make an output that contains a person’s first name and last name and the name of the department she or he is working at.";
+
+function TestC() {
+  const [studentAnswer, setStudentAnswer] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setFeedback('');
+
+    try {
+      const response = await axios.post('http://localhost:3001/api/feedback', {
+        question,
+        studentAnswer
+      });
+      setFeedback(response.data.feedback);
+    } catch (error) {
+      setFeedback('❌ Error getting feedback.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ padding: '2rem', maxWidth: '700px', margin: 'auto' }}>
+      <h2>📘 Educational Feedback Tool</h2>
+      <p><strong>Question:</strong> {question}</p>
+
+      <form onSubmit={handleSubmit}>
+        <textarea
+          rows="5"
+          value={studentAnswer}
+          onChange={(e) => setStudentAnswer(e.target.value)}
+          placeholder="✍️ Type your answer here..."
+          style={{ width: '100%', marginBottom: '1rem' }}
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Getting Feedback...' : 'Submit Answer'}
+        </button>
+      </form>
+
+      {feedback && (
+        <div style={{ marginTop: '2rem', background: '#eef', padding: '1rem' }}>
+          <strong>📋 AI Feedback:</strong>
+          <p>{feedback}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default TestC;
+
+
+/* import React from 'react';
 import {
   Box,
   Button,
@@ -89,14 +148,14 @@ export default function TestExerciseSheet() {
 
   return (
     <Box display="flex" flexDirection={isSmallScreen ? 'column' : 'row'} height="100vh">
-      {/* Sidebar for larger screens */}
+     
       {!isSmallScreen && (
         <Box width="20%" p={2} bgcolor="#f5f5f5" borderRight={1} borderColor="divider">
           <SidebarContent />
         </Box>
       )}
 
-      {/* Main Content */}
+    
       <Box flexGrow={1} p={2} display="flex" flexDirection="column">
         <Box display="flex" flexDirection={isSmallScreen ? 'column' : 'row'} justifyContent="space-between" mb={2}>
           <Box mb={isSmallScreen ? 2 : 0}>
@@ -121,7 +180,7 @@ export default function TestExerciseSheet() {
           </Box>
         </Box>
 
-        {/* Grid Content */}
+       
         <Grid container spacing={2} flexGrow={1}>
           <Grid item xs={12} md={6} order={{ xs: 1, md: 1 }}>
             <Typography variant="caption" component="label" htmlFor="editor">Query Editor</Typography>
@@ -157,12 +216,14 @@ export default function TestExerciseSheet() {
         </Grid>
       </Box>
 
-      {/* Sidebar for small screens at the bottom */}
+     
       {isSmallScreen && (
         <Box width="100%" p={2} bgcolor="#f5f5f5" borderTop={1} borderColor="divider">
           <SidebarContent />
         </Box>
       )}
+
     </Box>
   );
 }
+ */
