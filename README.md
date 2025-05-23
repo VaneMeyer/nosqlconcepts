@@ -2,8 +2,9 @@
 
 This project includes a unified environment that provides access to four databases (PostgreSQL, Cassandra, Neo4J, MongoDB). The application features a Learning Analytics Dashboard and digital assignment sheets where database queries can be executed, and the results can be displayed. Note that this is a work in progress.
 
- <img width="941" alt="dashboard-01-admin" src="https://github.com/user-attachments/assets/117b9b39-8e7e-4c14-a62d-2e21cb425752">
-<img width="893" alt="dashboard-02" src="https://github.com/user-attachments/assets/b91e83ab-438e-4766-81c1-fa82f38ab67b">
+ 
+<img width="938" alt="Screenshot 2025-05-12 092113" src="https://github.com/user-attachments/assets/f0329bab-9160-4719-a3b7-34550e5ecfc3" />
+<img width="938" alt="Screenshot 2025-05-12 092214" src="https://github.com/user-attachments/assets/9dfe6f33-36b0-430d-be88-5a73f0297b31" />
 
 ## Installation and Usage
 1. Clone Repository: Clone the Repository by using the command: git clone https://github.com/VaneMeyer/nosqlconcepts.git
