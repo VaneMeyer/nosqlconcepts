@@ -1,0 +1,126 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init/postgres:/docker-entrypoint-initdb.d
+
+  postgres2:
+    image: postgres:15
+    restart: always
+    container_name: postgres2
+    environment:
+      POSTGRES_USER: ${PG_USER2}
+      POSTGRES_PASSWORD: ${PG_PASSWORD2}
+      POSTGRES_DB: ${PG_DATABASE2}
+    ports:
+      - "5433:5432" 
+    volumes:
+      - pgdata2:/var/lib/postgresql/data
+      - ./init/tool:/docker-entrypoint-initdb.d
+
+  cassandra:
+    image: cassandra:4
+    ports:
+      - "9042:9042"
+    environment:
+      CASSANDRA_CLUSTER_NAME: TestCluster
+      CASSANDRA_DC: ${CASSANDRA_LOCAL_DATA_CENTER}
+    volumes:
+      - cassandradata:/var/lib/cassandra
+
+
+  init-cassandra:
+    image: cassandra:4
+    depends_on:
+      - cassandra 
+    restart: "no" 
+    entrypoint: ["/bin/bash", "/init.sh"]
+    volumes:
+      - ./init/cassandra/init.sh:/init.sh:ro
+
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    volumes:
+      - mongodata:/data/db
+      - ./init/mongo:/docker-entrypoint-initdb.d
+
+  neo4j:
+    image: neo4j:5
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: ${NEO_USER}/${NEO_PASSWORD2}
+      NEO_SERVER: "${NEO_SERVER}"
+    volumes:
+      - neo4jdata:/data
+      #- ./init/neo4j:/init
+      #- ./init/neo4j:/docker-entrypoint-initdb.d
+      #- ./init/neo4j:/var/lib/neo4j/import
+    #entrypoint: ["/bin/bash", "-c", "/init/init.sh && exec /startup/docker-entrypoint.sh neo4j"]
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "${NEO_PASSWORD2}", "RETURN 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  init-neo4j:
+    image: neo4j:5
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    volumes:
+      - ./init/neo4j/init.sh:/init.sh:ro
+      - ./init/neo4j/init.cypher:/init.cypher:ro
+    entrypoint: ["/bin/bash", "/init.sh"]
+    environment:
+      NEO_USER: "${NEO_USER}"
+      NEO_PASSWORD2: "${NEO_PASSWORD2}"
+      NEO_SERVER: "${NEO_SERVER}"
+    restart: "no"
+  
+
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+      - postgres2
+      - cassandra
+      - mongo
+      - neo4j
+    env_file:
+      - .env
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    stdin_open: true
+    tty: true
+
+volumes:
+  pgdata:
+  pgdata2:
+  cassandradata:
+  mongodata:
+  neo4jdata:

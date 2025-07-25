@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+
+html,
+body,
+#root,
+.app,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: 'Source Sans Pro', sans-serif;
+  
+}
+
+.app{
+  display: flex; 
+  position: relative;
+  
+}
+
+::-webkit-scrollbar{
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track{
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb{
+  background: #888;
+}
+
+/* Handle on Hover */
+::-webkit-scrollbar-thumb:hover{
+  background: #555;
+}
+
+/* ############## taskform/MUI ################# */
+.muiButton {
+  background-color: rgb(25, 34, 44); /*colors.blueAccent[100],*/
+  color: rgb(246, 248, 249); /* colors.grey[900],*/
+  font-size: "14px";
+  font-weight: "bold";
+  padding: "10px 20px";
+  margin: "10px";
+}
+
+.timerButton {
+  background-color: "#d993df";
+  color: rgb(33, 32, 32);
+  font-size: "14px";
+  font-weight: "bold";
+  padding: "10px 20px";
+}
+/* .muiRadio {
+  
+  "&.Mui-checked": {
+      color: red;
+}
+} */
+
+.label {
+  color: rgb(32, 31, 31);
+  font-size: "16px";
+}
+
+
+/* ############## importantMsg ################# */
+.successMsg {
+  font-size: "16px";
+  margin:"20px";
+  font-weight: "bold";
+  padding: "10px";
+  border-radius:"5px";
+  background-color: rgb(128, 232, 190);/*${colors.greenAccent[700]}*/
+}
+.errorMsg {
+  font-size: "16px";
+  margin:"20px";
+  font-weight: "bold";
+  padding: "10px";
+  border-radius:"5px";
+  background-color: rgb(232, 140, 128);
+}
+.infoMsg {
+  font-size: "16px";
+  margin:"20px";
+  font-weight: "bold";
+  padding: "10px";
+  border-radius:"5px";
+  background-color: "#e1edf7";
+}
+
+/* ############## progressStatus ################# */
+
+.started {
+  background-color: "#dded82";
+  color: rgb(33, 31, 31);
+  font-size: "10px";
+  font-weight: "bold";
+  padding: "5px 10px";
+  margin: "10px 10px";
+}
+.finished {
+  background-color: "#5ae0a8";
+  color: rgb(33, 31, 31);
+  font-size: "10px";
+  font-weight: "bold";
+  padding: "5px 10px";
+  margin: "10px 10px";
+}
+/* ############## topbar ################# */
+/* .topbar {
+  background-color: rgb(244, 243, 250);
+    display:"flex";
+    justify-content:"space-between";
+    width:"100%";
+}
+.topbar-typography {
+
+    color:rgb(21, 20, 20);
+    margin-right: "20px";
+    display: "flex";
+    align-items: "center" 
+} */
+/* ############## other ################# */
+.countdown {
+  padding: "10px";
+  border-radius: "5px";
+  background-color: rgb(123, 49, 49);
+  color: "white";
+  text-align: 'center';
+}
+
