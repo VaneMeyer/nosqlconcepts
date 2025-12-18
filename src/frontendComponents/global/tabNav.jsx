@@ -18,8 +18,6 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logout from "@mui/icons-material/Logout";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import LogOut from "../Auth/logout";
 import { checkAuth } from "../api/loginApi";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -29,14 +27,16 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import InfoIcon from "@mui/icons-material/Info";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import BuildIcon from "@mui/icons-material/Build";
-import LogoutIcon from "@mui/icons-material/Logout";
-
+import { useColorMode } from "./ThemeProvider";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 function TabNav() {
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [username, setUsername] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const { mode, toggleColorMode } = useColorMode();
   const location = useLocation();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -60,7 +60,7 @@ function TabNav() {
     { label: "Dashboard", to: "/", icon: <DashboardIcon />, visible: true },
     { label: "Tutorial", to: "/tutorial", icon: <SchoolIcon />, visible: true },
     {
-      label: "User Profile",
+      label: "Profile",
       to: "/userprofile",
       icon: <PersonIcon />,
       visible: !!username,
@@ -72,7 +72,7 @@ function TabNav() {
       visible: !!username,
     },
     {
-      label: "Information",
+      label: "Info",
       to: "/information",
       icon: <InfoIcon />,
       visible: true,
@@ -89,8 +89,7 @@ function TabNav() {
       icon: <BuildIcon />,
       visible: isAdmin,
     },
-   /*  { label: "Logout", to: "#logout", icon: <LogoutIcon />, visible: !!username, isLogout: true }, */
-
+   
   ];
 
   useEffect(() => {
@@ -99,7 +98,10 @@ function TabNav() {
   }, [location.pathname]);
 
   return (
-    <AppBar position="static" color="default"/* sx={{ backgroundColor: "rgb(255, 255, 255)" }} */>
+    <AppBar
+      position="static"
+      color="default" /* sx={{ backgroundColor: "rgb(255, 255, 255)" }} */
+    >
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           NoSQLconcepts
@@ -138,86 +140,73 @@ function TabNav() {
               {username && (
                 <>
                   <Divider />
-                  {/* {isAdmin && (
-                    <>
-                      <MenuItem
-                        component={Link}
-                        to="/manage-users"
-                        onClick={handleMenuClose}
-                      >
-                        <ListItemIcon>
-                          <PersonAdd fontSize="small" />
-                        </ListItemIcon>
-                        Manage Users
-                      </MenuItem>
-                      <MenuItem
-                        component={Link}
-                        to="/manage-exercises"
-                        onClick={handleMenuClose}
-                      >
-                        <ListItemIcon>
-                          <Settings fontSize="small" />
-                        </ListItemIcon>
-                        Manage Exercises
-                      </MenuItem>
-                    </>
-                  )} */}
+
                   <MenuItem onClick={handleMenuClose}>
                     <ListItemIcon>
-                      <Logout fontSize="small" />
+                       <LogOut />
                     </ListItemIcon>
-                    <LogOut />
+                  
                   </MenuItem>
                 </>
               )}
             </Menu>
           </>
         ) : (
-         
-        <Box  sx={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    width: "100%",
-    overflow: "hidden",
-  }}>
-             <Tabs
-            value={value}
-            onChange={(e, newVal) => setValue(newVal)}
-            aria-label="main navigation tabs"
-            textColor="primary"
-            indicatorColor="primary"
-            variant="scrollable"
-            scrollButtons="auto"
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              width: "100%",
+              overflow: "hidden",
+            }}
           >
-            {tabs
-              .filter((tab) => tab.visible)
-              .map((tab, index) => (
-                <Tab
-                  key={index}
-                  label={tab.label}
-                  icon={tab.icon}
-                  iconPosition="start"
-                  component={Link}
-                  to={tab.to}
-                  id={`tab-${index}`}
-                  aria-controls={`tabpanel-${index}`}
-                />
-              ))}
-                
-          </Tabs>
-           {username && (
-   <Tooltip title="Logout">
-      <Box sx={{ ml: 2, flexShrink: 0, display: "flex", alignItems: "center" }}>
-        {/* <IconButton color="inherit"> */}
-          <LogoutIcon />
-       {/*  </IconButton> */}
-        <LogOut />
-      </Box>
-    </Tooltip>
+            <Tabs
+              value={value}
+              onChange={(e, newVal) => setValue(newVal)}
+              aria-label="main navigation tabs"
+              textColor="primary"
+              indicatorColor="primary"
+              variant="scrollable"
+              scrollButtons="auto"
+            >
+              {tabs
+                .filter((tab) => tab.visible)
+                .map((tab, index) => (
+                  <Tab
+                    key={index}
+                    label={tab.label}
+                    icon={tab.icon}
+                    iconPosition="start"
+                    component={Link}
+                    to={tab.to}
+                    id={`tab-${index}`}
+                    aria-controls={`tabpanel-${index}`}
+                    sx={{ textTransform: "none" }}
+                  />
+                ))}
+            </Tabs>
+
+            {username && (
+              <Tooltip title="Logout">
+                <Box
+                  sx={{
+                    ml: 2,
+                    flexShrink: 0,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+               
+                  <LogOut />
+                </Box>
+              </Tooltip>
+            )}
+            <IconButton onClick={toggleColorMode} color="inherit">
+              {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+            </IconButton>
+          </Box>
         )}
-        </Box>)
-}
       </Toolbar>
     </AppBar>
   );

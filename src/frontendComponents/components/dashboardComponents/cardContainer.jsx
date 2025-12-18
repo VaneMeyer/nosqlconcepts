@@ -14,10 +14,12 @@ import {
   Button,
   CardActions,
 } from "@mui/material";
+import TableRowsIcon from '@mui/icons-material/TableRows';
 import neo4jImage from "../../images/neo4j3.png";
 import mongodbImage from "../../images/mongodb3.png";
 import postgresImage from "../../images/postgres3.png";
 import cassandraImage from "../../images/cassandra3.png";
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -192,6 +194,13 @@ export default function CardContainer() {
     setFormValues({ ...formValues, [name]: value });
   };
 
+  const endpointColors = {
+    PostgreSQL: "rgba(8, 15, 86, 1)",
+    Cassandra: "#043a5eff",
+    Neo4J: "#2f0361ff",
+    MongoDB: "#032729ff",
+  };
+
   return (
     <Box
       sx={{
@@ -200,13 +209,13 @@ export default function CardContainer() {
         /* backgroundColor: '#f5f7fa', */ minHeight: "45vh",
       }}
     >
-      <Grid container spacing={4}>
+      <Grid container spacing={1}>
         {assignments.map((assignment, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
             <Card
               sx={{
-                borderRadius: 4,
-                boxShadow: 3,
+                borderRadius: 2,
+                boxShadow: 2,
                 transition: "transform 0.3s ease, box-shadow 0.3s ease",
                 "&:hover": {
                   transform: "scale(1.03)",
@@ -224,7 +233,7 @@ export default function CardContainer() {
                 <Box
                   sx={{
                     height: 150,
-                    backgroundImage: `url(${
+                    /*  backgroundImage: `url(${
                       assignment.endpoint === "PostgreSQL"
                         ? postgresImage
                         : assignment.endpoint === "Cassandra"
@@ -234,20 +243,25 @@ export default function CardContainer() {
                         : assignment.endpoint === "MongoDB"
                         ? mongodbImage
                         : "no image"
-                    })`,
+                    })`, */
+                   
+                     backgroundColor:
+                      endpointColors[assignment.endpoint] ||
+                      "rgba(52, 105, 184, 1)", 
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     position: "relative",
                     display: "flex",
                     alignItems: "flex-end",
-                    borderRadius: 4,
+                    //borderRadius: 4,
                     overflow: "hidden",
                     "&::after": {
                       content: '""',
                       position: "absolute",
                       inset: 0,
-                      background:
-                        "linear-gradient(to top, rgba(234, 229, 229, 0.6), rgba(239, 228, 228, 0))",
+
+                      /* background:
+                        "linear-gradient(to top, rgba(234, 229, 229, 0.6), rgba(239, 228, 228, 0))", */
                       zIndex: 1,
                     },
                   }}
@@ -311,14 +325,15 @@ export default function CardContainer() {
                     sx={{
                       position: "relative",
                       zIndex: 10,
-                      color: "black",
+                      color: "white",// "black",
                       width: "100%",
                     }}
                   >
-                    <Typography variant="h6" fontWeight="bold">
-                      {assignment.area_name}
+                    <Typography variant="h6" /* fontWeight="bold" */>
+                      <AssignmentIcon /> {assignment.area_name}
                     </Typography>
-                    <Typography>{assignment.descr}</Typography>
+                    <Typography fontSize={14}>{assignment.descr}</Typography>
+                    <Typography fontSize={12}>Submit via Moodle</Typography>
                   </CardContent>
                 </Box>
               </CardActionArea>

@@ -6,7 +6,6 @@ import Select from "@mui/material/Select";
 import { Box, Card, CircularProgress } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { fetchLineChartData } from "../../api/chartsApi";
-import { format } from "date-fns";
 import { useAuth } from "../../App";
 
 export default function LineChartC() {
@@ -22,14 +21,7 @@ export default function LineChartC() {
       const result = await fetchLineChartData(username, limit);
       if (result.length > 0) {
         const data = result[0].data;
-        const dataDate = data.map((d) => new Date(d.x));
-        const onlyDate = dataDate.map((date) =>
-          date.toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          })
-        );
+  
         
 
         const xAxis = data.map((d) => new Date(d.x));
@@ -117,10 +109,12 @@ export default function LineChartC() {
             {
               data: seriesData,
               label: "Number of executed queries",
+              color: "rgba(52, 105, 184, 1)"
             },
           ]}
           width={500}
           height={300}
+          
         />
       </Box>
     </Card>

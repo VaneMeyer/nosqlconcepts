@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button} from "@mui/material";
+import { Button, IconButton} from "@mui/material";
 import { Link } from "react-router-dom";
 import { handleLogout } from "../api/loginApi";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const LogOut = () => {
   const [rememberMe, setRememberMe] = useState(false);
@@ -47,13 +48,13 @@ const LogOut = () => {
 
   return (
     <Link to="/" replace style={{ textDecoration: "none" }}>
-      <Button
+      <IconButton
        
         onClick={handleLogoutClick}
         aria-label="Logout"
       >
-        Logout
-      </Button>
+        <LogoutIcon />
+      </IconButton>
     </Link>
   );
 };

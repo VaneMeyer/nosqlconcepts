@@ -2,9 +2,9 @@ import { Button } from '@mui/material';
 import { styled } from '@mui/system';
 
  const GradientButton = styled(Button)(({ theme }) => ({
-    borderRadius: '25px',
+    borderRadius: '5px',
     padding: '10px 20px',
-    background: 'linear-gradient(135deg,rgb(197, 225, 250) 0%,rgb(135, 206, 210) 100%)',
+    background: 'linear-gradient(135deg,rgb(197, 225, 250) 0%,"rgba(52, 105, 184, 1)"',
     color: 'rgb(0,0,0)',
     textTransform: 'none',
     fontWeight: 600,

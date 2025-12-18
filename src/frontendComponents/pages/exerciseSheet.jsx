@@ -191,6 +191,7 @@ import {
   DialogContentText,
   DialogTitle,
   Typography,
+  IconButton,
 } from "@mui/material";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -617,17 +618,14 @@ function ExerciseSheetC({ area_id, area_name, endpoint, feedback_on }) {
 
   return (
     <Container>
-     
-      <Typography variant="h4" sx={{p:2}}>{area_name}</Typography>
+      <Typography variant="h4" sx={{ p: 2 }}>
+        {area_name}
+      </Typography>
       {task && (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={8}>
-              <Item sx={{ bgcolor: "rgb(247, 250, 250)" }}>
-                <Typography paragraph>
-                  <WarningAmberIcon></WarningAmberIcon> Always make sure to save
-                  the data of the current task before leaving
-                </Typography>{" "}
+              <Item>
                 <Box>
                   {" "}
                   <Button
@@ -643,19 +641,19 @@ function ExerciseSheetC({ area_id, area_name, endpoint, feedback_on }) {
                     startIcon={renderIcon()}
                     disabled={buttonState === "loading"}
                   >
-                    {buttonState === "loading" ? "Saving..." : "Save Entries"}
+                    {/* {buttonState === "loading" ? "Saving..." : "Save Entries"} */}
                   </Button>
                   <Button
                     aria-label="Button to go to download section"
                     onClick={handleDownload}
                   >
-                    Go to download section <DownloadIcon></DownloadIcon>
+                    <DownloadIcon></DownloadIcon>
                   </Button>{" "}
                 </Box>
               </Item>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Item sx={{ bgcolor: "rgb(247, 250, 250)" }}>
+              <Item /* sx={{ bgcolor: "rgb(247, 250, 250)" }} */>
                 {" "}
                 <Box>
                   <InputLabel id="task-number-label">
@@ -688,27 +686,22 @@ function ExerciseSheetC({ area_id, area_name, endpoint, feedback_on }) {
               <Item>
                 {" "}
                 <Box aria-labelledby="Task topic, description and maximum time to solve the task">
-               
-                   <Typography variant="h4">{task.topic}</Typography>
+                  <Typography variant="h4">{task.topic}</Typography>
                   <Typography variant="h5">{task.subtasknumber}</Typography>
-                  <Typography variant="h6" >
-                    {task.maxtime}
-                  </Typography>
-                  <Typography align="left">
-                    {task.description}
-                  </Typography>
+                  <Typography variant="h6">{task.maxtime}</Typography>
+                  <Typography align="left">{task.description}</Typography>
                   <hr></hr>
                   <Typography>{task.hint}</Typography>
                 </Box>
                 <Box p={0} aria-labelledby="Input Elements to solve the task">
                   {hasStarted ? (
                     <form>
-                      <Box>
+                      <Box sx={{margin: 3}}>
                         <InputLabel id="query-input-label">
-                          Type and run your query if you think this task is
-                          solvable with a query.
+                          {/* Type and run your query if you think this task is
+                          solvable with a query. */}
+                          
                         </InputLabel>
-                       
                         <AceEditor
                           id="query-input-label"
                           name="query"
@@ -870,8 +863,7 @@ function ExerciseSheetC({ area_id, area_name, endpoint, feedback_on }) {
                               aria-label="Save current entries and navigate to previous task"
                               onClick={handlePrevTask}
                             >
-                              Back{" "}
-                              <NavigateBeforeIcon></NavigateBeforeIcon>
+                              Back <NavigateBeforeIcon></NavigateBeforeIcon>
                             </GradientButton>
                           )}{" "}
                           <GradientButton
@@ -899,8 +891,7 @@ function ExerciseSheetC({ area_id, area_name, endpoint, feedback_on }) {
                               aria-label="Save current entries of the task and navigate to previous task"
                               onClick={handlePrevTask}
                             >
-                              Back{" "}
-                              <NavigateBeforeIcon></NavigateBeforeIcon>
+                              Back <NavigateBeforeIcon></NavigateBeforeIcon>
                             </GradientButton>
                           )}
 
@@ -910,43 +901,12 @@ function ExerciseSheetC({ area_id, area_name, endpoint, feedback_on }) {
                           >
                             Next <NavigateNextIcon></NavigateNextIcon>
                           </GradientButton>
-                          <Box>
-                            <Typography paragraph>
-                              <WarningAmberIcon></WarningAmberIcon> Always make
-                              sure to save the data of the current task before
-                              leaving
-                            </Typography>
-                            <Button
-                              variant="contained"
-                              color={
-                                buttonState === "success"
-                                  ? "success"
-                                  : buttonState === "error"
-                                  ? "error"
-                                  : "primary"
-                              }
-                              onClick={handleSave /* sendDataToDb */}
-                              startIcon={renderIcon()}
-                              disabled={buttonState === "loading"}
-                            >
-                              {buttonState === "loading"
-                                ? "Saving..."
-                                : "Save Entries"}
-                            </Button>
-                            <Button
-                              aria-label="Go to the download section"
-                              onClick={handleDownload}
-                            >
-                              Go to download section{" "}
-                              <DownloadIcon></DownloadIcon>
-                            </Button>
-                          </Box>
                         </div>
                       )}{" "}
                     </form>
                   ) : (
                     <div>
-                      <GradientButton
+                      <GradientButton sx={{margin:3}}
                         aria-label="Start the task to open all task fields"
                         onClick={startTimer}
                       >
@@ -955,22 +915,18 @@ function ExerciseSheetC({ area_id, area_name, endpoint, feedback_on }) {
                       </GradientButton>
                       <p>{""}</p>
 
-                      <ImportantMsg
-                        message="Note: A timer will start, when you start the task. You can stop
-                and continue the timer if needed. Also make sure to save your
-                data."
-                        type="info"
-                      />
-                      <ImportantMsg
-                        message="Please do not work longer than the specified time on a task! If you
-        think that you will not be able to finish the task in the given maximum
-        time, stop working on it 15 minutes before the end, and provide an
-        explanation containing the following information: Whether you think that
-        the task is solvable with the current system at all, and why? If you
-        think that is solvable with more time: which approach, would you try out
-        next? - Please also have a look at known issues regarding query execution (open menu -> Information)"
-                        type="info"
-                      />
+                      <Typography paragraph>
+                        Please do not work longer than the specified time on a
+                        task! If you think that you will not be able to finish
+                        the task in the given maximum time, stop working on it
+                        15 minutes before the end, and provide an explanation
+                        containing the following information: Whether you think
+                        that the task is solvable with the current system at
+                        all, and why? If you think that is solvable with more
+                        time: which approach, would you try out next? - Please
+                        also have a look at known issues regarding query
+                        execution (open menu: Information)
+                      </Typography>
                     </div>
                   )}
                 </Box>{" "}

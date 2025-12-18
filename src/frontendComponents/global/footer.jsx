@@ -6,7 +6,7 @@ import { Container, Grid, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 const FooterContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
-  padding: theme.spacing(4, 0),
+  padding: theme.spacing(1, 0),
   marginTop: theme.spacing(8),
 }));
 
@@ -27,7 +27,7 @@ const LogoContainer = styled(Box)(({ theme }) => ({
 
 function Footer() {
   return (
-    <FooterContainer>
+    <FooterContainer sx={{bgcolor:"white"}}>
       <Container>
         <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} sm={4}>

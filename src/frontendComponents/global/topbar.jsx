@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Box,
@@ -15,8 +15,8 @@ import {
 import { Link } from "react-router-dom";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import MenuIcon from '@mui/icons-material/Menu';
-import SchoolIcon from '@mui/icons-material/School';
+import MenuIcon from "@mui/icons-material/Menu";
+import SchoolIcon from "@mui/icons-material/School";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
@@ -25,11 +25,13 @@ import nosqlconceptsLogo from "../images/nosql-logo-light-trans.png";
 import LogOut from "../Auth/logout";
 import { checkAuth } from "../api/loginApi";
 
+
 function TopBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [username, setUsername] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+ 
 
   const open = Boolean(anchorEl);
 
@@ -45,7 +47,7 @@ function TopBar() {
       const authData = await checkAuth();
       setIsAuthenticated(authData !== null);
       if (authData) {
-        setIsAdmin(authData.role === 'admin');
+        setIsAdmin(authData.role === "admin");
       }
     };
 
@@ -53,7 +55,7 @@ function TopBar() {
     const fetchUser = async () => {
       const user = await checkAuth();
       if (user) {
-        setUsername(user.username); 
+        setUsername(user.username);
       }
     };
 
@@ -61,25 +63,32 @@ function TopBar() {
   }, []);
 
   return (
-    <AppBar position="static" sx={{ color:'black', background: 'linear-gradient(135deg,rgb(256, 256, 256) 0%,rgb(256, 256, 256) 100%)'}}>
-    
+    <AppBar
+      position="static"
+      sx={{
+        color: "black",
+        background:
+          "linear-gradient(135deg,rgb(256, 256, 256) 0%,rgb(256, 256, 256) 100%)",
+      }}
+    >
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        {/*   <img
+          {/*   <img
             style={{ height: "50px" }}
             src={nosqlconceptsLogo}
             alt="NoSQLconcepts Logo"
           /> */}
           NoSQLconcepts
         </Typography>
-         <Button
+    
+        <Button
           component={Link}
           to="/tutorial"
           color="inherit"
-          startIcon={<SchoolIcon />} 
+          startIcon={<SchoolIcon />}
         >
           Tutorial
-        </Button> 
+        </Button>
         <Button
           component={Link}
           to="/"
@@ -135,8 +144,7 @@ function TopBar() {
           transformOrigin={{ horizontal: "right", vertical: "top" }}
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          
-       {/*    {username && (
+          {/*    {username && (
             <MenuItem component={Link} to="/history" onClick={handleClose}>
               My query history
             </MenuItem>
@@ -204,7 +212,7 @@ function TopBar() {
               TestExercise - admin
             </MenuItem>
           )}*/}
-        {/*   {username && isAdmin && (
+          {/*   {username && isAdmin && (
             <MenuItem
               component={Link}
               to="/test-statistics"
@@ -240,12 +248,15 @@ function TopBar() {
               TestAdminPage - admin
             </MenuItem>
           )} */}
-         { username && <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            <LogOut />
-          </MenuItem>}
+          {username && (
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              <LogOut />
+            </MenuItem>
+          )}
+        
         </Menu>
       </Toolbar>
     </AppBar>
@@ -253,9 +264,6 @@ function TopBar() {
 }
 
 export default TopBar;
- 
-
- 
 
 /* import React, { useState, useEffect } from "react";
 import {

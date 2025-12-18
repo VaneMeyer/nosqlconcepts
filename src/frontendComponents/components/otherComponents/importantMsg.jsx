@@ -6,35 +6,38 @@ const ImportantMsg = ({ message, type }) => {
   let msgStyle = {};
   if (type === "success") {
     msgStyle = {
-      textAlign: "left",
+      textAlign: "center",
       fontSize: "16px",
       margin: "20px",
       fontWeight: "bold",
       padding: "10px",
       borderRadius: "5px",
       backgroundColor: "#bbfccb",
+      color: "black"
     };
   }
   if (type === "error") {
     msgStyle = {
-      textAlign: "left",
+      textAlign: "center",
       fontSize: "16px",
       margin: "20px",
       fontWeight: "bold",
       padding: "10px",
       borderRadius: "5px",
       backgroundColor: "#fcd1cf",
+      color: "black"
     };
   }
   if (type === "info") {
     msgStyle = {
-      textAlign: "left",
+      textAlign: "center",
       fontSize: "16px",
       margin: "20px",
       fontWeight: "bold",
       padding: "10px",
       borderRadius: "5px",
       backgroundColor: "#e1edf7",
+      color: "black"
     };
   }
   //################# Frontend ######################################################

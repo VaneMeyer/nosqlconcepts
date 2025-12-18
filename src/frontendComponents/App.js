@@ -4,12 +4,13 @@ import React, {
   memo,
   createContext,
   useContext,
+  
 } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
+  Navigate
 } from "react-router-dom";
 
 import TopBar from "./global/topbar.jsx";
@@ -35,6 +36,7 @@ import AdminPage from "./pages/adminPage.jsx";
 import NewInformationC from "./pages/information.jsx";
 import TestC from "./pages/test.jsx";
 import TabNav from "./global/tabNav.jsx";
+import RedirectOnRefresh from "./components/otherComponents/redirectOnRefresh.jsx";
 
 
 const AuthContext = createContext();
@@ -218,6 +220,8 @@ const AppRoutes = ({ assignments }) => {
 
 // Main app component
 const AppNewLayout = () => {
+    
+ 
   const [assignments, setAssignments] = useState([]);
 
   useEffect(() => {
@@ -233,6 +237,7 @@ const AppNewLayout = () => {
     };
 
     loadAssignments();
+   /*  sessionStorage.removeItem('hasRedirected'); */
   }, []);
 
   return (
@@ -240,6 +245,7 @@ const AppNewLayout = () => {
       <div className="app">
         <main className="content">
           <Router>
+            {/* <RedirectOnRefresh /> */}
             {/* <MemoizedTopBar /> */}
             <MemoizedTabNav />
             <ErrorBoundary>

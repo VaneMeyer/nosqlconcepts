@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
-import DownloadIcon from "@mui/icons-material/Download";
 import {
   fetchUserTaskChartData,
   fetchUserTimeChartData,
@@ -8,13 +7,10 @@ import {
   fetchTimeChartData,
 } from "../../api/chartsApi";
 import { fetchAreaNames } from "../../api/mainApi";
-//import { checkAuth } from "../api/loginApi";
 import { useAuth } from "../../App";
 import {
   Box,
-  Button,
   Card,
-  CardContent,
   CircularProgress,
 } from "@mui/material";
 
@@ -87,38 +83,6 @@ export default function BarChartC({ isUser, isTimeChart }) {
     }));
   };
 
-  const exportToCSV = () => {
-    const csvRows = [];
-
-    // Add headers
-    if (isTimeChart) {
-      csvRows.push("Area Name,Avg Value (minutes)");
-    } else {
-      csvRows.push("Area Name,Started Tasks,Executable Tasks,Correct Tasks");
-    }
-
-    // Add data
-    chartData.forEach((item) => {
-      const areaName = areaIdToName[item.task_area_id];
-      if (isTimeChart) {
-        csvRows.push(`${areaName},${item.avg_value}`);
-      } else {
-        csvRows.push(
-          `${areaName},${item.started_tasks_count},${item.executable_tasks_count},${item.correct_tasks_count}`
-        );
-      }
-    });
-
-    // Create and download the CSV file
-    const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "chart_data.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   if (loading) {
     return (
@@ -143,7 +107,7 @@ export default function BarChartC({ isUser, isTimeChart }) {
         {
           data: chartData.map((item) => item.avg_value),
           name: "Avg Value",
-          color: "rgb(110, 200, 201)",
+          color: "rgba(52, 105, 184, 1)",
           label: "minutes",
         },
       ]
@@ -151,19 +115,19 @@ export default function BarChartC({ isUser, isTimeChart }) {
         {
           name: "Started Tasks Count",
           data: chartData.map((item) => item.started_tasks_count),
-          color: "rgb(191, 129, 217)",
+          color: "rgba(52, 105, 184, 1)",
           label: "Started Tasks",
         },
         {
           name: "Executable Tasks Count",
           data: chartData.map((item) => item.executable_tasks_count),
-          color: "rgb(220, 188, 129)",
+          color: "rgba(61, 62, 100, 1)",
           label: "Executable Tasks",
         },
         {
           name: "Correct Tasks Count",
           data: chartData.map((item) => item.correct_tasks_count),
-          color: "rgb(128, 214, 191)",
+          color: "rgba(79, 132, 118, 1)",
           label: "Correct Tasks",
         },
       ];

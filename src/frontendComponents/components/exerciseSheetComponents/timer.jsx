@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { postTimerData, getTimerData } from "../../api/mainApi"; 
-import Button from "@mui/material/Button";
+import { getTimerData } from "../../api/mainApi"; 
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { IconButton } from "@mui/material";
@@ -49,15 +49,6 @@ const OptTimer = ({ taskNumber, area_id, username, onTimeUpdate, run }) => {
     setIsRunning(!isRunning);
   };
 
-  const handleSave = async () => {
-    try {
-      await postTimerData(username, area_id, taskNumber, time);
-      alert("Time saved successfully");
-    } catch (error) {
-      console.error("Error saving time:", error);
-      alert("Failed to save time");
-    }
-  };
 
   useEffect(() => {
     onTimeUpdate(time);
@@ -72,13 +63,11 @@ const OptTimer = ({ taskNumber, area_id, username, onTimeUpdate, run }) => {
 
   return (
     <div>
-      <h3>Timer: {formatTime(time)}</h3>
+      <h3><AccessTimeIcon /> {formatTime(time)}</h3>
       <IconButton onClick={handleStartStop}>
         {isRunning ? <PauseIcon color="secondary"/> : <PlayArrowIcon color="secondary"/>}
       </IconButton>
-     {/*  <Button onClick={handleSave}>
-        Save Time 
-      </Button> */}
+ 
     </div>
   );
 };

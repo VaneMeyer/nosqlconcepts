@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Tabs, Tab, Typography, Container } from "@mui/material";
+import { Box, Tabs, Tab, Typography, Container, Alert } from "@mui/material";
 import {
   Table,
   TableContainer,
@@ -18,7 +18,7 @@ import "../../custom_ace_files/mode-mongodb";
 import "../../custom_ace_files/mode-pgsql";
 import "../../custom_ace_files/theme-goethe";
 import Quiz from "../components/tutorialComponents/sqlQuiz";
-
+import ImportantMsg from "../components/otherComponents/importantMsg";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -471,6 +471,12 @@ export default function DatabaseTutorials() {
           <Tab label="Neo4J" {...a11yProps(2)} />
           <Tab label="MongoDB" {...a11yProps(3)} />
         </Tabs>
+        <Alert severity="info" sx={{ marginBottom: 2 }}>
+          The tutorials serve as a quick introduction to the syntax of database
+          queries. For more information, we recommend that you take a look at
+          the official documentations.
+        </Alert>
+        
 
         <TabPanel value={value} index={0}>
           <Typography variant="h4">PostgreSQL Tutorial</Typography>
@@ -480,7 +486,9 @@ export default function DatabaseTutorials() {
             as extended joins, custom data types, functions, and strong
             community support.
           </Typography>
-          <a href="https://www.postgresql.org/docs/current/" target="_blank">Link to the official PostgreSQL Documentation</a>
+          <a href="https://www.postgresql.org/docs/current/" target="_blank">
+            Link to the official PostgreSQL Documentation
+          </a>
           <hr></hr>
           <div>
             <Typography variant="h5">Equi Join</Typography>
@@ -872,7 +880,9 @@ SELECT * FROM employee_tree;`}
             (CQL) is its query language, resembling SQL but optimized for
             Cassandra's distributed architecture.
           </Typography>
-           <a href="https://cassandra.apache.org/doc/latest/" target="_blank">Link to the official Cassandra Documentation</a>
+          <a href="https://cassandra.apache.org/doc/latest/" target="_blank">
+            Link to the official Cassandra Documentation
+          </a>
           <hr></hr>
 
           <Typography variant="h5">Equi Join in Cassandra</Typography>
@@ -1067,7 +1077,7 @@ CREATE TABLE employee_departments (
             language, designed to efficiently query graph data using an
             intuitive and expressive syntax.
           </Typography>
-           
+
           <hr></hr>
           <Typography variant="h5">Equi Join</Typography>
           <Typography paragraph>
@@ -1119,6 +1129,46 @@ RETURN e.name, d.name, d.budget;`}
             Here, the WHERE clause implements the theta condition (d.budget{" "}
             {`>`} 100000).
           </Typography>
+          <hr></hr>
+          <Typography variant="h5">Aggregation with COUNT and COLLECT</Typography>
+          <Typography paragraph>
+           count() returns how many items match a pattern.
+          </Typography>
+          <Typography paragraph>
+            Example: Count unique senders
+          </Typography>
+          <AceEditor
+            id="query-input-label"
+            name="query"
+            mode="cypher"
+            value={`MATCH (p:Person)-[:EMAIL_FROM]->(:Email)
+RETURN count(DISTINCT p) AS uniqueSenders;
+`}
+            editorProps={{ $blockScrolling: true }}
+            style={{ width: "100%", height: "100px" }}
+            setOptions={{ fontSize: "16px" }}
+          />
+          <Typography paragraph>
+            DISTINCT p guarantees each person is counted only once, no matter how many emails they sent.
+          </Typography>
+          <Typography paragraph>
+          collect() gathers values into a list.
+          </Typography>
+          <Typography paragraph>
+            Example: Get a list of all email IDs a person has sent
+          </Typography>
+          <AceEditor
+            id="query-input-label"
+            name="query"
+            mode="cypher"
+            value={`MATCH (p:Person)-[:EMAIL_FROM]->(e:Email)
+RETURN p.userId AS sender,
+       collect(e.emailId) AS sentEmailIds;
+`}
+            editorProps={{ $blockScrolling: true }}
+            style={{ width: "100%", height: "100px" }}
+            setOptions={{ fontSize: "16px" }}
+          />
           <hr></hr>
           <Typography variant="h5">Schema Evolution</Typography>
           <Typography paragraph>
@@ -1291,8 +1341,10 @@ RETURN gds.util.asNode(nodeId).name AS person, communityId;`}
             and manage data in MongoDB. It provides powerful operators and
             aggregation pipelines to handle complex queries.
           </Typography>
-           <a href="https://www.mongodb.com/docs/manual/" target="_blank">Link to the official MongoDB Documentation</a>
-          
+          <a href="https://www.mongodb.com/docs/manual/" target="_blank">
+            Link to the official MongoDB Documentation
+          </a>
+
           <hr></hr>
           <Typography variant="h5">Equi Join</Typography>
           <Typography paragraph>

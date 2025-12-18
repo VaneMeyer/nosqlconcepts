@@ -86,8 +86,8 @@ export default function CircularProgressC({ areaId }) {
       size={48}
       thickness={5}
       sx={{
-        color: 'rgba(0, 0, 0, 0.1)',
-        backgroundColor: 'rgba(42, 165, 242, 0.1)',
+        color: 'rgba(238, 222, 222, 0.67)', //'rgba(0, 0, 0, 0.1)',
+        backgroundColor: 'rgba(239, 248, 242, 0.07)',//'rgba(42, 165, 242, 0.1)',
         borderRadius: '50%',
         p: 0.5,
         
@@ -96,7 +96,7 @@ export default function CircularProgressC({ areaId }) {
     <Typography
       variant="caption"
       component="div"
-      color="black"
+      color= "white"//"black"
       sx={{ mt: 0.5, fontWeight: 'bold' }}
     >
       {`${percentValue}%`}
